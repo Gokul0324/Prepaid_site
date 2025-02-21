@@ -1,0 +1,85 @@
+{
+    "subscribers": [
+        { "name": "Harish", "mobile": "8974837291", "plan": "599/- Plan", "expiry": "2025-02-18" },
+        { "name": "Ashok", "mobile": "0987654321", "plan": "1399/- Plan", "expiry": "2025-02-18" },
+        { "name": "Karthik", "mobile": "9876543210", "plan": "299/- Plan", "expiry": "2025-02-18" },
+        { "name": "Ramesh", "mobile": "8765432109", "plan": "399/- Plan", "expiry": "2025-02-18" },
+        { "name": "Suresh", "mobile": "7654321098", "plan": "299/- Plan", "expiry": "2025-02-18" },
+        { "name": "Ashwin", "mobile": "9543216780", "plan": "599/- Plan", "expiry": "2025-02-18" },
+        { "name": "Anbu", "mobile": "8456723091", "plan": "799/- Plan", "expiry": "2025-02-18" },
+        { "name": "Senthil", "mobile": "9234567810", "plan": "999/- Plan", "expiry": "2025-02-18" },
+        { "name": "Guna", "mobile": "8123456790", "plan": "799/- Plan", "expiry": "2025-02-18" },
+        { "name": "Rajan", "mobile": "7012345689", "plan": "1299/- Plan", "expiry": "2025-02-18" },
+        { "name": "Dinesh", "mobile": "6345789012", "plan": "399/- Plan", "expiry": "2025-02-18" },
+        { "name": "Kumar", "mobile": "9689023417", "plan": "699/- Plan", "expiry": "2025-02-18" },
+        { "name": "Prakash", "mobile": "7689033418", "plan": "499/- Plan", "expiry": "2025-02-18" }
+    ],
+    "rechargeHistory": {
+        "8974837291": [
+            { "plan": "599/- Plan", "date": "2025-02-18", "payment": "UPI" },
+            { "plan": "399/- Plan", "date": "2024-12-25", "payment": "Credit Card" },
+            { "plan": "299/- Plan", "date": "2024-10-10", "payment": "Bank Transfer" }
+        ],
+        "0987654321": [
+            { "plan": "1399/- Plan", "date": "2025-03-05", "payment": "Bank Transfer" },
+            { "plan": "799/- Plan", "date": "2025-01-15", "payment": "UPI" }
+        ],
+        "9876543210": [
+            { "plan": "299/- Plan", "date": "2025-01-30", "payment": "Debit Card" },
+            { "plan": "499/- Plan", "date": "2024-11-20", "payment": "Net Banking" }
+        ],
+        "8765432109": [
+            { "plan": "399/- Plan", "date": "2025-04-10", "payment": "UPI" },
+            { "plan": "1299/- Plan", "date": "2024-11-15", "payment": "Cash" },
+            { "plan": "599/- Plan", "date": "2024-09-05", "payment": "Credit Card" }
+        ],
+        "7654321098": [
+            { "plan": "299/- Plan", "date": "2025-05-22", "payment": "Net Banking" },
+            { "plan": "999/- Plan", "date": "2025-03-12", "payment": "UPI" }
+        ],
+        "9543216780": [
+            { "plan": "599/- Plan", "date": "2025-06-18", "payment": "UPI" },
+            { "plan": "399/- Plan", "date": "2025-04-01", "payment": "Debit Card" },
+            { "plan": "1299/- Plan", "date": "2024-12-10", "payment": "Cash" }
+        ],
+        "8456723091": [
+            { "plan": "799/- Plan", "date": "2025-07-12", "payment": "Credit Card" },
+            { "plan": "299/- Plan", "date": "2025-05-20", "payment": "UPI" }
+        ],
+        "9234567810": [
+            { "plan": "999/- Plan", "date": "2025-08-08", "payment": "Debit Card" },
+            { "plan": "699/- Plan", "date": "2025-06-25", "payment": "Net Banking" }
+        ],
+        "8123456790": [
+            { "plan": "799/- Plan", "date": "2025-09-30", "payment": "Bank Transfer" },
+            { "plan": "499/- Plan", "date": "2025-07-10", "payment": "UPI" },
+            { "plan": "1399/- Plan", "date": "2025-05-01", "payment": "Credit Card" }
+        ],
+        "7012345689": [
+            { "plan": "1299/- Plan", "date": "2025-10-05", "payment": "Cash" },
+            { "plan": "599/- Plan", "date": "2025-08-22", "payment": "Debit Card" },
+            { "plan": "999/- Plan", "date": "2025-06-15", "payment": "Net Banking" }
+        ],
+        "6345789012": [
+            { "plan": "1299/- Plan", "date": "2025-10-05", "payment": "Cash" },
+            { "plan": "599/- Plan", "date": "2025-08-22", "payment": "Debit Card" },
+            { "plan": "999/- Plan", "date": "2025-06-15", "payment": "Net Banking" }
+        ],
+        "9689023417": [
+            { "plan": "1299/- Plan", "date": "2025-10-05", "payment": "Cash" },
+            { "plan": "599/- Plan", "date": "2025-08-22", "payment": "Debit Card" },
+            { "plan": "999/- Plan", "date": "2025-06-15", "payment": "Net Banking" }
+        ],
+        "7689033418": [
+            { "plan": "1299/- Plan", "date": "2025-10-05", "payment": "Cash" },
+            { "plan": "599/- Plan", "date": "2025-08-22", "payment": "Debit Card" },
+            { "plan": "999/- Plan", "date": "2025-06-15", "payment": "Net Banking" }
+        ]
+    },
+    "applicationSales": [
+        { "application": "Plan 1", "sales": 16300, "change": "https://storage.googleapis.com/a1aa/image/KtQzURkkT5teIcHwM-ydqN7YrtjcKxVHUmzMvPfNQpw.jpg", "avgPrice": 399, "total": 15652 },
+        { "application": "Plan 2", "sales": 26421, "change": "https://storage.googleapis.com/a1aa/image/KtQzURkkT5teIcHwM-ydqN7YrtjcKxVHUmzMvPfNQpw.jpg", "avgPrice": 599, "total": 18785 },
+        { "application": "Plan 3", "sales": 8265, "change": "https://storage.googleapis.com/a1aa/image/KtQzURkkT5teIcHwM-ydqN7YrtjcKxVHUmzMvPfNQpw.jpg", "avgPrice": 799, "total": 9652 },
+        { "application": "Plan 4", "sales": 10652, "change": "https://storage.googleapis.com/a1aa/image/KtQzURkkT5teIcHwM-ydqN7YrtjcKxVHUmzMvPfNQpw.jpg", "avgPrice":1199, "total": 7856 }
+    ]
+}

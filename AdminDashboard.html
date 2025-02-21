@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="icon" type="image/jpg" href="Assets/M_logo.jpg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+        body {
+            font-family: 'Lexend', serif;
+        }
+        .sidebar {
+            background-image: linear-gradient(89.7deg, rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8%);
+        }
+        #stat {
+            transition: transform 0.3s, box-shadow 0.3s;
+
+            &:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 0, 0, 0.5); 
+            .card-title,
+            .card-text {
+                text-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
+                }       
+            }
+        }
+        #side{
+            cursor: pointer;
+            &:hover{
+                transform: scale(1.05);
+                text-shadow: 0 0 3px rgb(255, 255, 255);
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar text-white p-4 h-auto" style="width: 250px; height: 100vh;">
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand" href="HomePage.html">
+                    <img src="/Assets/M (1) - Copy.png" alt="" width="70" height="80" class="d-inline-block align-text-center">
+                    <span class="text-light">Mobi-Comm</span>
+                </a>
+            </div>
+            <nav class="mt-4">
+                <ul class="list-unstyled">
+                    <li class="p-2 hover:bg-gray-700" id="side"><i class="fas fa-tachometer-alt mr-2"></i> Dashboard</li>
+                    <li class="p-2 hover:bg-gray-700" id="side"><i class="fas fa-users mr-2"></i> Subscribers</li>
+                    <li class="p-2 hover:bg-gray-700" id="side" data-bs-toggle="modal" data-bs-target="#addPlanModal"><i class="fas fa-plus mr-2"></i> Add Plan</li>
+                    <li class="p-2 hover:bg-gray-700" id="side" data-bs-toggle="modal" data-bs-target="#editPlanModal"><i class="fas fa-edit mr-2"></i> Edit Plan</li>
+                    <li class="p-2 hover:bg-gray-700" id="side"><i class="fas fa-user mr-2"></i> Profile</li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Main Content -->
+        <div class="flex-grow-1 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <input type="text" placeholder="Search or enter website name" class="form-control w-50">
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-bell text-gray-600 mr-4 pe-3"></i>
+                    <i class="fas fa-envelope text-gray-600 mr-4 pe-3"></i>
+                    <img src="/Assets/user-account.png" alt="User  Avatar" data-bs-toggle="offcanvas" data-bs-target="#profileOffcanvas" class="rounded-circle" style="cursor: pointer;color-scheme: white;" width="30" height="30" data-bs-toggle="modal" data-bs-target="#adminModal" onclick="showAdminInfo()">
+                </div>
+            </div>
+
+            <!-- Admin Info Modal
+            <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="adminModalLabel">Admin Information</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="admin-email-input">Email</label>
+                                <input type="email" class="form-control" id="admin-email-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-mobile-input">Mobile Number</label>
+                                <input type="text" class="form-control" id="admin-mobile-input" disabled>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-dark" onclick="updateEmail()">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 col-lg-3 mb-4">
+                    <div class="bg-white p-4 rounded shadow" id="stat">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2 class="h5 font-weight-bold">2,40,000</h2>
+                                <p class="text-muted">Total Subscribers</p>
+                            </div>
+                            <div class="text-warning">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <p class="text-muted small mt-2">update: 10:00 am</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3 mb-4">
+                    <div class="bg-white p-4 rounded shadow" id="stat">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2 class="h5 font-weight-bold">290+</h2>
+                                <p class="text-muted">Page Views</p>
+                            </div>
+                            <div class="text-success">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                        </div>
+                        <p class="text-muted small mt-2">update: 2:15 am</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3 mb-4">
+                    <div class="bg-white p-3 rounded shadow" id="stat">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2 class="h5 font-weight-bold">300</h2>
+                                <p class="text-muted">Recharges Done last 1 hour</p>
+                            </div>
+                            <div class="text-danger">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                        </div>
+                        <p class="text-muted small mt-2">update: 2:15 am</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3 mb-4">
+                    <div class="bg-white p-4 rounded shadow" id="stat">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2 class="h5 font-weight-bold">500</h2>
+                                <p class="text-muted">New Subscribers</p>
+                            </div>
+                            <div class="text-primary">
+                                <i class="fas fa-download"></i>
+                            </div>
+                        </div>
+                        <p class="text-muted small mt-2">update: 2:15 am</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded shadow mb-4">
+                <h2 class="h5 font-weight-bold mb-4">Subscribers with Plans Expiring Soon</h2>
+                <table class="table">
+                    <thead>
+                        <tr class="text-left">
+                            <th>Subscriber name</th>
+                            <th>Phone Number</th>
+                            <th>Plan</th>
+                            <th>Plan Expiry Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subscriber-list">
+                        <!-- Subscriber list will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-white p-4 rounded shadow" id="res">
+                <h2 class="h5 font-weight-bold mb-4">Recharge History</h2>
+                <table class="table">
+                    <thead>
+                        <tr class="text-left">
+                            <th>Plan Name</th>
+                            <th>Date</th>
+                            <th>Mode of Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recharge-history">
+                        <!-- Recharge history will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 col-lg-8 mb-4">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h2 class="h5 font-weight-bold mb-4">Plans Statistics</h2>
+                        <table class="table">
+                            <thead>
+                                <tr class="text-left">
+                                    <th>Plans</th>
+                                    <th>Recharges Done</th>
+                                    <th>Change</th>
+                                    <th>Plan Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="application-sales">
+                                <!-- Application sales data will be populated here -->
+                            </tbody>
+                        </table>
+                        <div class="mt-4 text-right">
+                            <a href="plans.html" class="text-primary">View all Plans</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 mb-4">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h2 class="h5 font-weight-bold mb-4">Work Analytics</h2>
+                        <div class="text-center mb-4">
+                            <div class="display-4 font-weight-bold text-warning">6 hrs</div>
+                            <div class="text-muted">Balanced</div>
+                        </div>
+                        <div class="text-center mb-4">
+                            <a href="#" class="text-warning">Your work hours</a>
+                        </div>
+                        <div class="text-center mb-4">
+                            <div class="text-muted">Working Normal</div>
+                            <div class="text-muted">Updated 12 mins ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12 col-lg-8 mb-4">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h2 class="h5 font-weight-bold mb-4">User Activity</h2>
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="/Assets/user-account.png" alt="User Avatar" class="rounded-circle mr-3" width="40" height="40">
+                            <div>
+                                <div class="font-weight-bold">Admin 1</div>
+                                <div class="text-muted small">Viewed Plans</div>
+                                <div class="text-muted small">2 min ago</div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="/Assets/user-account.png" alt="User Avatar" class="rounded-circle mr-3" width="40" height="40">
+                            <div>
+                                <div class="font-weight-bold">Admin 2</div>
+                                <div class="text-muted small">Edited the panel</div>
+                                <div class="text-muted small">2 min ago</div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="/Assets/user-account.png" alt="User Avatar" class="rounded-circle mr-3" width="40" height="40">
+                            <div>
+                                <div class="font-weight-bold">Admin 3</div>
+                                <div class="text-muted small">Updated data</div>
+                                <div class="text-muted small">2 min ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 mb-4">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h2 class="h5 font-weight-bold mb-4">Latest Updates</h2>
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-danger text-white rounded-circle p-2 mr-3">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div>
+                                <div class="font-weight-bold">5 New Plans were added!</div>
+                                <div class="text-muted small">Check it Out!</div>
+                                <div class="text-muted small">4 hrs ago</div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-warning text-white rounded-circle p-2 mr-3">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div>
+                                <div class="font-weight-bold">Database backup completed!</div>
+                                <div class="text-muted small">All details were included</div>
+                                <div class="text-muted small">1 day ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded shadow mt-4">
+                <h2 class="h5 font-weight-bold mb-4">Information</h2>
+                <div class="d-flex align-items-center">
+                    <img src="/Assets/user-account.png" alt="User Avatar" class="rounded-circle mr-4" width="100" height="100">
+                    <div>
+                        <div class="font-weight-bold">Admin 1</div>
+                        <div class="text-muted">Email: @gmail.com</div>
+                        <div class="text -muted">Phone: 0023-333-526136</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="profileOffcanvas" aria-labelledby="profileOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="profileOffcanvasLabel">Profile Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="mb-3">
+                <label for="profile-email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="profile-email" value="jerry@gmail.com">
+            </div>
+            <div class="mb-3">
+                <label for="profile-mobile" class="form-label">Mobile Number</label>
+                <input type="text" class="form-control" id="profile-mobile" value="0023-333-526136">
+            </div>
+            <button class="btn btn-success" onclick="updateProfile()">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Add Plan Modal -->
+    <div class="modal fade" id="addPlanModal" data-bs-backdrop="static" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Plan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPlanForm">
+                        <div class="mb-3">
+                            <label class="form-label">Plan ID</label>
+                            <input type="text" class="form-control" id="planId" placeholder="Enter plan ID" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-control" id="category" required>
+                                <option value="" disabled selected>Select a category</option>
+                                <option value="Recommended">Recommended</option>
+                                <option value="Super Hero">Super Hero</option>
+                                <option value="Hero Unlimited">Hero Unlimited</option>
+                                <option value="OTT">OTT</option>
+                                <option value="Combo / Validity">Combo / Validity</option>
+                                <option value="Data">Data</option>
+                                <option value="Top Up">Top Up</option>
+                                <option value="Plan Voucher">Plan Voucher</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Plan Name</label>
+                            <input type="text" class="form-control" id="planName" placeholder="Enter plan name" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price (₹)</label>
+                            <input type="number" class="form-control" id="price" placeholder="Enter plan price" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Data</label>
+                            <input type="text" class="form-control" id="data" placeholder="e.g. 2GB/day or 10GB" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Validity (Days)</label>
+                            <input type="number" class="form-control" id="validity" placeholder="Enter validity in days" required />
+                        </div>
+                        <button type="submit" class="btn btn-success">Add Plan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Plan Modal -->
+    <div class="modal fade" id="editPlanModal" data-bs-backdrop="static" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Plan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPlanForm">
+                        <input type="hidden" id="editIndex" />
+                        <div class="mb-3">
+                            <label class="form-label">Plan ID</label>
+                            <input type="text" class="form-control" id="editPlanId" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-control" id="editCategory">
+                                <option>Recommended</option>
+                                <option>Popular</option>
+                                <option>Unlimited</option>
+                                <option>OTT</option>
+                                <option>Validity</option>
+                                <option>Data</option>
+                                <option>Offers</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Plan Name</label>
+                            <input type="text" class="form-control" id="editPlanName" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price (₹)</label>
+                            <input type="number" class="form-control" id="editPrice" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Data</label>
+                            <input type="text" class="form-control" id="editData" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Validity (Days)</label>
+                            <input type="number" class="form-control" id="editValidity" required />
+                        </div>
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    let plans = [];
+
+        document.getElementById('addPlanForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const newPlan = {
+                plan_id: document.getElementById('planId').value,
+                category: document.getElementById('category').value,
+                plan_name: document.getElementById('planName').value,
+                price: document.getElementById('price').value,
+                data: document.getElementById('data').value,
+                validity: document.getElementById('validity').value
+            };
+            plans.push(newPlan);
+            alert('Plan added successfully!');
+            $('#addPlanModal').modal('hide');
+        });
+
+        document.getElementById('editPlanForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const index = document.getElementById('editIndex').value;
+            plans[index] = {
+                plan_id: document.getElementById('editPlanId').value,
+                category: document.getElementById('editCategory').value,
+                plan_name: document.getElementById('editPlanName').value,
+                price: document.getElementById('editPrice').value,
+                data: document.getElementById('editData').value,
+                validity: document.getElementById('editValidity').value
+            };
+            alert('Plan updated successfully!');
+            $('#editPlanModal').modal('hide');
+        });
+
+        function editPlan(index) {
+            const plan = plans[index];
+            document.getElementById("editIndex").value = index;
+            document.getElementById("editPlanId").value = plan.plan_id;
+            document.getElementById("editCategory").value = plan.category;
+            document.getElementById("editPlanName").value = plan.plan_name;
+            document.getElementById("editPrice").value = plan.price;
+            document.getElementById("editData").value = plan.data;
+            document.getElementById("editValidity").value = plan.validity;
+            let modal = new bootstrap.Modal(document.getElementById("editPlanModal"));
+            modal.show();
+        }
+
+        let adminData = {
+            email: "admin@admin.com",
+            mobile: "6379960957"
+        };
+
+        function showAdminInfo() {
+            document.getElementById('admin-email-input').value = adminData.email;
+            document.getElementById('admin-mobile-input').value = adminData.mobile;
+        }
+
+        function updateEmail() {
+            const newEmail = document.getElementById('admin-email-input').value;
+            adminData.email = newEmail;
+            alert('Email updated successfully to: ' + adminData.email);
+            $('#adminModal').modal('hide');
+        }
+
+        function updateProfile() {
+            const newEmail = document.getElementById('profile-email').value;
+            const newMobile = document.getElementById('profile-mobile').value;
+            adminData.email = newEmail;
+            adminData.mobile = newMobile;
+            alert('Profile updated successfully!');
+            $('#profileOffcanvas').offcanvas('hide');
+        }
+
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                populateSubscribers(data.subscribers);
+                populateApplicationSales(data.applicationSales);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+        function populateSubscribers(subscribers) {
+            const subscriberList = document.getElementById('subscriber-list');
+            subscribers.forEach(subscriber => {
+                const row = document.createElement('tr');
+                row.classList.add('border-top');
+                row.innerHTML = `
+                    <td>${subscriber.name}</td>
+                    <td>${subscriber.mobile}</td>
+                    <td>${subscriber.plan}</td>
+                    <td>${subscriber.expiry}</td>
+                    <td><button class="btn btn-dark" onclick="viewHistory('${subscriber.mobile}')">View History</button></td>
+                `;
+                subscriberList.appendChild(row);
+            });
+        }
+
+        function viewHistory(mobile) {
+            fetch('data.json')
+                .then(response => response.json())
+                .then(data => {
+                    const history = data.rechargeHistory[mobile] || [];
+                    const historyTable = document.getElementById('recharge-history');
+                    historyTable.innerHTML = '';
+                    history.forEach(record => {
+                        const row = document.createElement('tr');
+                        row.classList.add('border-top');
+                        row.innerHTML = `
+                            <td>${record.plan}</td>
+                            <td>${record.date}</td>
+                            <td>${record.payment}</td>
+                        `;
+                        historyTable.appendChild(row);
+                    });
+                    window.location.href = 'AdminDashboard.html#res';
+                })
+                .catch(error => console.error('Error fetching history:', error));
+        }
+
+        function populateApplicationSales(applicationSales) {
+            const applicationSalesTable = document.getElementById('application-sales');
+            applicationSales.forEach(sale => {
+                const row = document.createElement('tr');
+                row.classList.add('border-top');
+                row.innerHTML = `
+                    <td>${sale.application}</td>
+                    <td>${sale.sales}</td>
+                    <td><img src="${sale.change}" alt="Chart" width="50" height="20"></td>
+                    <td>₹${sale.avgPrice}</td>
+                    <td class="text-success">₹${sale.total}</td>
+                `;
+                applicationSalesTable.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
