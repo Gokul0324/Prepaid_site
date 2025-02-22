@@ -89,8 +89,7 @@
     <div class="col-md-6 d-flex justify-content-center align-items-center mx-auto " id="recharge">
         <div class="p-4 border border-4 rounded-5 shadow-sm w-75 border-dark bg-light mt-5 mb-5" style="border-radius:35px;">
             <h4 class="text-center m-4">User Login</h4>
-           <form id="loginForm"
-           >
+           <form id="loginForm">
             <div class=" mx-auto w-75 justify-content-center align-items-center" style="height: 5px; width: 100%;border-radius: 50px;"></div>
 
             <p class="strong mt-5">Enter Your Registered Mobile Number</p>
@@ -113,53 +112,47 @@
     </div>
   </form>
     <script>
-      function userlogin(){
-      document.getElementById("userbtn").addEventListener("click", function() {
-          window.location.href ="plans.html";
-      })
-  }
-  document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-  
-    var mobile = document.getElementById('mobile').value.trim();
-    var email = document.getElementById('email').value.trim();
-  
-    var mobilePattern = /^[6-9]\d{9}$/;
-    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
-    console.log("Entered Mobile:", mobile);
-    console.log("Entered Email:", email);
-  
-    if (!mobilePattern.test(mobile)) {
-      alert('Invalid mobile number format. It should start with 6-9 and have 10 digits.');
-      return;
-    }
-    if (!emailPattern.test(email)) {
-      alert('Invalid email format.');
-      return;
-    }
-  
-    fetch('userLog.json')
-      .then(response => response.json())
-      .then(users => {
-        var validUser = users.find(user => user.mobile === mobile && user.email === email);
-  
-        if (validUser) {
-          alert('Login successful!');
-           window.location.href = "plans.html"
-          
-        } else {
-          alert('Invalid credentials. Please check your mobile number and email.');
+      document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+      
+        var mobile = document.getElementById('mobile').value.trim();
+        var email = document.getElementById('email').value.trim();
+      
+        var mobilePattern = /^[6-9]\d{9}$/;
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+        console.log("Entered Mobile:", mobile);
+        console.log("Entered Email:", email);
+      
+        if (!mobilePattern.test(mobile)) {
+          alert('Invalid mobile number format. It should start with 6-9 and have 10 digits.');
+          return;
         }
-      })
-      .catch(error => {
-        console.error('Error loading user data:', error);
-        alert('Error loading user data. Ensure the JSON file is accessible via a live server.');
+        if (!emailPattern.test(email)) {
+          alert('Invalid email format.');
+          return;
+        }
+      
+        fetch('credentials.json')
+          .then(response => response.json())
+          .then(data => {
+            const users = data.users; 
+            var validUser = users.find(user => user.mobile === mobile && user.email === email);
+      
+            if (validUser) {
+              alert('Login successful!');
+              window.location.href = "plans.html";
+            } else {
+              alert('Invalid credentials. Please check your mobile number and email.');
+            }
+          })
+          .catch(error => {
+            console.error('Error loading user data:', error);
+            alert('Error loading user data. Ensure the JSON file is accessible via a live server.');
+          });
       });
-  });
-  
+    </script>
 
-</script>
     <!-- footer -->
 <footer class="container-fluid text-center text-white py-3 bg-dark">
     <div class="row">
@@ -177,5 +170,5 @@
     </footer>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    </body>
-    </html>
+</body>
+</html>
