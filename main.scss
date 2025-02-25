@@ -1,3 +1,45 @@
 $danger:rgb(227, 151, 0);
-$secondary:linear-gradient( 89.7deg,  rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8% );
+$info:red;
+
+.btn-gradient {
+    font-size: 18px;
+    padding: 12px 36px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #1774ff, #000000);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.7s ease-in-out;
+}
+
+/* Shimmer Effect */
+.btn-gradient::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.9s ease-in-out;
+}
+
+.btn-gradient:hover::before {
+    left: 100%;
+}
+
+/* Smooth Hover Effect */
+.btn-gradient:hover {
+    background: linear-gradient(90deg, #0052cc, #000000);
+    box-shadow: 0 4px 15px rgba(0, 102, 255, 0.4);
+    transform: scale(1.05);
+}
+
+/* Click Effect */
+.btn-gradient:active {
+    transform: scale(0.95);
+}
 @import'node_modules/bootstrap/scss/bootstrap.scss';

@@ -95,7 +95,20 @@
                 "description": "Validity: 84 Days<br>2GB Data/day + Unlimited Calls with Netflix, Amazon Prime<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
                 "image": "/Assets/popular_red.jpg",
                 "link": "Recharge.html?plan=₹699 - 84 Days - 2GB/Day"
+            },
+            {
+                "name": "399/-",
+                "description": "Validity: 28 Days<br>2GB Data/day + Unlimited Calls with Amazon Prime<br><img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
+                "image": "/Assets/popular_red.jpg",
+                "link": "Recharge.html?plan=₹699 - 84 Days - 2GB/Day"
+            },
+            {
+                "name": "499/-",
+                "description": "Validity: 84 Days<br>2GB Data/day + Unlimited Calls with Netflix, Amazon Prime<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
+                "image": "/Assets/popular_red.jpg",
+                "link": "Recharge.html?plan=₹699 - 84 Days - 2GB/Day"
             }
+
         ],
         "data": [
             {
