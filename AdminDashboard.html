@@ -3,310 +3,865 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Dashboard | Mobi-Comm</title>
     <link rel="icon" type="image/jpg" href="Assets/M_logo.jpg">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
-        body {
-            font-family: 'Lexend', serif;
+        body { 
+            font-family: 'Lexend', sans-serif; 
+            background-color: #f5f5f8;
         }
         .sidebar {
-            background-image: linear-gradient(89.7deg, rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8%);
+            background-image: linear-gradient(180deg, #1a237e 0%, #283593 100%);
+            min-height: 100vh;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 250px;
+            z-index: 1000;
         }
-        #stat {
-            transition: transform 0.3s, box-shadow 0.3s;
+        .sidebar a {
+            padding: 12px 15px;
+            display: block;
+            transition: all 0.3s;
+            border-radius: 5px;
+            margin-bottom: 5px;
         }
-        #stat:hover {
+        .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        .sidebar a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid #fff;
+        }
+        .card, .chart-container {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover, .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        .btn-gradient {
+            background: linear-gradient(45deg, #3949ab, #1e88e5);
+            color: white;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 6px 15px;
+            font-size: 14px;
+        }
+        .btn-gradient:hover {
             transform: scale(1.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            border-color: rgba(0, 0, 0, 0.5); 
+            box-shadow: 0 8px 15px rgba(0, 102, 255, 0.3);
+            color: white;
         }
-        #stat:hover .card-title,
-        #stat:hover .card-text {
-            text-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
+        .btn-notify {
+            background: linear-gradient(45deg, #f57c00, #ffb74d);
+            color: white;
+            border: none;
         }
-        #side {
-            cursor: pointer;
+        .btn-notify:hover {
+            background: linear-gradient(45deg, #ef6c00, #ffa726);
+            color: white;
         }
-        #side:hover {
-            transform: scale(1.05);
-            text-shadow: 0 0 3px rgb(255, 255, 255);
+        .table th, .table td {
+            vertical-align: middle;
+            padding: 12px 15px;
         }
-        .center-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+        .stat-card {
+            border-radius: 10px;
+            border-left: 5px solid;
+            transition: transform 0.3s ease;
         }
-        .chart-container {
-            background: white;
-            border-radius: 8px;
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .main-content {
+            margin-left: 250px;
             padding: 20px;
+        }
+        .filter-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #424242;
+        }
+        .badge-expiring {
+            background-color: #ff9800;
+            color: white;
+            font-weight: normal;
+            padding: 5px 8px;
+        }
+        .badge-expired {
+            background-color: #f44336;
+            color: white;
+            font-weight: normal;
+            padding: 5px 8px;
+        }
+        .badge-active {
+            background-color: #4caf50;
+            color: white;
+            font-weight: normal;
+            padding: 5px 8px;
+        }
+        .modal-header {
+            background: linear-gradient(45deg, #3949ab, #1e88e5);
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        .modal-content {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
-<body style="background-image: url(/Assets/bg-1\ \(4\).jpeg);">
+<body>
     <div class="d-flex">
         <!-- Sidebar -->
-        <div class="sidebar text-white p-4 h-auto" style="width: 250px;  height: 100vh;">
-            <div class="d-flex align-items-center">
+        <div class="sidebar text-white p-4" id="sidebar">
+            <div class="d-flex align-items-center mb-4">
                 <a class="navbar-brand" href="HomePage.html">
-                    <img src="/Assets/M (1) - Copy.png" alt="" width="70" height="80" class="d-inline-block align-text-center">
-                    <span class="text-light">Mobi-Comm</span>
+                    <img src="/Assets/M (1) - Copy.png" alt="Mobi-Comm Logo" width="60" height="60" class="d-inline-block align-text-center">
+                    <span class="text-light fw-bold">Mobi-Comm</span>
                 </a>
             </div>
-            <nav class="mt-4">
-
+            <nav>
                 <ul class="list-unstyled">
-                    <li>  <div class="dropdown">
-                        <button class="btn btn-link dropdown-toggle text-light" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-                            </svg>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            <!-- <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user fa-sm me-2"></i>Profile</a></li> -->
-                            <!-- <li><hr class="dropdown-divider"></li> -->
-                            <li><a class="dropdown-item" href="#" id="logoutButton"><i class="fas fa-sign-out-alt fa-sm me-2"></i>Logout</a></li>
-                        </ul>
-                    </div></li>
-                    <li class="p-2 hover:bg-gray-700">
-                        <a href="AdminDashboard.html" class="text-white flex items-center text-decoration-none">
-                            <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="p-2 hover:bg-gray-700">
-                        <a href="admin_plans.html" class="text-white flex items-center text-decoration-none">
-                            <i class="fas fa-users mr-2"></i> Manage Plans
-                        </a>
-                    </li>
+                    <li><a href="AdminDashboard.html" class="text-white text-decoration-none active"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                    <li><a href="#" class="text-white text-decoration-none"><i class="fas fa-user me-2"></i> Profile</a></li>
+                    <li><a href="AdminPlansManagement.html" class="text-white text-decoration-none"><i class="fas fa-clipboard-list me-2"></i> Manage Plans</a></li>
+                    <li><a href="#" class="text-white text-decoration-none"><i class="fas fa-chart-line me-2"></i> View Analytics</a></li>
+                    <li><a href="#" class="text-white text-decoration-none" onclick="showAllUsers()"><i class="fas fa-users me-2"></i> All Users</a></li>
+                    <li><a href="#" class="text-white text-decoration-none" id="logoutButton"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
                 </ul>
             </nav>
+            <div class="mt-auto pt-5">
+                <div class="d-flex align-items-center">
+                    <div class="user-avatar me-2">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0">Admin</h6>
+                        <small class="text-light opacity-75">Super Admin</small>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <!-- Main Content -->
-        <div class="flex-grow-1 p-4 center-content">
-            <!-- Tables Section -->
-            <div class="w-100">
-                <div class="bg-white p-4 rounded shadow mb-4">
-                    <h2 class="h5 font-weight-bold mb-4">Subscribers with Plans Expiring Soon</h2>
-                    <table class="table">
-                        <thead>
-                            <tr class="text-left">
-                                <th>Subscriber name</th>
-                                <th>Phone Number</th>
-                                <th>Plan</th>
-                                <th>Plan Expiry Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="subscriber-list">
-                            <!-- Subscriber list will be populated here -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="bg-white p-4 rounded shadow" id="res">
-                    <h2 class="h5 font-weight-bold mb-4">Recharge History</h2>
-                    <table class="table">
-                        <thead>
-                            <tr class="text-left">
-                                <th>Plan Name</th>
-                                <th>Date</th>
-                                <th>Mode of Payment</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recharge-history">
-                            <!-- Recharge history will be populated here -->
-                        </tbody>
-                    </table>
+        <div class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h4 fw-bold">Admin Dashboard</h2>
+                <div>
+                    <span class="text-muted me-2">Last updated: Feb 26, 2025</span>
+                    <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-sync-alt"></i></button>
                 </div>
             </div>
 
-            <!-- Charts Section -->
-            <div class="row mt-4 w-100">
-                <div class="col-12 col-lg-6 mb-4">
-                    <div class="chart-container">
-                        <h2 class="h5 font-weight-bold mb-4">Subscriber Growth</h2>
-                        <canvas id="subscriberGrowthChart"></canvas>
+            <!-- Quick Stats -->
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 col-lg-3 mb-3">
+                    <div class="card stat-card h-100" style="border-left-color: #4caf50;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2 class="h5 fw-bold" id="total-subscribers">0</h2>
+                                    <p class="text-muted mb-0">Total Subscribers</p>
+                                </div>
+                                <div class="text-success bg-success bg-opacity-10 p-3 rounded">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6 mb-4">
-                    <div class="chart-container">
-                        <h2 class="h5 font-weight-bold mb-4">Revenue by Plan</h2>
-                        <canvas id="revenueByPlanChart"></canvas>
+                <div class="col-12 col-md-6 col-lg-3 mb-3">
+                    <div class="card stat-card h-100" style="border-left-color: #2196f3;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2 class="h5 fw-bold" id="active-subscribers">0</h2>
+                                    <p class="text-muted mb-0">Active Subscribers</p>
+                                </div>
+                                <div class="text-primary bg-primary bg-opacity-10 p-3 rounded">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 5px;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3 mb-3">
+                    <div class="card stat-card h-100" style="border-left-color: #f44336;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2 class="h5 fw-bold" id="revenue">₹0</h2>
+                                    <p class="text-muted mb-0">Revenue Generated</p>
+                                </div>
+                                <div class="text-danger bg-danger bg-opacity-10 p-3 rounded">
+                                    <i class="fas fa-rupee-sign"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 5px;">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3 mb-3">
+                    <div class="card stat-card h-100" style="border-left-color: #ff9800;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2 class="h5 fw-bold" id="expiring-soon">0</h2>
+                                    <p class="text-muted mb-0">Expiring Soon</p>
+                                </div>
+                                <div class="text-warning bg-warning bg-opacity-10 p-3 rounded">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 5px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 45%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Statistics Section -->
-            <div class="row mt-4 w-100">
-                <div class="col-12 col-md-6 col-lg-3 mb-4">
-                    <div class="bg-white p-4 rounded shadow" id="stat">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h2 class="h5 font-weight-bold" id="total-subscribers">0</h2>
-                                <p class="text-muted">Total Subscribers</p>
+            <!-- Expiring Plans Table with Filters -->
+            <div class="card mb-4">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                    <h5 class="mb-0 fw-bold">Subscribers with Plans Expiring Soon</h5>
+                    <button class="btn btn-notify" onclick="notifyAll()">
+                        <i class="fas fa-bell me-1"></i> Notify All
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="filter-section mb-3">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold">Filter by Plan:</label>
+                                <select class="form-select form-select-sm" id="planFilter">
+                                    <option value="">All Plans</option>
+                                    <option value="299/- Plan">299/- Plan</option>
+                                    <option value="399/- Plan">399/- Plan</option>
+                                    <option value="599/- Plan">599/- Plan</option>
+                                    <option value="799/- Plan">799/- Plan</option>
+                                    <option value="999/- Plan">999/- Plan</option>
+                                    <option value="1299/- Plan">1299/- Plan</option>
+                                    <option value="1399/- Plan">1399/- Plan</option>
+                                </select>
                             </div>
-                            <div class="text-warning">
-                                <i class="fas fa-chart-line"></i>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold">Expiry Status:</label>
+                                <select class="form-select form-select-sm" id="expiryFilter">
+                                    <option value="">All</option>
+                                    <option value="expired">Expired</option>
+                                    <option value="expiring">Expiring within 3 days</option>
+                                    <option value="active">Active</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold">Sort By:</label>
+                                <select class="form-select form-select-sm" id="sortFilter">
+                                    <option value="name">Name</option>
+                                    <option value="expiry">Expiry Date</option>
+                                    <option value="plan">Plan</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold">Search:</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" id="searchFilter" placeholder="Search users...">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="applyFilters()">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <p class="text-muted small mt-2">update: 10:00 am</p>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Mobile</th>
+                                    <th>Plan</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expiring-subscribers"></tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 mb-4">
-                    <div class="bg-white p-4 rounded shadow" id="stat">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h2 class="h5 font-weight-bold" id="active-subscribers">0</h2>
-                                <p class="text-muted">Active Subscribers</p>
-                            </div>
-                            <div class="text-success">
-                                <i class="fas fa-user-check"></i>
-                            </div>
-                        </div>
-                        <p class="text-muted small mt-2">update: 2:15 am</p>
+            </div>
+
+            <!-- All Users Container (Initially Hidden) -->
+            <div class="card mb-4" id="all-users" style="display: none;">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">All Subscribers</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Mobile</th>
+                                    <th>Plan</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="all-users-list"></tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 mb-4">
-                    <div class="bg-white p-3 rounded shadow" id="stat">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h2 class="h5 font-weight-bold" id="revenue">₹0</h2>
-                                <p class="text-muted">Revenue Generated</p>
-                            </div>
-                            <div class="text-danger">
-                                <i class="fas fa-rupee-sign"></i>
-                            </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div class="row">
+                <div class="col-12 col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0 fw-bold">Subscriber Growth</h5>
                         </div>
-                        <p class="text-muted small mt-2">update: 2:15 am</p>
+                        <div class="card-body">
+                            <canvas id="subscriberGrowthChart"></canvas>
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 mb-4">
-                    <div class="bg-white p-4 rounded shadow" id="stat">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h2 class="h5 font-weight-bold" id="new-subscribers">0</h2>
-                                <p class="text-muted">New Subscribers</p>
-                            </div>
-                            <div class="text-primary">
-                                <i class="fas fa-download"></i>
-                            </div>
+                <div class="col-12 col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0 fw-bold">Revenue by Plan</h5>
                         </div>
-                        <p class="text-muted small mt-2">update: 2:15 am</p>
+                        <div class="card-body">
+                            <canvas id="revenueByPlanChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Recharge History Modal -->
+    <div class="modal fade" id="rechargeHistoryModal" tabindex="-1" aria-labelledby="rechargeHistoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rechargeHistoryModalLabel">Recharge History</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="user-avatar me-3" id="modalUserAvatar">A</div>
+                        <div>
+                            <h5 class="mb-0" id="modalUserName">User Name</h5>
+                            <p class="mb-0 text-muted" id="modalUserPhone">Phone Number</p>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Plan</th>
+                                    <th>Recharge Date</th>
+                                    <th>Payment Method</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modal-recharge-history"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-gradient" onclick="sendNotification()">
+                        <i class="fas fa-bell me-1"></i> Send Notification
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Check login state on page load
-        window.addEventListener("load", function () {
-            const isLoggedIn = localStorage.getItem("isLoggedIn");
-            if (isLoggedIn !== "true") {
-                window.location.href = "AdminLogin.html"; // Redirect to login if not logged in
-            }
-        });
-    
-        // Logout Functionality
+        let appData = JSON.parse(localStorage.getItem('appData')) || {};
+        let currentUserPhone = "";
+
+        function showAlert(message, type) {
+            const alertContainer = document.createElement('div');
+            alertContainer.className = 'position-fixed top-0 start-50 translate-middle-x mt-3 z-index-1060';
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show shadow" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            document.body.appendChild(alertContainer);
+            setTimeout(() => {
+                alertContainer.querySelector('.alert').classList.remove('show');
+                setTimeout(() => alertContainer.remove(), 150);
+            }, 5000);
+        }
+
+        // Check login status
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            window.location.href = "AdminLogin.html";
+        }
+
+        // Logout functionality
         document.getElementById("logoutButton").addEventListener("click", function () {
-            localStorage.removeItem("isLoggedIn"); // Clear login state
-            window.location.href = "AdminLogin.html"; // Redirect to login page
+            localStorage.removeItem("isLoggedIn");
+            window.location.href = "AdminLogin.html";
         });
-    </script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Fetch data from applicationData.json
-        fetch('applicationData.json')
-            .then(response => response.json())
-            .then(data => {
-                // Populate Subscribers
-                const subscriberList = document.getElementById('subscriber-list');
-                subscriberList.innerHTML = data.subscribers.map(subscriber => `
-                    <tr class="border-top">
-                        <td>${subscriber.name}</td>
-                        <td>${subscriber.mobile}</td>
-                        <td>${subscriber.plan}</td>
-                        <td>${subscriber.expiry}</td>
-                        <td><button class="btn btn-gradient mt-1 mb-1 text-light w-auto rounded-2" onclick="viewHistory('${subscriber.mobile}')">View History</button></td>
-                    </tr>
-                `).join('');
-
-                // Update Statistics
-                document.getElementById('total-subscribers').textContent = data.subscribers.length.toLocaleString();
-                document.getElementById('active-subscribers').textContent = (data.subscribers.length - 10000).toLocaleString();
-                document.getElementById('revenue').textContent = '₹' + data.applicationSales.reduce((sum, sale) => sum + sale.total, 0).toLocaleString();
-                document.getElementById('new-subscribers').textContent = data.subscribers.length - 10000;
-
-                // View Recharge History
-                window.viewHistory = function(mobile) {
-                    const history = data.rechargeHistory[mobile] || [];
-                    const historyTable = document.getElementById('recharge-history');
-                    historyTable.innerHTML = history.map(record => `
-                        <tr class="border-top">
-                            <td>${record.plan}</td>
-                            <td>${record.date}</td>
-                            <td>${record.payment}</td>
-                        </tr>
-                    `).join('');
-                    window.location.href = '#res';
-                };
-
-                // Charts
-                const subscriberGrowthChart = new Chart(document.getElementById('subscriberGrowthChart'), {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                        datasets: [{
-                            label: 'Subscribers',
-                            data: [1000, 1500, 2000, 2500, 3000, 3500],
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            fill: false,
-                        }]
-                    },
-                    options: { responsive: true }
+        // Fetch initial data if not in localStorage or if subscribers are missing
+        if (!appData.subscribers || appData.subscribers.length === 0) {
+            fetch('applicationData.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    appData = data;
+                    localStorage.setItem('appData', JSON.stringify(appData));
+                    renderDashboard();
+                })
+                .catch(error => {
+                    console.error('Error fetching initial data:', error);
+                    showAlert('Error fetching subscriber data. Please try again.', 'danger');
                 });
+        } else {
+            renderDashboard();
+        }
 
-                const revenueByPlanChart = new Chart(document.getElementById('revenueByPlanChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: data.applicationSales.map(sale => sale.application),
-                        datasets: [{
-                            label: 'Revenue',
-                            data: data.applicationSales.map(sale => sale.total),
-                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                            borderColor: 'rgba(153, 102, 255, 1)',
-                        }]
-                    },
-                    options: { responsive: true }
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    </script>
-    <script>
-        // Check login state on page load
-        window.addEventListener("load", function () {
-            const isLoggedIn = localStorage.getItem("isLoggedIn");
-            if (isLoggedIn !== "true") {
-                window.location.href = "AdminLogin.html"; // Redirect to login if not logged in
+        function getStatusBadge(expiryDate) {
+            const today = new Date('2025-02-26');
+            const expiry = new Date(expiryDate);
+            
+            // Calculate the difference in days
+            const diffTime = expiry - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays < 0) {
+                return '<span class="badge badge-expired">Expired</span>';
+            } else if (diffDays <= 3) {
+                return '<span class="badge badge-expiring">Expiring Soon</span>';
+            } else {
+                return '<span class="badge badge-active">Active</span>';
             }
-        });
+        }
+
+        function renderDashboard() {
+            const today = new Date('2025-02-26');
+            
+            // Calculate expiry dates for filtering
+            const threeDaysLater = new Date(today);
+            threeDaysLater.setDate(today.getDate() + 3); // March 1, 2025
+
+            // Filter subscribers expiring within 3 days or already expired
+            const expiringOrExpired = (appData.subscribers || []).filter(sub => {
+                const expiryDate = new Date(sub.expiry);
+                // Include if expiry is before or equal to three days from now
+                return expiryDate <= threeDaysLater;
+            });
+
+            // Render expiring subscribers table
+            document.getElementById('expiring-subscribers').innerHTML = expiringOrExpired.length > 0 ? expiringOrExpired.map(sub => {
+                const firstLetter = sub.name.charAt(0).toUpperCase();
+                const status = getStatusBadge(sub.expiry);
+                
+                return `
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="user-avatar me-2">${firstLetter}</div>
+                            <div>${sub.name}</div>
+                        </div>
+                    </td>
+                    <td>${sub.mobile}</td>
+                    <td>${sub.plan}</td>
+                    <td>${sub.expiry}</td>
+                    <td>${status}</td>
+                    <td>
+                        <button class="btn btn-sm btn-gradient me-1" onclick="viewHistory('${sub.mobile}', '${sub.name}')">
+                            <i class="fas fa-history me-1"></i> History
+                        </button>
+                        <button class="btn btn-sm btn-notify" onclick="notifyUser('${sub.mobile}')">
+                            <i class="fas fa-bell me-1"></i> Notify
+                        </button>
+                    </td>
+                </tr>
+                `;
+            }).join('') : '<tr><td colspan="6" class="text-center py-3">No subscribers expiring soon.</td></tr>';
+            
+            // Update expiring soon count
+            document.getElementById('expiring-soon').textContent = expiringOrExpired.length;
+
+            // All users table
+            document.getElementById('all-users-list').innerHTML = (appData.subscribers || []).length > 0 ? appData.subscribers.map(sub => {
+                const firstLetter = sub.name.charAt(0).toUpperCase();
+                const status = getStatusBadge(sub.expiry);
+                
+                return `
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="user-avatar me-2">${firstLetter}</div>
+                            <div>${sub.name}</div>
+                        </div>
+                    </td>
+                    <td>${sub.mobile}</td>
+                    <td>${sub.plan}</td>
+                    <td>${sub.expiry}</td>
+                    <td>${status}</td>
+                    <td>
+                        <button class="btn btn-sm btn-gradient me-1" onclick="viewHistory('${sub.mobile}', '${sub.name}')">
+                            <i class="fas fa-history me-1"></i> History
+                        </button>
+                        <button class="btn btn-sm btn-notify" onclick="notifyUser('${sub.mobile}')">
+                            <i class="fas fa-bell me-1"></i> Notify
+                        </button>
+                    </td>
+                </tr>
+                `;
+            }).join('') : '<tr><td colspan="6" class="text-center py-3">No subscribers found.</td></tr>';
+
+            // Update statistics
+            document.getElementById('total-subscribers').textContent = (appData.subscribers || []).length.toLocaleString();
+            document.getElementById('active-subscribers').textContent = (appData.subscribers || []).filter(sub => new Date(sub.expiry) >= today).length.toLocaleString();
+            document.getElementById('revenue').textContent = '₹' + (appData.applicationSales || []).reduce((sum, sale) => sum + sale.total, 0).toLocaleString();
+
+            // Subscriber Growth Chart
+            new Chart(document.getElementById('subscriberGrowthChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+                    datasets: [{
+                        label: 'Total Subscribers',
+                        data: [900, 1300, 1800, 2200, 2800, (appData.subscribers || []).length],
+                        borderColor: '#3949ab',
+                        backgroundColor: 'rgba(57, 73, 171, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#3949ab',
+                        pointBorderColor: '#fff',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Revenue by Plan Chart
+            new Chart(document.getElementById('revenueByPlanChart'), {
+                type: 'bar',
+                data: {
+                    labels: (appData.applicationSales || []).map(sale => sale.application),
+                    datasets: [{
+                        label: 'Revenue (₹)',
+                        data: (appData.applicationSales || []).map(sale => sale.total),
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)',
+                            'rgba(54, 162, 235, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // View user recharge history in modal
+        window.viewHistory = function(mobile, name) {
+            currentUserPhone = mobile;
+            const history = appData.rechargeHistory[mobile] || [];
+            
+            // Update modal title and user info
+            document.getElementById('modalUserName').textContent = name;
+            document.getElementById('modalUserPhone').textContent = mobile;
+            document.getElementById('modalUserAvatar').textContent = name.charAt(0).toUpperCase();
+            
+            // Populate recharge history
+            document.getElementById('modal-recharge-history').innerHTML = history.length > 0 ? history.map(record => `
+                <tr>
+                    <td>${record.plan}</td>
+                    <td>${record.date}</td>
+                    <td><span class="badge bg-light text-dark">${record.payment}</span></td>
+                </tr>
+            `).join('') : '<tr><td colspan="3" class="text-center py-3">No recharge history available.</td></tr>';
+            
+            // Show the modal
+            // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById('rechargeHistoryModal'));
+    modal.show();
+};
+
+// Show all users
+window.showAllUsers = function() {
+    const allUsersContainer = document.getElementById('all-users');
+    if (allUsersContainer.style.display === 'none') {
+        allUsersContainer.style.display = 'block';
+    } else {
+        allUsersContainer.style.display = 'none';
+    }
+};
+
+// Notify single user
+window.notifyUser = function(mobile) {
+    // In a real application, this would send an API request to notify the user
+    // For demonstration, we'll just show an alert
+    showAlert(`Notification sent to ${mobile} successfully!`, 'success');
+};
+
+// Notify all expiring users
+window.notifyAll = function() {
+    // Get all users with expiring subscriptions
+    const today = new Date('2025-02-26');
+    const threeDaysLater = new Date(today);
+    threeDaysLater.setDate(today.getDate() + 3);
     
-        // Logout Functionality
-        document.getElementById("logoutButton").addEventListener("click", function () {
-            localStorage.removeItem("isLoggedIn"); // Clear login state
-            window.location.href = "AdminLogin.html"; // Redirect to login page
+    const expiringUsers = (appData.subscribers || []).filter(sub => {
+        const expiryDate = new Date(sub.expiry);
+        return expiryDate <= threeDaysLater;
+    });
+    
+    if (expiringUsers.length === 0) {
+        showAlert('No users with expiring plans to notify.', 'warning');
+        return;
+    }
+    
+    // In a real application, this would send API requests to notify all users
+    // For demonstration, we'll just show an alert
+    showAlert(`Notifications sent to all ${expiringUsers.length} users with expiring plans!`, 'success');
+};
+
+// Send notification from modal
+window.sendNotification = function() {
+    if (currentUserPhone) {
+        // In a real application, this would send an API request to notify the user
+        // For demonstration, we'll just show an alert
+        showAlert(`Notification sent to ${currentUserPhone} successfully!`, 'success');
+        
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('rechargeHistoryModal'));
+        modal.hide();
+    }
+};
+
+// Apply filters to the expiring subscribers table
+window.applyFilters = function() {
+    const planFilter = document.getElementById('planFilter').value;
+    const expiryFilter = document.getElementById('expiryFilter').value;
+    const sortFilter = document.getElementById('sortFilter').value;
+    const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+    
+    const today = new Date('2025-02-26');
+    
+    // Filter subscribers
+    let filteredSubscribers = [...(appData.subscribers || [])];
+    
+    // Apply plan filter
+    if (planFilter) {
+        filteredSubscribers = filteredSubscribers.filter(sub => sub.plan === planFilter);
+    }
+    
+    // Apply expiry filter
+    if (expiryFilter) {
+        filteredSubscribers = filteredSubscribers.filter(sub => {
+            const expiryDate = new Date(sub.expiry);
+            if (expiryFilter === 'expired') {
+                return expiryDate < today;
+            } else if (expiryFilter === 'expiring') {
+                const threeDaysLater = new Date(today);
+                threeDaysLater.setDate(today.getDate() + 3);
+                return expiryDate >= today && expiryDate <= threeDaysLater;
+            } else if (expiryFilter === 'active') {
+                return expiryDate > today;
+            }
+            return true;
         });
-    </script>
+    }
+    
+    // Apply search filter
+    if (searchFilter) {
+        filteredSubscribers = filteredSubscribers.filter(sub => {
+            return sub.name.toLowerCase().includes(searchFilter) || 
+                   sub.mobile.includes(searchFilter) ||
+                   sub.plan.toLowerCase().includes(searchFilter);
+        });
+    }
+    
+    // Apply sorting
+    filteredSubscribers.sort((a, b) => {
+        if (sortFilter === 'name') {
+            return a.name.localeCompare(b.name);
+        } else if (sortFilter === 'expiry') {
+            return new Date(a.expiry) - new Date(b.expiry);
+        } else if (sortFilter === 'plan') {
+            return a.plan.localeCompare(b.plan);
+        }
+        return 0;
+    });
+    
+    // Render the filtered and sorted subscribers
+    document.getElementById('expiring-subscribers').innerHTML = filteredSubscribers.length > 0 ? filteredSubscribers.map(sub => {
+        const firstLetter = sub.name.charAt(0).toUpperCase();
+        const status = getStatusBadge(sub.expiry);
+        
+        return `
+        <tr>
+            <td>
+                <div class="d-flex align-items-center">
+                    <div class="user-avatar me-2">${firstLetter}</div>
+                    <div>${sub.name}</div>
+                </div>
+            </td>
+            <td>${sub.mobile}</td>
+            <td>${sub.plan}</td>
+            <td>${sub.expiry}</td>
+            <td>${status}</td>
+            <td>
+                <button class="btn btn-sm btn-gradient me-1" onclick="viewHistory('${sub.mobile}', '${sub.name}')">
+                    <i class="fas fa-history me-1"></i> History
+                </button>
+                <button class="btn btn-sm btn-notify" onclick="notifyUser('${sub.mobile}')">
+                    <i class="fas fa-bell me-1"></i> Notify
+                </button>
+            </td>
+        </tr>
+        `;
+    }).join('') : '<tr><td colspan="6" class="text-center py-3">No subscribers match your filters.</td></tr>';
+    
+    showAlert(`Filters applied. ${filteredSubscribers.length} subscribers found.`, 'info');
+};
+
+// Initialize event listeners for the filter form
+document.getElementById('planFilter').addEventListener('change', applyFilters);
+document.getElementById('expiryFilter').addEventListener('change', applyFilters);
+document.getElementById('sortFilter').addEventListener('change', applyFilters);
+document.getElementById('searchFilter').addEventListener('input', function() {
+    if (this.value === '' || this.value.length >= 3) {
+        applyFilters();
+    }
+});
+
+// Responsive sidebar toggle for mobile
+const toggleSidebar = () => {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('show-sidebar');
+};
+
+// Add event listener for window resize to handle responsive behavior
+window.addEventListener('resize', function() {
+    if (window.innerWidth < 768) {
+        document.body.classList.add('sidebar-collapsed');
+    } else {
+        document.body.classList.remove('sidebar-collapsed');
+    }
+});
+
+// Run once on page load for initial state
+if (window.innerWidth < 768) {
+    document.body.classList.add('sidebar-collapsed');
+}
+
+// Mock data for testing if needed
+if (!appData.rechargeHistory) {
+    appData.rechargeHistory = {
+        '9876543210': [
+            { plan: '399/- Plan', date: '2025-01-26', payment: 'UPI' },
+            { plan: '399/- Plan', date: '2024-12-26', payment: 'Credit Card' },
+            { plan: '399/- Plan', date: '2024-11-26', payment: 'UPI' }
+        ],
+        '9876543211': [
+            { plan: '599/- Plan', date: '2025-01-15', payment: 'Net Banking' },
+            { plan: '599/- Plan', date: '2024-12-15', payment: 'UPI' }
+        ]
+    };
+    localStorage.setItem('appData', JSON.stringify(appData));
+}
+</script>
 </body>
 </html>

@@ -4,171 +4,470 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpg" href="Assets/M_logo.jpg">
-    <title>Recharge</title>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
+    <title>Mobi-Comm | Recharge</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.min.css">
-<style>
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+        :root {
+            --primary-color: #355c7d;
+            --secondary-color: #0066ff;
+            --dark-color: #1e2a3a;
+            --light-color: #f8f9fa;
+        }
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
         .navbar-toggler {
             border: none;
         }
-
-        .navbar-toggler-icon {
-            background-color: transparent;
-          }
         .navbar-toggler:focus {
             box-shadow: none;
         }
-
-        .navbar-toggler-icon::before,
-        .navbar-toggler-icon::after {
-            background-color: white;
-        }
-
-        .navbar-toggler-icon {
-            background-image: none;
-        }
-
         .navbar-toggler-icon::before,
         .navbar-toggler-icon::after {
             content: '';
             display: block;
-            width: 30px;
-            height: 3px;
+            width: 24px;
+            height: 2px;
             background-color: white;
-            margin: 6px 0;
+            margin: 5px 0;
+            transition: all 0.3s ease;
         }
-        .animated-bg {
-          background: linear-gradient(45deg, #000000, #5d7f7c00, #000000);
-          background-size: 200% 200%;
-          animation: gradientBG 5s infinite linear;
-          height: 100vh;
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
         }
-
-        @keyframes gradientBG {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+        .page-header {
+            padding: 40px 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(53,92,125,0.8)), url('/Assets/bg-1\ \(3\).jpeg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px 12px 0 0;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+        .plan-card {
+            max-width: 340px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 400px; /* Adjusted to handle text content */
+        }
+        .plan-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .plan-card:hover img {
+            transform: scale(1.08);
+        }
+        .plan-card .card-body {
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto; /* Adds scrollbar if text overflows */
+            max-height: 150px; /* Limits body height for text */
+        }
+        .plan-card .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        .plan-card .card-text {
+            font-size: 1rem;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 5; /* Limits text to 5 lines */
+            -webkit-box-orient: vertical;
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            background-color: #f9f9f9;
+        }
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.15rem rgba(53, 92, 125, 0.25);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
+        }
+        .footer {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            padding: 40px 0 20px;
+        }
+        .footer-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .footer-link:hover {
+            color: #f0f0f0 !important;
+            text-decoration: none;
+            padding-left: 5px;
+        }
+        .footer-social {
+            transition: transform 0.3s ease;
+            opacity: 0.8;
+        }
+        .footer-social:hover {
+            transform: translateY(-3px);
+            opacity: 1;
+        }
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+        .alert {
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
-<body style="font-family: 'Lexend',serif;background-image: url(/Assets/bg-1\ \(3\).jpeg);">
-<!-- navbar-1  -->
-
-<nav class="navbar navbar-light bg-light"style="background-image: linear-gradient( 89.7deg,  rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8% );" id="home">
-    <div class="container-fluid">
-          <a class="navbar-brand" href="HomePage.html">
-            <img src="/Assets/M (1) - Copy.png" alt="" width="70" height="80" class="d-inline-block align-text-center">
-            <span class="text-light" href="HomePage.html">Mobi-Comm</span>
-          </a>
-          
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon" style="fill: white !important;"></span>
-      </button>
-      <div class="offcanvas offcanvas-end text-bg-light" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Contents</h5>
-          <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="HomePage.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/plans.html">All Plans</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" class="text-light" data-bs-toggle="dropdown" aria-expanded="false">
-                Contact Us!
-              </a>
-              <ul class="dropdown-menu dropdown-menu-light">
-                <li><a class="dropdown-item text-dark"  href="#"><b>E-mail: </b>Mobicom@tele.ac.in</a></li>
-                <li><a class="dropdown-item text-dark" href="#"><b>Customer Care: </b>1-800-555-1212</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-    <!-- breadcrumb
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb ps-4">
-          <li class="breadcrumb-item"><a href="/index.html" class="text-light">Home</a></li>
-          <li class="breadcrumb-item"><a href="/plans.html" class="text-light">Plans</a></li>
-          <li class="breadcrumb-item active text-dark" aria-current="page">Recharge</li>
-        </ol>
-    </nav> -->
-      </nav>
-    </nav>
-</nav>
-<div class="animated-bg">
-
-
-<!-- form -->
-<div class="container container-fluid">
-    <div class="d-flex justify-content-center align-items-center mx-auto p-4" id="recharge">
-                <div class="card p-5 mt-3 border border-4 rounded-5 shadow-sm w-75 border-dark" style="border-radius:35px;">
-                <h2 class="text-center mb-3">Recharge Details</h2>
-                    <h4 class="text-center mb-3" id="selectedPlan">Selected Plan: Loading...</h4>
-                        <form id="rechargeForm">
-                            <div class="mb-3">
-                                <label for="mobileNumber" class="form-label">Mobile Number</label>
-                                <input type="text" id="mobileNumber" class="form-control" placeholder="Enter 10-digit number" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email ID</label>
-                                <input type="email" id="email" class="form-control" placeholder="Enter email for confirmation" required>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center mx-auto pt-2">
-                            <button type="submit"class="btn btn-gradient text-light w-50 mt-3 mb-3 rounded-pill"> Continue </button>
-                            </div>
-                        </form>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-gradient-primary">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="HomePage.html">
+                <img src="/Assets/M (1) - Copy.png" alt="Mobi-Comm Logo" width="50" height="55" class="d-inline-block align-text-center me-2">
+                <span class="text-light fw-bold">Mobi-Comm</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-light" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header border-bottom">
+                    <h5 class="offcanvas-title fw-bold" id="offcanvasDarkNavbarLabel">Mobi-Comm Menu</h5>
+                    <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item"><a class="nav-link active" href="HomePage.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/plans.html">Plans</a></li>
+                        <li class="nav-item"><a class="nav-link" href="UserProfile.html">My Account</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Support</a>
+                            <ul class="dropdown-menu dropdown-menu-light">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-envelope me-2"></i>Mobicom@tele.ac.in</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-telephone me-2"></i>1-800-555-1212</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#feedbackModal">Send Feedback</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container text-center">
+            <h1 class="fw-bold">Complete Your Recharge</h1>
+            <p class="lead">Stay connected with our best-in-class plans</p>
+        </div>
+    </header>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow mb-5">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="text-center mb-4 fw-bold">Recharge Details</h2>
+                        <div class="row mb-4">
+                            <div class="col-md-5 mb-4 mb-md-0">
+                                <div id="selectedPlanCard" class="plan-card"></div>
+                            </div>
+                            <div class="col-md-7">
+                                <form id="rechargeForm" class="needs-validation" novalidate>
+                                    <div class="mb-4">
+                                        <label for="mobileNumber" class="form-label fw-medium">Mobile Number</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-phone"></i></span>
+                                            <input type="text" id="mobileNumber" class="form-control border-start-0" placeholder="Enter 10-digit number" required>
+                                        </div>
+                                        <div class="invalid-feedback">Please enter a valid 10-digit mobile number.</div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="email" class="form-label fw-medium">Email Address</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope"></i></span>
+                                            <input type="email" id="email" class="form-control border-start-0" placeholder="Enter email for confirmation" required>
+                                        </div>
+                                        <div class="invalid-feedback">Please enter a valid email address.</div>
+                                        <div class="form-text">We'll send the receipt to this email address.</div>
+                                    </div>
+                                    <div class="d-grid gap-2 mt-4">
+                                        <button type="submit" class="btn btn-primary py-2 fw-medium">Proceed to Payment</button>
+                                    </div>
+                                    <div id="alertContainer" class="mt-3"></div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 pt-3 border-top">
+                            <h5 class="mb-3">Why choose Mobi-Comm?</h5>
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3 text-primary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-lightning-charge" viewBox="0 0 16 16">
+                                                <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.868-.504L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">Fastest 5G Network</h6>
+                                            <p class="mb-0 small text-muted">Experience blazing fast speeds</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3 text-primary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-globe" viewBox="0 0 16 16">
+                                                <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.47 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">Nationwide Coverage</h6>
+                                            <p class="mb-0 small text-muted">Stay connected everywhere</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3 text-primary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-gift" viewBox="0 0 16 16">
+                                                <path d="M3 2.5a2.5 2.5 0 0 1 5 0 2.5 2.5 0 0 1 5 0v.006c0 .07 0 .27-.038.494H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 14.5V7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.038A2.968 2.968 0 0 1 3 2.506V2.5zm1.068.5H7v-.5a1.5 1.5 0 1 0-3 0c0 .085.002.274.045.43a.522.522 0 0 0 .023.07zM9 3h2.932a.56.56 0 0 0 .023-.07c.043-.156.045-.345.045-.43a1.5 1.5 0 0 0-3 0V3zM1 4v2h6V4H1zm8 0v2h6V4H9zm5 3H9v8h4.5a.5.5 0 0 0 .5-.5V7zm-7 8V7H2v7.5a.5.5 0 0 0 .5.5H7z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">Premium Subscriptions</h6>
+                                            <p class="mb-0 small text-muted">Netflix, Prime & more included</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-</div>    
+
+    <!-- Footer -->
+    <footer class="footer text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="/Assets/M (1).png" alt="Mobi-Comm Logo" width="50" height="30" class="me-2">
+                        <h5 class="m-0 fw-bold">Mobi-Comm</h5>
+                    </div>
+                    <p class="mb-3 opacity-75">Providing seamless connectivity and innovative solutions since 2025.</p>
+                    <p class="small mb-0 opacity-75">© 2025 Mobi-Comm Ltd. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5 class="mb-3 fw-semibold">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="HomePage.html" class="text-white text-decoration-none footer-link">Home</a></li>
+                        <li class="mb-2"><a href="plans.html" class="text-white text-decoration-none footer-link">Plans</a></li>
+                        <li class="mb-2"><a href="UserProfile.html" class="text-white text-decoration-none footer-link">My Account</a></li>
+                        <li><a href="#" class="text-white text-decoration-none footer-link" data-bs-toggle="modal" data-bs-target="#feedbackModal">Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-5">
+                    <h5 class="mb-3 fw-semibold">Contact Us</h5>
+                    <p class="mb-2 opacity-75"><strong>Email:</strong> <a href="mailto:Mobicom@tele.ac.in" class="text-white text-decoration-none">Mobicom@tele.ac.in</a></p>
+                    <p class="mb-3 opacity-75"><strong>Customer Care:</strong> 1-800-555-1212</p>
+                    <div class="d-flex">
+                        <a href="#" class="me-3"><img src="/Assets/Twitter_Logo.png" alt="Twitter" width="28" height="28" class="footer-social"></a>
+                        <a href="#" class="me-3"><img src="/Assets/Instagram_Logo.png" alt="Instagram" width="36" height="36" class="footer-social"></a>
+                        <a href="#"><img src="/Assets/Facebook_Logo.png" alt="Facebook" width="28" height="28" class="footer-social"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="feedbackModalLabel">Send Feedback</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="feedbackForm">
+                        <div class="mb-3">
+                            <label for="feedbackEmail" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="feedbackEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackMessage" class="form-label">Your Feedback</label>
+                            <textarea class="form-control" id="feedbackMessage" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Show alert function
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} alert-dismissible fade show`;
+            alert.role = 'alert';
+            alert.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            alertContainer.appendChild(alert);
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 150);
+            }, 5000);
+        }
+    
+        // Get URL parameters
         function getQueryParam(name) {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name) || "No Plan Selected";
+            return urlParams.get(name) || null;
         }
-
-        document.getElementById('selectedPlan').innerText = "Selected Plan: " + getQueryParam('plan');
-
-        document.getElementById('rechargeForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    window.location.href = "payment.html";
-});
-    </script>
     
-
-<!-- footer -->
-<footer class="container-fluid text-center text-white py-3 bg-dark">
-    <div class="row">
-        <div class="col-md-12 justify-content-center">
-            <a href="HomePage.html">
-                <img src="/Assets/M (1).png" alt="Company Logo" width="60" height="35">
-            </a>
-            <p>&copy;2025 Mobi-Comm.Ltd.Company,Inc</p>
-        
-            <a href="#" class="mx-2"><i class="fab fa-twitter"><img src="/Assets/Twitter_Logo.png" alt="" height="30px" width="30px" class="mt-1"></i></a>
-            <a href="#" class="mx-2"><i class="fab fa-instagram"></i><img src="/Assets/Instagram_Logo.png" alt="" height="40px" width="40px" class="mt-0 pb-0"></a>
-            <a href="#" class="mx-2"><i class="fab fa-facebook"></i><img src="/Assets/Facebook_Logo.png" alt="" height="30px" width="30px" class="mt-1"></a>
-        </div>
-      </div>
-</footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+        // Form validation
+        (function() {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    
+        // Load plan data from JSON Server
+        fetch('http://localhost:3010/plans')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(plans => {
+                const planParam = getQueryParam('plan');
+                const selectedPlanCard = document.getElementById('selectedPlanCard');
+                if (planParam) {
+                    const selectedPlan = plans.find(plan => plan.link === `Recharge.html?plan=${planParam}`);
+                    if (selectedPlan) {
+                        selectedPlanCard.innerHTML = `
+                            <div class="card h-100">
+                                <div class="overflow-hidden">
+                                    <img src="${selectedPlan.image}" alt="${selectedPlan.name}" class="card-img-top img-fluid">
+                                </div>
+                                <div class="card-body text-center">
+                                    <h4 class="card-title fw-bold">${selectedPlan.name}</h4>
+                                    <div class="card-text">${selectedPlan.description}</div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        selectedPlanCard.innerHTML = '<div class="alert alert-warning">Plan not found. <a href="plans.html" class="alert-link">Browse all plans</a></div>';
+                    }
+                } else {
+                    selectedPlanCard.innerHTML = '<div class="alert alert-info">No plan selected. <a href="plans.html" class="alert-link">Browse all plans</a></div>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching plans:', error);
+                document.getElementById('selectedPlanCard').innerHTML = '<div class="alert alert-danger">Error loading plan details. Please try again later.</div>';
+            });
+    
+        // Handle form submission
+        document.getElementById('rechargeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const mobileNumber = document.getElementById('mobileNumber').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mobilePattern = /^[6-9]\d{9}$/;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+            if (!mobilePattern.test(mobileNumber)) {
+                showAlert('Invalid mobile number format. It should start with 6-9 and have 10 digits.', 'danger');
+                return;
+            }
+            if (!emailPattern.test(email)) {
+                showAlert('Invalid email format.', 'danger');
+                return;
+            }
+    
+            const planParam = getQueryParam('plan');
+            if (planParam) {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+                submitBtn.disabled = true;
+                setTimeout(() => {
+                    window.location.href = `Payment.html?plan=${encodeURIComponent(planParam)}&mobile=${encodeURIComponent(mobileNumber)}&email=${encodeURIComponent(email)}`;
+                }, 1000);
+            } else {
+                showAlert('No plan selected. Please select a plan first.', 'warning');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,6 +1,89 @@
 $danger:rgb(227, 151, 0);
 $info:red;
 
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
+.footer {
+    background-image: linear-gradient(89.7deg, rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8%);
+    padding: 2rem 0;
+
+    h5 {
+        color: #fff;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .small {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .footer-link {
+        transition: color 0.3s ease-in-out;
+
+        &:hover {
+            color: #00d4ff;
+        }
+    }
+
+    .footer-social {
+        transition: transform 0.3s ease-in-out;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+
+    .modal-content {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+.navbar-toggler {
+    border: none;
+}
+.navbar-toggler-icon {
+    background-color: transparent;
+    background-image: none;
+}
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    background-color: white;
+}
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    margin: 6px 0;
+}
+
+.filter-container {
+    margin-right: 20px;
+}
+
+.filter-dropdown {
+    width: 150px;
+    padding: 6px;
+    border-radius: 5px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+}
+
 .btn-gradient {
     font-size: 18px;
     padding: 12px 36px;

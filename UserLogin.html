@@ -4,186 +4,492 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpg" href="Assets/M_logo.jpg">
-    <title>User Login</title>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
-<link rel="stylesheet" href="css/main.min.css">
-<style>
-        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+    <title>User Login | Mobi-Comm</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #1abc9c;
+            --accent-color: #3498db;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuXzAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDQ1KSI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2U5ZWNlZiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2Y4ZjlmYSIvPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcGF0dGVybl8wKSIvPjwvc3ZnPg==');
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .navbar-brand span {
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+        
         .navbar-toggler {
             border: none;
+            padding: 0;
         }
-
-        .navbar-toggler-icon {
-            background-color: transparent;
-          }
+        
         .navbar-toggler:focus {
             box-shadow: none;
         }
-
-        .navbar-toggler-icon::before,
-        .navbar-toggler-icon::after {
-            background-color: white;
-        }
-
+        
         .navbar-toggler-icon {
             background-image: none;
+            position: relative;
+            height: 20px;
+            width: 30px;
         }
-
+        
         .navbar-toggler-icon::before,
         .navbar-toggler-icon::after {
             content: '';
-            display: block;
-            width: 30px;
-            height: 3px;
+            position: absolute;
+            height: 2px;
+            width: 100%;
             background-color: white;
-            margin: 6px 0;
+            transition: all 0.3s ease;
         }
-        .animated-bg {
-          background: linear-gradient(45deg, #000000, #5d7f7c00, #000000);
-          background-size: 200% 200%;
-          animation: gradientBG 5s infinite linear;
-          height: 100vh;
+        
+        .navbar-toggler-icon::before {
+            top: 0;
         }
-
-        @keyframes gradientBG {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+        
+        .navbar-toggler-icon::after {
+            bottom: 0;
         }
-
+        
+        .login-container {
+            display: flex;
+            min-height: calc(100vh - 180px);
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            transition: transform 0.3s ease;
+        }
+        
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .login-image {
+            background-image: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 45%;
+        }
+        
+        .login-image h2 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .login-image p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .login-form-container {
+            padding: 40px;
+            width: 55%;
+        }
+        
+        .login-form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-form-header h3 {
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+        
+        .form-floating {
+            margin-bottom: 20px;
+        }
+        
+        .form-floating input {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 12px 15px;
+            height: 55px;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-floating input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.15rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .form-label {
+            color: var(--dark-color);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 12px 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .otp-container {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .otp-container input {
+            height: 55px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 12px 15px;
+            font-size: 1rem;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        
+        .forgot-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        
+        .forgot-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background-color: var(--dark-color);
+            padding: 40px 0 20px;
+        }
+        
+        .footer h5 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer h5::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            width: 40px;
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-link {
+            display: block;
+            padding: 5px 0;
+            transition: all 0.3s;
+        }
+        
+        .footer-link:hover {
+            transform: translateX(5px);
+            color: var(--secondary-color) !important;
+        }
+        
+        .footer-social {
+            transition: transform 0.3s;
+        }
+        
+        .footer-social:hover {
+            transform: scale(1.2);
+        }
+        
+        /* Responsive */
+        @media (max-width: 991px) {
+            .login-card {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .login-image, .login-form-container {
+                width: 100%;
+            }
+            
+            .login-image {
+                padding: 30px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .login-form-container {
+                padding: 30px 20px;
+            }
+        }
     </style>
 </head>
-<body style="font-family: 'Lexend',serif;background-image: url(/Assets/bg-1\ \(7\).jpeg);">
-
-    <!-- navbar-1 -->
-    <nav class="navbar navbar-light bg-light"style="background-image: linear-gradient( 89.7deg,  rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8% );" id="home">
-        <div class="container-fluid">
-              <a class="navbar-brand" href="HomePage.html">
-                <img src="/Assets/M (1) - Copy.png" alt="" width="70" height="80" class="d-inline-block align-text-center">
-                <span class="text-light">Mobi-Comm</span>
-              </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon" style="fill: white !important;"></span>
-          </button>
-          <div class="offcanvas offcanvas-end text-bg-light" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Contents</h5>
-              <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="HomePage.html">
+                <img src="/Assets/M (1) - Copy.png" alt="Mobi-Comm Logo" width="50" height="50">
+                <span>Mobi-Comm</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Mobi-Comm Menu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item"><a class="nav-link" href="HomePage.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="HomePage.html">FAQ</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Contact Us</a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="#"><b>E-mail: </b>Mobicom@tele.ac.in</a></li>
+                                <li><a class="dropdown-item" href="#"><b>Customer Care: </b>1-800-555-1212</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="HomePage.html">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="HomePage.html">FAQ</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" class="text-light" data-bs-toggle="dropdown" aria-expanded="false">
-                    Contact Us!
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-light">
-                    <li><a class="dropdown-item text-dark"  href="#"><b>E-mail: </b>Mobicom@tele.ac.in</a></li>
-                    <li><a class="dropdown-item text-dark" href="#"><b>Customer Care: </b>1-800-555-1212</a></li>
-                    <li>
-                      <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
-      </div>
     </nav>
-</nav>
-<div class="bg animated-bg">
 
-    <div class="col-md-6 d-flex justify-content-center align-items-center mx-auto " id="recharge">
-        <div class="p-4 border border-4 rounded-5 shadow-sm w-75 border-dark bg-light mt-5 mb-5" style="border-radius:35px;">
-            <h4 class="text-center m-4">User Login</h4>
-           <form id="loginForm">
-            <div class=" mx-auto w-75 justify-content-center align-items-center" style="height: 5px; width: 100%;border-radius: 50px;"></div>
-
-            <p class="strong mt-5">Enter Your Registered Mobile Number</p>
-
-            <div class="mb-3 ">
-                <input type="text" id="mobile" required class="form-control border border-2 rounded-2" placeholder="Enter Mobile Number"  maxlength="10">
+    <!-- Login Section -->
+    <section class="login-container">
+        <div class="login-card">
+            <div class="login-image d-none d-lg-flex">
+                <h2>Welcome Back</h2>
+                <p>Log in to access your Mobi-Comm account and enjoy seamless connectivity with our premium services.</p>
+                <div class="mt-4">
+                    <img src="/Assets/M (1).png" alt="Mobi-Comm" width="120" class="img-fluid">
+                </div>
             </div>
-
-            <p class="strong mb-3">Enter Your Registered E-mail Address</p>
-
-            <div class="mb-3 ">
-                <input type="email" id="email" required class="form-control border border-2 rounded-2" placeholder="Enter your e-mail">
+            <div class="login-form-container">
+                <div class="login-form-header">
+                    <h3>User Login</h3>
+                    <p class="text-muted">Please enter your credentials to continue</p>
+                </div>
+                <form id="loginForm">
+                    <div class="mb-4">
+                        <label for="mobile" class="form-label">Mobile Number</label>
+                        <input type="text" class="form-control" id="mobile" placeholder="Enter your 10-digit mobile number" required maxlength="10">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email address" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                    </div>
+                    
+                    <div id="otp-container" class="otp-container">
+                        <label for="otp" class="form-label">One-Time Password</label>
+                        <input type="text" id="otp" class="form-control" placeholder="Enter the 6-digit OTP" maxlength="6">
+                        <div class="d-grid mt-3">
+                            <button type="button" class="btn btn-primary" onclick="verifyOTP()">Verify OTP</button>
+                        </div>
+                    </div>
+                    
+                    <div id="alertContainer" class="mt-3"></div>
+                    
+                    <div class="text-center">
+                        <a href="#" class="forgot-link" onclick="showForgotEmailAlert()">Forgot Email?</a>
+                    </div>
+                </form>
             </div>
+        </div>
+    </section>
 
-            <div class="d-grid mt-5 pb-5 pt-3">
-                <button id="userbtn" class="btn btn-gradient text-light w-75 mx-auto mb-3 rounded-pill">Continue</button>
-                <div id="alertContainer" class="mt-0 pt-0"></div>
+    <!-- Footer -->
+    <footer class="footer text-white">
+        <div class="container">
+            <div class="row">
+                <!-- Company Info -->
+                <div class="col-md-4 mb-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="/Assets/M (1).png" alt="Company Logo" width="60" height="35" class="me-2">
+                        <h5 class="m-0">Mobi-Comm</h5>
+                    </div>
+                    <p class="small mb-2">Providing seamless connectivity and innovative solutions since 2025.</p>
+                    <p class="small mb-0">© 2025 Mobi-Comm Ltd. All Rights Reserved.</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-md-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="HomePage.html" class="text-white text-decoration-none footer-link">Home</a></li>
+                        <li><a href="plans.html" class="text-white text-decoration-none footer-link">Plans</a></li>
+                        <li><a href="UserProfile.html" class="text-white text-decoration-none footer-link">Profile</a></li>
+                        <li><a href="#" class="text-white text-decoration-none footer-link" data-bs-toggle="modal" data-bs-target="#feedbackModal">Feedback</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-md-4 mb-4">
+                    <h5>Contact Us</h5>
+                    <p class="small"><strong>Email:</strong> <a href="mailto:Mobicom@tele.ac.in" class="text-white text-decoration-none">Mobicom@tele.ac.in</a></p>
+                    <p class="small"><strong>Customer Care:</strong> 1-800-555-1212</p>
+                    <div class="d-flex">
+                        <a href="#" class="me-3"><img src="/Assets/Twitter_Logo.png" alt="Twitter" width="30" height="30" class="footer-social"></a>
+                        <a href="#" class="me-3"><img src="/Assets/Instagram_Logo.png" alt="Instagram" width="40" height="40" class="footer-social"></a>
+                        <a href="#"><img src="/Assets/Facebook_Logo.png" alt="Facebook" width="30" height="30" class="footer-social"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="feedbackModalLabel">Send Feedback</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="feedbackForm">
+                        <div class="mb-3">
+                            <label for="feedbackEmail" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="feedbackEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackMessage" class="form-label">Your Feedback</label>
+                            <textarea class="form-control" id="feedbackMessage" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-  </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-      
-        var mobile = document.getElementById('mobile').value.trim();
-        var email = document.getElementById('email').value.trim();
-      
-        var mobilePattern = /^[6-9]\d{9}$/;
-        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      
-        console.log("Entered Mobile:", mobile);
-        console.log("Entered Email:", email);
-      
-        if (!mobilePattern.test(mobile)) {
-          alert('Invalid mobile number format. It should start with 6-9 and have 10 digits.');
-          return;
+        let generatedOTP = null;
+        let validUser = null;
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} alert-dismissible fade show`;
+            alert.role = 'alert';
+            alert.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            alertContainer.appendChild(alert);
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 150);
+            }, 5000);
         }
-        if (!emailPattern.test(email)) {
-          alert('Invalid email format.');
-          return;
+
+        function showForgotEmailAlert() {
+            showAlert('Contact support at Mobicom@tele.ac.in to recover your email.', 'info');
         }
-      
-        fetch('credentials.json')
-          .then(response => response.json())
-          .then(data => {
-            const users = data.users; 
-            var validUser = users.find(user => user.mobile === mobile && user.email === email);
-      
-            if (validUser) {
-              alert('Login successful!');
-              localStorage.setItem('loggedInUser', JSON.stringify(validUser)); // Store user data in localStorage
-              window.location.href = "plans.html"; // Redirect to plans page
-            } else {
-              alert('Invalid credentials. Please check your mobile number and email.');
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const mobile = document.getElementById('mobile').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mobilePattern = /^[6-9]\d{9}$/;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!mobilePattern.test(mobile)) {
+                showAlert('Invalid mobile number format. It should start with 6-9 and have 10 digits.', 'danger');
+                return;
             }
-          })
-          .catch(error => {
-            console.error('Error loading user data:', error);
-            alert('Error loading user data. Ensure the JSON file is accessible via a live server.');
-          });
-      });
+            if (!emailPattern.test(email)) {
+                showAlert('Invalid email format.', 'danger');
+                return;
+            }
+
+            fetch('credentials.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    const users = data.users || [];
+                    validUser = users.find(user => user.mobile === mobile && user.email === email);
+
+                    if (validUser) {
+                        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                        showAlert(`OTP sent to ${email}: ${generatedOTP} (Simulated for demo)`, 'success');
+                        document.getElementById('otp-container').style.display = 'block';
+                    } else {
+                        showAlert('Invalid credentials. Please check your mobile number and email.', 'warning');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading user data:', error);
+                    showAlert('Error loading user data. Please try again later.', 'danger');
+                });
+        });
+
+        function verifyOTP() {
+            const enteredOTP = document.getElementById('otp').value.trim();
+            if (enteredOTP === generatedOTP) {
+                localStorage.setItem('loggedInUser', JSON.stringify(validUser));
+                window.location.href = "plans.html";
+            } else {
+                showAlert('Invalid OTP. Please try again.', 'danger');
+            }
+        }
     </script>
-</div>
-    <!-- footer -->
-<footer class="container-fluid text-center text-white py-3 bg-dark">
-    <div class="row">
-        <div class="col-md-12 justify-content-center">
-            <a href="#">
-                <img src="/Assets/M (1).png" alt="Company Logo" width="60" height="35">
-            </a>
-            <p>&copy;2025 Mobi-Comm.Ltd.Company,Inc</p>
-        
-            <a href="#" class="mx-2"><i class="fab fa-twitter"><img src="/Assets/Twitter_Logo.png" alt="" height="30px" width="30px" class="mt-1"></i></a>
-            <a href="#" class="mx-2"><i class="fab fa-instagram"></i><img src="/Assets/Instagram_Logo.png" alt="" height="40px" width="40px" class="mt-0 pb-0"></a>
-            <a href="#" class="mx-2"><i class="fab fa-facebook"></i><img src="/Assets/Facebook_Logo.png" alt="" height="30px" width="30px" class="mt-1"></a>
-        </div>
-      </div>
-    </footer>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

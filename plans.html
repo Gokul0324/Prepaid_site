@@ -3,213 +3,528 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plans</title>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="/css/main.min.css">
-<style>
+    <link rel="icon" type="image/jpg" href="Assets/M_logo.jpg">
+    <title>Mobi-Comm Plans</title>
+    <link rel="stylesheet" href="css/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
-
-        .card {
-            transition: transform 0.3s, box-shadow 0.3s;
+        
+        :root {
+            --primary-gradient: linear-gradient(89.7deg, rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8%);
+            --card-hover-transform: scale(1.05);
+            --card-transition: transform 0.3s, box-shadow 0.3s;
         }
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #f8f9fa;
+            background-image: url('/Assets/bg-1\ \(6\).jpeg');
+            background-attachment: fixed;
+            background-size: cover;
         }
-        .navbar-toggler {
+        
+        .navbar {
+            background-image: var(--primary-gradient);
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar-brand img {
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+        }
+        
+        .filters-section {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .filter-btn {
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+        }
+        
+        .filter-btn.active {
+            background-color: #0d6efd;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 3px;
+            width: 80px;
+            background-image: var(--primary-gradient);
+        }
+        
+        .plan-card {
+            transition: var(--card-transition);
+            border-radius: 12px;
+            overflow: hidden;
+            height: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border: none;
         }
-
-        .navbar-toggler-icon {
-            background-color: transparent;
-          }
-        .navbar-toggler:focus {
-            box-shadow: none;
+        
+        .plan-card:hover {
+            transform: var(--card-hover-transform);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
-
-        .navbar-toggler-icon::before,
-        .navbar-toggler-icon::after {
-            background-color: white;
+        
+        .card-img-container {
+            height: 120px;
+            overflow: hidden;
         }
-
-        .navbar-toggler-icon {
-            background-image: none;
+        
+        .card-img-top {
+            height: 100%;
+            object-fit: cover;
         }
-
-        .navbar-toggler-icon::before,
-        .navbar-toggler-icon::after {
-            content: '';
-            display: block;
-            width: 30px;
-            height: 3px;
-            background-color: white;
-            margin: 6px 0;
+        
+        .plan-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0d6efd;
         }
-
+        
+        .btn-recharge {
+            background-image: var(--primary-gradient);
+            color: white;
+            border: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            border-radius: 30px;
+        }
+        
+        .btn-recharge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer {
+            background-image: var(--primary-gradient);
+            margin-top: 3rem;
+        }
+        
+        .footer-link {
+            transition: all 0.2s;
+        }
+        
+        .footer-link:hover {
+            color: #8ecae6 !important;
+            text-decoration: underline !important;
+        }
+        
+        .footer-social {
+            transition: transform 0.2s;
+        }
+        
+        .footer-social:hover {
+            transform: scale(1.1);
+        }
+        
+        .ota-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 100;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .current-plan-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            background-color: #198754;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .plan-section {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #0d6efd;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+        }
+        
+        /* Animation for new plans */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .new-plan {
+            animation: pulse 2s infinite;
+        }
     </style>
-
 </head>
-<body style="font-family: 'Lexend',serif; background-image: url(/Assets/bg-1\ \(6\).jpeg);">
+<body>
     <!-- Navbar -->
-    <nav class="navbar navbar-light bg-light" style="background-image: linear-gradient( 89.7deg,  rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8% );" id="home">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="HomePage.html">
-                <img src="/Assets/M (1) - Copy.png" alt="" width="70" height="80" class="d-inline-block align-text-center">
-                <span class="text-light">Mobi-Comm</span>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="HomePage.html">
+                <img src="/Assets/M (1) - Copy.png" alt="Mobi-Comm Logo" width="60" height="60" class="d-inline-block me-2">
+                <span class="fs-4 fw-bold">Mobi-Comm</span>
             </a>
-      
-            <!-- Profile Icon -->
-            <div class="d-flex align-items-center">
-              <!-- Profile Icon with Dropdown -->
-            <div class="dropdown">
-                <a href="UserProfile.html" class="text-light me-3 text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                    </svg>
-                </a>
-
-            </div>
-              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon" style="fill: white !important;"></span>
-              </button>
-            </div>
-      
-            <div class="offcanvas offcanvas-end text-bg-light" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Contents</h5>
-                    <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="HomePage.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="UserProfile.html">User Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="HomePage.html">FAQ</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" class="text-light" data-bs-toggle="dropdown" aria-expanded="false">
-                                Contact Us!
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-light">
-                                <li><a class="dropdown-item text-dark" href="#"><b>E-mail: </b>Mobicom@tele.ac.in</a></li>
-                                <li><a class="dropdown-item text-dark" href="#"><b>Customer Care: </b>1-800-555-1212</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="HomePage.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="plans.html">Plans</a></li>
+                    <li class="nav-item"><a class="nav-link" href="UserProfile.html">My Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <div class="dropdown me-3">
+                        <a href="#" class="text-light text-decoration-none dropdown-toggle d-flex align-items-center" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle fs-4 me-2"></i>
+                            <span id="username">My Account</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <li><a class="dropdown-item" href="UserProfile.html"><i class="bi bi-person me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-graph-up me-2"></i>Usage</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-            <li><a class="dropdown-item" href="HomePage.html">Return to Home</a></li>
-            <li><a class="dropdown-item" href="UserLogin.html" id="logoutBtn">Logout</a></li>
-        </ul>
-      </nav>
+    </nav>
 
-
-      <ul class="nav sticky-top text-light pt-3 ps-4 pb-2 nav-underline" style="background-image: linear-gradient( 89.7deg,  rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8% );">
-        <li class="nav-item">
-          <a class="nav-link text-light" aria-current="page" href="HomePage.html">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-light active" href="#popular_plans">Popular Plans</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-light" href="#data_plans">Data Plans</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-light" href="#unlimited_plans">Unlimited Packs</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-light" href="#validity_plans">Validity Plans</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-light" href="#offer_plans">Offers!</a>
-        </li>
-    </ul>
-
-
-    <div class="container mt-5">
-        <h2 class="strong text-start ms-4" id="popular_plans">Popular Plans :</h2>
-        <div class="row justify-content-start" id="popular-plans-container"></div>
-
-        <h2 class="strong text-start ms-4 mt-5" id="data_plans">Data Plans :</h2>
-        <div class="row justify-content-start" id="data-plans-container"></div>
-
-        <h2 class="strong text-start ms-4 mt-5" id="offer_plans">Offers :</h2>
-        <div class="row justify-content-start" id="offers-container"></div>
-
-        <h2 class="strong text-start ms-4 mt-5" id="unlimited_plans">Unlimited Plans :</h2>
-        <div class="row justify-content-start" id="unlimited-plans-container"></div>
-
-        <h2 class="strong text-start ms-4 mt-5" id="validity_plans">Validity Plans :</h2>
-        <div class="row justify-content-start" id="validity-plans-container"></div>
-
-        <h2 class="strong text-start ms-4 mt-5" id="annual_plans">Annual Plans :</h2>
-        <div class="row justify-content-start" id="annual-plans-container"></div>
+    <div class="container mt-4">
+        <!-- Hero Section -->
+        <div class="bg-light p-4 rounded-3 mb-4 shadow-sm text-center" style="background-image: linear-gradient(rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8%); background-size: cover; background-position: center;">
+            <h1 class="display-5 text-light fw-bold mb-3">Find Your Perfect Plan</h1>
+            <p class="fs-5 mb-4 text-light">Discover plans that fit your needs with exclusive streaming benefits</p>
+            <div class="d-flex justify-content-center">
+                <a href="#popular_plans" class="btn btn-primary btn-lg px-4 me-md-2">View Popular Plans</a>
+                <a href="#annual_plans" class="btn btn-outline-secondary btn-lg px-4">Annual Plans</a>
+            </div>
+        </div>
+        
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <h4 class="mb-3"><i class="bi bi-funnel me-2"></i>Filter Plans</h4>
+            <div class="d-flex flex-wrap">
+                <button class="btn btn-outline-primary filter-btn active" data-filter="all">All Plans</button>
+                <button class="btn btn-outline-primary filter-btn" data-filter="popular">Popular</button>
+                <button class="btn btn-outline-primary filter-btn" data-filter="data">Data Plans</button>
+                <button class="btn btn-outline-primary filter-btn" data-filter="unlimited">Unlimited</button>
+                <button class="btn btn-outline-primary filter-btn" data-filter="validity">Validity</button>
+                <button class="btn btn-outline-primary filter-btn" data-filter="offers">Offers</button>
+                <button class="btn btn-outline-primary filter-btn" data-filter="annual">Annual</button>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-md-4 mb-2">
+                    <select class="form-select" id="priceFilter">
+                        <option value="">Sort by Price</option>
+                        <option value="low-high">Price: Low to High</option>
+                        <option value="high-low">Price: High to Low</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <select class="form-select" id="validityFilter">
+                        <option value="">Filter by Validity</option>
+                        <option value="28">28 Days</option>
+                        <option value="54">54 Days</option>
+                        <option value="84">84 Days</option>
+                        <option value="365">365 Days</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <select class="form-select" id="otaFilter">
+                        <option value="">Filter by OTT Benefits</option>
+                        <option value="netflix">Netflix</option>
+                        <option value="prime">Amazon Prime</option>
+                        <option value="hotstar">Hotstar</option>
+                        <option value="all">All OTT</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Plans Sections -->
+        <div id="popular_plans" class="plan-section" data-category="popular">
+            <h2 class="section-title">Popular Plans</h2>
+            <div class="row" id="popular-plans-container"></div>
+        </div>
+        
+        <div id="data_plans" class="plan-section" data-category="data">
+            <h2 class="section-title">Data Plans</h2>
+            <div class="row" id="data-plans-container"></div>
+        </div>
+        
+        <div id="offer_plans" class="plan-section" data-category="offers">
+            <h2 class="section-title">Special Offers</h2>
+            <div class="row" id="offers-container"></div>
+        </div>
+        
+        <div id="unlimited_plans" class="plan-section" data-category="unlimited">
+            <h2 class="section-title">Unlimited Plans</h2>
+            <div class="row" id="unlimited-plans-container"></div>
+        </div>
+        
+        <div id="validity_plans" class="plan-section" data-category="validity">
+            <h2 class="section-title">Validity Plans</h2>
+            <div class="row" id="validity-plans-container"></div>
+        </div>
+        
+        <div id="annual_plans" class="plan-section" data-category="annual">
+            <h2 class="section-title">Annual Plans</h2>
+            <div class="row" id="annual-plans-container"></div>
+        </div>
+    </div>
+    
+    <!-- Scroll to top button -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="bi bi-arrow-up"></i>
     </div>
 
     <!-- Footer -->
-    <footer class="container-fluid text-center text-white py-3 bg-dark">
-        <div class="row">
-            <div class="col-md-12 justify-content-center">
-                <a href="HomePage.html">
-                    <img src="/Assets/M (1).png" alt="Company Logo" width="60" height="35">
-                </a>
-                <p>&copy;2025 Mobi-Comm.Ltd.Company,Inc</p>
-                <a href="#" class="mx-2"><i class="fab fa-twitter"><img src="/Assets/Twitter_Logo.png" alt="" height="30px" width="30px" class="mt-1"></i></a>
-                <a href="#" class="mx-2"><i class="fab fa-instagram"></i><img src="/Assets/Instagram_Logo.png" alt="" height="40px" width="40px" class="mt-0 pb-0"></a>
-                <a href="#" class="mx-2"><i class="fab fa-facebook"></i><img src="/Assets/Facebook_Logo.png" alt="" height="30px" width="30px" class="mt-1"></a>
+    <footer class="footer text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <img src="/Assets/M (1).png" alt="Company Logo" width="60" height="35" class="me-2">
+                        <h5 class="m-0">Mobi-Comm</h5>
+                    </div>
+                    <p class="small">Providing seamless connectivity and innovative solutions since 2025.</p>
+                    <p class="small mb-0">© 2025 Mobi-Comm Ltd. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="HomePage.html" class="text-white text-decoration-none footer-link">Home</a></li>
+                        <li><a href="plans.html" class="text-white text-decoration-none footer-link">Plans</a></li>
+                        <li><a href="UserProfile.html" class="text-white text-decoration-none footer-link">Profile</a></li>
+                        <li><a href="#" class="text-white text-decoration-none footer-link" data-bs-toggle="modal" data-bs-target="#feedbackModal">Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Contact Us</h5>
+                    <p class="small"><strong>Email:</strong> <a href="mailto:Mobicom@tele.ac.in" class="text-white text-decoration-none">Mobicom@tele.ac.in</a></p>
+                    <p class="small"><strong>Customer Care:</strong> 1-800-555-1212</p>
+                    <div class="d-flex">
+                        <a href="#" class="me-3"><img src="/Assets/Twitter_Logo.png" alt="Twitter" width="30" height="30" class="footer-social"></a>
+                        <a href="#" class="me-3"><img src="/Assets/Instagram_Logo.png" alt="Instagram" width="40" height="40" class="footer-social"></a>
+                        <a href="#"><img src="/Assets/Facebook_Logo.png" alt="Facebook" width="30" height="30" class="footer-social"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Feedback Modal -->
+        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="feedbackModalLabel">Send Feedback</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="feedbackForm">
+                            <div class="mb-3">
+                                <label for="feedbackEmail" class="form-label">Your Email</label>
+                                <input type="email" class="form-control" id="feedbackEmail" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="feedbackMessage" class="form-label">Your Feedback</label>
+                                <textarea class="form-control" id="feedbackMessage" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
 
-    <script>
-        // Fetch plans from JSON
-        fetch('applicationData.json')
-            .then(response => response.json())
-            .then(data => {
-                const plans = data.plans;
-
-                // Function to create plan cards
-                function createPlanCards(containerId, plans) {
-                    const container = document.getElementById(containerId);
-                    plans.forEach(plan => {
-                        const card = document.createElement('div');
-                        card.className = 'col-md-6 col-lg-3 col-sm-6 mb-3';
-                        card.innerHTML = `
-                            <div class="card lightbox-trigger h-100 shadow-sm">
-                                <img src="${plan.image}" lightbox alt="${plan.name}" class="card-img-top img-fluid">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">${plan.name}</h4>
-                                    <p class="card-text">${plan.description}</p>
-                                    <a href="${plan.link}" class="btn btn-gradient text-light w-75 mt-3 mb-3 rounded-pill ">Recharge Now</a>
-                                </div>
-                            </div>
-                        `;
-                        container.appendChild(card);
-                    });
-                }
-
-                // Render plans for each category
-                createPlanCards('popular-plans-container', plans.popular);
-                createPlanCards('data-plans-container', plans.data);
-                createPlanCards('offers-container', plans.offers);
-                createPlanCards('unlimited-plans-container', plans.unlimited);
-                createPlanCards('validity-plans-container', plans.validity);
-                createPlanCards('annual-plans-container', plans.annual);
-            })
-            .catch(error => console.error('Error fetching plans:', error));
-    </script>
-    <script src="/log.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+   <script>
+  // Check login status
+  if (!localStorage.getItem('loggedInUser')) {
+    window.location.href = "UserLogin.html";
+  } else {
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    document.getElementById('username').textContent = user.name || 'My Account';
+  }
+
+  // Logout functionality
+  document.getElementById('logoutBtn').addEventListener('click', function () {
+    localStorage.removeItem('loggedInUser');
+    window.location.href = "HomePage.html";
+  });
+
+  // Filter button functionality
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.getAttribute('data-filter');
+      document.querySelectorAll('.plan-section').forEach(section => {
+        if (filter === 'all' || section.getAttribute('data-category') === filter) {
+          section.style.display = 'block';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Scroll to top button
+  const scrollToTopBtn = document.getElementById('scrollToTop');
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+      scrollToTopBtn.classList.add('visible');
+    } else {
+      scrollToTopBtn.classList.remove('visible');
+    }
+  });
+  scrollToTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Fetch and display plans
+  let allPlans = {};
+  const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+  const userPlan = loggedInUser ? loggedInUser.plan : null;
+
+  fetch('http://localhost:3010/plans')
+    .then(response => {
+      console.log('Response status:', response.status);
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      return response.json();
+    })
+    .then(plans => {
+      console.log('Plans received:', plans);
+      allPlans = groupPlansByCategory(plans);
+      console.log('Grouped plans:', allPlans);
+
+      function groupPlansByCategory(plans) {
+        return plans.reduce((acc, plan) => {
+          if (!acc[plan.category]) acc[plan.category] = [];
+          acc[plan.category].push(plan);
+          return acc;
+        }, {});
+      }
+
+      function createPlanCards(containerId, plans) {
+        console.log(`Creating cards for ${containerId} with ${plans.length} plans`);
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        plans.forEach(plan => {
+          const isCurrentPlan = userPlan && userPlan.replace(' Plan', '') === plan.name;
+          const price = plan.name.replace('/-', '');
+          const descParts = (plan.description || '').split('<br>');
+          const validity = descParts[0] || '';
+          const details = descParts[1] || '';
+          const hasNetflix = plan.description && plan.description.includes('Netflix');
+          const hasPrime = plan.description && plan.description.includes('Prime');
+          const hasHotstar = plan.description && plan.description.includes('Hotstar');
+          const isNewPlan = ['379/-', '559/-', '4499/-'].includes(plan.name);
+
+          const card = document.createElement('div');
+          card.className = 'col-md-6 col-lg-3 col-sm-6 mb-3';
+          card.innerHTML = `
+            <div class="card plan-card h-100 position-relative ${isNewPlan ? 'new-plan' : ''}">
+              ${isCurrentPlan ? '<span class="current-plan-badge">Current Plan</span>' : ''}
+              ${isNewPlan ? '<span class="ota-badge bg-danger">NEW</span>' : ''}
+              <div class="card-img-container">
+                <img src="${plan.image || '/Assets/default.jpg'}" alt="${plan.name || 'Plan'}" class="card-img-top img-fluid">
+              </div>
+              <div class="card-body d-flex flex-column">
+                <div class="mb-2">
+                  <h3 class="plan-price mb-0">₹${price}</h3>
+                  <small class="text-muted">${validity}</small>
+                </div>
+                <p class="card-text small">${details}</p>
+                <div class="d-flex mb-2">
+                  ${hasNetflix ? '<img src="/Assets/netflix.png" alt="Netflix" width="30" height="30" class="me-2">' : ''}
+                  ${hasPrime ? '<img src="/Assets/prime.png" alt="Amazon Prime" width="30" height="30" class="me-2">' : ''}
+                  ${hasHotstar ? '<img src="/Assets/hotstarTRN.png" alt="Hotstar" width="30" height="30">' : ''}
+                </div>
+                <a href="${plan.link || '#'}" class="btn btn-recharge mt-auto py-2">Recharge Now</a>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      createPlanCards('popular-plans-container', allPlans.popular || []);
+      createPlanCards('data-plans-container', allPlans.data || []);
+      createPlanCards('offers-container', allPlans.offers || []);
+      createPlanCards('unlimited-plans-container', allPlans.unlimited || []);
+      createPlanCards('validity-plans-container', allPlans.validity || []);
+      createPlanCards('annual-plans-container', allPlans.annual || []);
+    })
+    .catch(error => {
+      console.error('Error fetching plans:', error);
+      document.querySelector('.container').innerHTML += `
+        <div class="alert alert-danger mt-4" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          Error loading plans: ${error.message}. Please try again later.
+        </div>
+      `;
+    });
+</script>
 </body>
 </html>

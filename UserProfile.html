@@ -3,224 +3,658 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
-<link rel="stylesheet" href="css/main.min.css">
-<style>
+    <title>User Profile | Mobi-Comm</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
-        body {
-            font-family: 'Lexend', serif;
-        }
-        .card {
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-        .navbar-toggler {
-            border: none;
-        }
-
-        .navbar-toggler-icon {
-            background-color: transparent;
-          }
-        .navbar-toggler:focus {
-            box-shadow: none;
-        }
-
-        .navbar-toggler-icon::before,
-        .navbar-toggler-icon::after {
-            background-color: white;
-        }
-
-        .navbar-toggler-icon {
-            background-image: none;
-        }
-
-        .navbar-toggler-icon::before,
-        .navbar-toggler-icon::after {
-            content: '';
-            display: block;
-            width: 30px;
-            height: 3px;
-            background-color: white;
-            margin: 6px 0;
+        
+        :root {
+            --primary-color: #0018a1;
+            --secondary-color: #0026ff;
+            --accent-color: #00208a;
+            --light-bg: #f8f9fa;
+            --dark-bg: #212529;
         }
         
+        body { 
+            font-family: 'Lexend', sans-serif; 
+            background-color: #f0f2f5;
+        }
+        
+        .navbar {
+            background-image:  linear-gradient(89.7deg, rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8%);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 25px;
+        }
+        
+        .profile-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-header {
+            background-image: linear-gradient(to right, #355c7d, #0003c4);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .profile-body {
+            padding: 25px;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+        }
+        
+        .plan-details {
+            background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .plan-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .status-active {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+        
+        .status-warning {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+        
+        .status-danger {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+        
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .table thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary {
+            background-image: linear-gradient(to right, #355c7d, #000000);
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-image: linear-gradient(to right, #000000, #355c7d);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .recommendation-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-left: 5px solid var(--accent-color);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .recommendation-card h5 {
+            color: var(--accent-color);
+        }
+        
+        .footer {
+            background-image: linear-gradient(to right, #212529, #343a40);
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        
+        .footer-link:hover {
+            color: #c06c84 !important;
+            text-decoration: underline !important;
+        }
+        
+        .footer-social {
+            transition: transform 0.3s;
+        }
+        
+        .footer-social:hover {
+            transform: scale(1.2);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(53, 92, 125, 0.25);
+        }
+        
+        /* Custom timeline for recharge history */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: #ddd;
+            top: 0;
+            bottom: 0;
+            left: 15px;
+            margin-left: -1px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 100%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            left: 7px;
+            background-color: white;
+            border: 2px solid var(--primary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-content {
+            padding: 15px 20px;
+            background-color: white;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timeline-date {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .usage-chart {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        
+        .usage-progress {
+            height: 100%;
+            background-image: linear-gradient(to right, #335a7c, #000000);
+            width: 75%;
+        }
     </style>
-    <script src="log.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light" style="background-image: linear-gradient( 89.7deg,  rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8% );" id="home">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="HomePage.html">
-                <img src="/Assets/M (1) - Copy.png" alt="" width="70" height="80" class="d-inline-block align-text-center">
-                <span class="text-light">Mobi-Comm</span>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="HomePage.html">
+                <img src="/Assets/M (1) - Copy.png" alt="Mobi-Comm Logo" width="60" height="60" class="d-inline-block align-text-center me-2">
+                <span class="fw-bold">Mobi-Comm</span>
             </a>
             
-            <!-- Profile Icon with Dropdown -->
-            <div class="dropdown ms-auto">
-                <a href="#" class="text-light text-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                    </svg>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                    <li><a class="dropdown-item" href="HomePage.html">Return to Home</a></li>
-                    <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
-                </ul>
-            </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <div class="offcanvas offcanvas-end text-bg-light" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Contents</h5>
-                    <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="HomePage.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/plans.html">All Plans</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" class="text-light" data-bs-toggle="dropdown" aria-expanded="false">
-                                Contact Us!
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-light">
-                                <li><a class="dropdown-item text-dark" href="#"><b>E-mail: </b>Mobicom@tele.ac.in</a></li>
-                                <li><a class="dropdown-item text-dark" href="#"><b>Customer Care: </b>1-800-555-1212</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="HomePage.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="plans.html">Plans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="UserProfile.html">My Profile</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Help
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-headset me-2"></i>Customer Support</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-question-circle me-2"></i>FAQs</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#feedbackModal"><i class="fas fa-comment-dots me-2"></i>Send Feedback</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown ms-2">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle fs-5 me-2"></i>
+                            <span id="nav-user-name">Account</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="UserProfile.html"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">User Profile</h2>
 
-        <!-- User Details Card -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h4 class="card-title">User Details</h4>
-                <div class="row">
-                    <div class="col-md-6">
-                        <p><strong>Name:</strong> <span id="user-name">Loading...</span></p>
-                        <p><strong>Mobile Number:</strong> <span id="user-mobile">Loading...</span></p>
-                        <p><strong>Email:</strong> <span id="user-email">Loading...</span></p>
+    <!-- Main Content -->
+    <div class="container py-5">
+        <div class="row">
+            <!-- Left Column - User Info -->
+            <div class="col-lg-4 mb-4">
+                <!-- User Profile Card -->
+                <div class="profile-section">
+                    <div class="profile-header">
+                        <h4 class="m-0"><i class="fas fa-user-circle me-2"></i>Profile</h4>
+                    </div>
+                    <div class="profile-body text-center">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h4 id="user-name" class="mb-3">Loading...</h4>
+                        <div class="d-flex justify-content-center mb-3">
+                            <span class="badge bg-primary me-2">Premium Member</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted"><i class="fas fa-phone me-2"></i>Mobile:</span>
+                            <span id="user-mobile" class="fw-medium">Loading...</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted"><i class="fas fa-envelope me-2"></i>Email:</span>
+                            <span id="user-email" class="fw-medium">Loading...</span>
+                        </div>
+                        <button class="btn btn-primary mt-4 w-100" data-bs-toggle="collapse" data-bs-target="#editProfileForm" aria-expanded="false">
+                            <i class="fas fa-edit me-2"></i>Edit Profile
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Collapsed Edit Profile Form -->
+                <div class="collapse" id="editProfileForm">
+                    <div class="profile-section">
+                        <div class="profile-header">
+                            <h4 class="m-0"><i class="fas fa-edit me-2"></i>Edit Profile</h4>
+                        </div>
+                        <div class="profile-body">
+                            <form id="edit-profile-form">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">New Password</label>
+                                    <input type="password" class="form-control" id="password" placeholder="Leave blank to keep current">
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-save me-2"></i>Update Profile
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Current Plan Section -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h4 class="card-title">Current Plan</h4>
-                <p id="current-plan" class="card-text">Loading...</p>
-                <p id="plan-status" class="text-info"></p>
-            </div>
-        </div>
-
-        <!-- Recharge History Section -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h4 class="card-title">Recharge History</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Plan</th>
-                            <th>Date</th>
-                            <th>Payment Mode</th>
-                        </tr>
-                    </thead>
-                    <tbody id="recharge-history">
-                        <!-- Recharge history will be populated here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Edit Email Section -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h4 class="card-title">Edit Email</h4>
-                <form id="edit-email-form">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="email" required>
+            
+            <!-- Right Column - Plan & History -->
+            <div class="col-lg-8">
+                <!-- Current Plan Card -->
+                <div class="profile-section">
+                    <div class="profile-header d-flex justify-content-between align-items-center">
+                        <h4 class="m-0"><i class="fas fa-sim-card me-2"></i>Current Plan</h4>
+                        <a href="plans.html" class="btn btn-sm btn-light">Browse Plans</a>
                     </div>
-                    <button type="submit" class="btn btn-gradient text-light w-auto ps-4 pe-4 mt-3 mb-3 rounded-pill">Update Email</button>
-                </form>
+                    <div class="profile-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 id="current-plan" class="mb-2">Loading...</h5>
+                                <div id="plan-status-container">
+                                    <span id="plan-status" class="plan-status status-active">Loading...</span>
+                                </div>
+                                <p id="plan-reminder" class="text-danger mt-2 mb-0"></p>
+                                
+                                <div class="mt-4">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted">Data Usage</span>
+                                        <span>75%</span>
+                                    </div>
+                                    <div class="usage-chart">
+                                        <div class="usage-progress"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mt-3 mt-md-0">
+                                <a href="Recharge.html" class="btn btn-primary">
+                                    <i class="fas fa-sync-alt me-2"></i>Recharge Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recommended Plan Card -->
+                <div class="profile-section recommendation-card">
+                    <div class="profile-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="badge rounded-pill bg-warning text-dark me-2">RECOMMENDED</span>
+                            <h5 class="m-0">Upgrade Your Plan</h5>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <p id="recommended-plan" class="mb-2">Loading recommendation...</p>
+                                <p class="text-muted mb-0 small">Based on your usage patterns and preferences</p>
+                            </div>
+                            <div class="col-md-4 text-center mt-3 mt-md-0">
+                                <a href="plans.html" class="btn btn-outline-primary">
+                                    <i class="fas fa-arrow-up me-1"></i>Upgrade
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recharge History Card -->
+                <div class="profile-section">
+                    <div class="profile-header">
+                        <h4 class="m-0"><i class="fas fa-history me-2"></i>Recharge History</h4>
+                    </div>
+                    <div class="profile-body">
+                        <div class="timeline">
+                            <div id="recharge-history-timeline">
+                                <!-- Timeline items will be inserted here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer text-white py-4">
+        <div class="container">
+            <div class="row gy-4">
+                <!-- Company Info -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="/Assets/M (1).png" alt="Company Logo" width="50" height="50" class="me-2">
+                        <h5 class="m-0">Mobi-Comm</h5>
+                    </div>
+                    <p class="small mb-2">Providing seamless connectivity and innovative solutions since 2025.</p>
+                    <p class="small mb-0">&copy; 2025 Mobi-Comm Ltd. All Rights Reserved.</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="HomePage.html" class="text-white text-decoration-none footer-link"><i class="fas fa-chevron-right me-1 small"></i>Home</a></li>
+                        <li class="mb-2"><a href="plans.html" class="text-white text-decoration-none footer-link"><i class="fas fa-chevron-right me-1 small"></i>Plans</a></li>
+                        <li class="mb-2"><a href="UserProfile.html" class="text-white text-decoration-none footer-link"><i class="fas fa-chevron-right me-1 small"></i>Profile</a></li>
+                        <li><a href="#" class="text-white text-decoration-none footer-link" data-bs-toggle="modal" data-bs-target="#feedbackModal"><i class="fas fa-chevron-right me-1 small"></i>Feedback</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-5 col-md-12">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <div class="d-flex mb-2">
+                        <i class="fas fa-envelope mt-1 me-2"></i>
+                        <div>
+                            <p class="small mb-0">Email:</p>
+                            <a href="mailto:Mobicom@tele.ac.in" class="text-white text-decoration-none">Mobicom@tele.ac.in</a>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-3">
+                        <i class="fas fa-phone-alt mt-1 me-2"></i>
+                        <div>
+                            <p class="small mb-0">Customer Care:</p>
+                            <a href="tel:18005551212" class="text-white text-decoration-none">1-800-555-1212</a>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <a href="#" class="me-3 text-white"><i class="fab fa-twitter fa-lg footer-social"></i></a>
+                        <a href="#" class="me-3 text-white"><i class="fab fa-instagram fa-lg footer-social"></i></a>
+                        <a href="#" class="me-3 text-white"><i class="fab fa-facebook-f fa-lg footer-social"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin-in fa-lg footer-social"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+  
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="feedbackModalLabel">Send Feedback</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="feedbackForm">
+                        <div class="mb-3">
+                            <label for="feedbackEmail" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="feedbackEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackType" class="form-label">Feedback Type</label>
+                            <select class="form-select" id="feedbackType">
+                                <option value="suggestion">Suggestion</option>
+                                <option value="complaint">Complaint</option>
+                                <option value="praise">Praise</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackMessage" class="form-label">Your Feedback</label>
+                            <textarea class="form-control" id="feedbackMessage" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-paper-plane me-2"></i>Submit Feedback
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Fetch logged-in user data from localStorage
+        // Check if user is logged in
         const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
         if (!loggedInUser) {
-            // If no user is logged in, redirect to the login page
             alert('You are not logged in. Redirecting to the login page.');
             window.location.href = "UserLogin.html";
         } else {
-            // Display user details
+            // Update user information
             document.getElementById('user-name').textContent = loggedInUser.name;
+            document.getElementById('nav-user-name').textContent = loggedInUser.name.split(' ')[0];
             document.getElementById('user-mobile').textContent = loggedInUser.mobile;
             document.getElementById('user-email').textContent = loggedInUser.email;
+            document.getElementById('email').value = loggedInUser.email;
 
-            // Display current plan
+            // Current plan information
             const currentPlanElement = document.getElementById('current-plan');
             const planStatusElement = document.getElementById('plan-status');
+            const planStatusContainer = document.getElementById('plan-status-container');
+            const planReminderElement = document.getElementById('plan-reminder');
+            
             currentPlanElement.textContent = `${loggedInUser.plan} (Expires on: ${loggedInUser.expiry})`;
 
-            const currentDate = new Date();
+            const currentDate = new Date('2025-02-26');
             const expiryDate = new Date(loggedInUser.expiry);
+            const threeDaysBefore = new Date(expiryDate);
+            threeDaysBefore.setDate(expiryDate.getDate() - 3);
 
             if (expiryDate < currentDate) {
-                planStatusElement.textContent = "Your plan has expired. Please recharge!";
+                planStatusElement.textContent = "Plan Expired";
+                planStatusElement.className = "plan-status status-danger";
+                planReminderElement.innerHTML = "<i class='fas fa-exclamation-circle me-1'></i> Your plan has expired. Please recharge now to continue services!";
+            } else if (currentDate >= threeDaysBefore) {
+                planStatusElement.textContent = "Expiring Soon";
+                planStatusElement.className = "plan-status status-warning";
+                planReminderElement.innerHTML = "<i class='fas fa-bell me-1'></i> Your plan expires soon! Recharge now to avoid service interruption.";
             } else {
-                planStatusElement.textContent = "Your plan is active.";
+                planStatusElement.textContent = "Active";
+                planStatusElement.className = "plan-status status-active";
+                planReminderElement.textContent = "";
             }
 
-            // Display recharge history
-            const rechargeHistoryElement = document.getElementById('recharge-history');
-            loggedInUser.rechargeHistory.forEach(record => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${record.plan}</td>
-                    <td>${record.date}</td>
-                    <td>${record.payment}</td>
-                `;
-                rechargeHistoryElement.appendChild(row);
-            });
+            // Populate the recharge history timeline
+            const rechargeHistoryContainer = document.getElementById('recharge-history-timeline');
+            
+            if (loggedInUser.rechargeHistory && loggedInUser.rechargeHistory.length > 0) {
+                loggedInUser.rechargeHistory.forEach((record, index) => {
+                    const timelineItem = document.createElement('div');
+                    timelineItem.className = 'timeline-item';
+                    
+                    // Create payment method icon
+                    let paymentIcon = 'credit-card';
+                    if (record.payment === 'UPI') paymentIcon = 'mobile-alt';
+                    else if (record.payment === 'Cash') paymentIcon = 'money-bill-wave';
+                    else if (record.payment === 'Bank Transfer' || record.payment === 'Net Banking') paymentIcon = 'university';
+                    
+                    timelineItem.innerHTML = `
+                        <div class="timeline-content">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <span class="timeline-date"><i class="far fa-calendar-alt me-1"></i>${record.date}</span>
+                                    <h6 class="mt-2 mb-1">${record.plan}</h6>
+                                    <span class="badge bg-light text-dark">
+                                        <i class="fas fa-${paymentIcon} me-1"></i>${record.payment}
+                                    </span>
+                                </div>
+                                <div class="text-end d-none d-md-block">
+                                    <a href="#" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-receipt me-1"></i>Invoice
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    rechargeHistoryContainer.appendChild(timelineItem);
+                });
+            } else {
+                rechargeHistoryContainer.innerHTML = '<p class="text-center text-muted my-4">No recharge history available.</p>';
+            }
 
-            // Update Email Form
-            document.getElementById('edit-email-form').addEventListener('submit', function(event) {
+            // Fetch and recommend plan
+            fetch('applicationData.json')
+                .then(response => response.json())
+                .then(data => {
+                    const plans = Object.values(data.plans).flat();
+                    const currentPlanPrice = parseInt(loggedInUser.plan.match(/\d+/)[0]);
+                    
+                    const recommended = plans.find(plan => {
+                        const planPrice = parseInt(plan.name.match(/\d+/)[0]);
+                        return planPrice > currentPlanPrice && plan.description.includes('Unlimited');
+                    });
+                    
+                    if (recommended) {
+                        const planDescription = recommended.description
+                            .replace(/<br>/g, ' ')
+                            .replace(/<img[^>]*>/g, '')
+                            .replace(/&nbsp;/g, ' ');
+                            
+                        document.getElementById('recommended-plan').innerHTML = `
+                            <strong>${recommended.name}</strong>: ${planDescription}
+                        `;
+                    } else {
+                        document.getElementById('recommended-plan').innerHTML = "You're already on one of our best plans!";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching plan data:', error);
+                    document.getElementById('recommended-plan').textContent = "Unable to load recommendations.";
+                });
+
+            // Handle profile update
+            document.getElementById('edit-profile-form').addEventListener('submit', function(event) {
                 event.preventDefault();
                 const newEmail = document.getElementById('email').value;
+                const newPassword = document.getElementById('password').value;
+                
                 loggedInUser.email = newEmail;
+                if (newPassword) loggedInUser.password = newPassword;
+                
                 localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
                 document.getElementById('user-email').textContent = newEmail;
-                alert('Email updated successfully!');
+                
+                // Show success message
+                const alertElement = document.createElement('div');
+                alertElement.className = 'alert alert-success mt-3';
+                alertElement.innerHTML = '<i class="fas fa-check-circle me-2"></i>Profile updated successfully!';
+                
+                const formElement = document.getElementById('edit-profile-form');
+                formElement.appendChild(alertElement);
+                
+                // Remove alert after 3 seconds
+                setTimeout(() => {
+                    alertElement.remove();
+                    bootstrap.Collapse.getInstance(document.getElementById('editProfileForm')).hide();
+                }, 3000);
             });
         }
 
+        // Handle logout button
         document.getElementById('logoutBtn').addEventListener('click', function() {
-            localStorage.removeItem('loggedInUser'); // Clear user data
-            window.location.href = "HomePage.html"; // Redirect to homepage
+            localStorage.removeItem('loggedInUser');
+            window.location.href = "HomePage.html";
+        });
+        
+        // Handle feedback form submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Show success message
+            const modalBody = this.closest('.modal-body');
+            modalBody.innerHTML = `
+                <div class="text-center py-4">
+                    <div class="mb-3">
+                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h5>Thank You for Your Feedback!</h5>
+                    <p class="mb-4">We appreciate you taking the time to share your thoughts with us.</p>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            `;
         });
     </script>
-        <script src="log.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

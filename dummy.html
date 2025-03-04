@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="Assets/M_logo.jpg">
+    <title>Mobi-Comm Plans</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+        
+        :root {
+            --primary-gradient: linear-gradient(89.7deg, rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8%);
+            --accent-color: #2c85e4;
+            --hover-color: #1a5fa0;
+        }
+        
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-image: url(/Assets/bg-1\ \(6\).jpeg);
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        
+        .navbar, .nav-underline {
+            background-image: var(--primary-gradient);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .filter-container {
+            position: relative;
+            margin-right: 20px;
+        }
+        
+        .filter-dropdown {
+            width: 150px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-dropdown:focus {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
+        
+        .section-heading {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-image: var(--primary-gradient);
+            border-radius: 2px;
+        }
+        
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: none;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-title {
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .plan-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-color);
+        }
+        
+        .plan-validity {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 0.8rem;
+        }
+        
+        .plan-features {
+            padding-left: 0;
+            list-style-type: none;
+        }
+        
+        .plan-features li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .plan-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .btn-gradient {
+            background-image: var(--primary-gradient);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .footer {
+            background-image: var(--primary-gradient);
+            margin-top: 3rem;
+        }
+        
+        .footer-link {
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: #ccc !important;
+        }
+        
+        .footer-social {
+            transition: transform 0.3s;
+        }
+        
+        .footer-social:hover {
+            transform: scale(1.2);
+        }
+        
+        .badge-premium {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #FF9800;
+            color: white;
+            font-size: 0.7rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .badge-popular {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #E91E63;
+            color: white;
+            font-size: 0.7rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .badge-best-value {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 0.7rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .plan-carousel {
+            padding: 2rem 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .featured-plan {
+            border: 2px solid var(--accent-color);
+            transform: scale(1.05);
+        }
+        
+        .platform-icon {
+            display: inline-block;
+            margin-right: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .platform-icon:hover {
+            transform: scale(1.2);
+        }
+        
+        .plan-search {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .plan-search input {
+            padding: 12px 20px;
+            padding-left: 40px;
+            border-radius: 30px;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+        
+        .plan-search i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .plan-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .plan-tab {
+            padding: 8px 20px;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .plan-tab.active {
+            background-image: var(--primary-gradient);
+            color: white;
+        }
+        
+        .plan-comparison {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .plan-details-modal .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+        
+        .plan-details-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .plan-details-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .plan-details-list li:last-child {
+            border-bottom: none;
+        }
+        
+        #recommended-plans {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-icon {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-right: 0.5rem;
+        }
+        
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+        
+        .custom-toast {
+            width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hide-section {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .plan-tabs {
+                justify-content: flex-start;
+            }
+            
+            .section-heading {
+                font-size: 1.5rem;
+            }
+            
+            .filter-dropdown {
+                width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="home">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="HomePage.html">
+                <img src="/Assets/M (1) - Copy.png" alt="Mobi-Comm Logo" width="70" height="80" class="d-inline-block align-text-center animate__animated animate__fadeIn">
+                <span class="text-light ms-2 animate__animated animate__fadeIn">Mobi-Comm</span>
+            </a>
+            <div class="d-none d-lg-flex flex-grow-1 justify-content-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="HomePage.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="plans.html">Plans</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Plan Categories
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#popular_plans">Popular Plans</a></li>
+                            <li><a class="dropdown-item" href="#data_plans">Data Plans</a></li>
+                            <li><a class="dropdown-item" href="#unlimited_plans">Unlimited Plans</a></li>
+                            <li><a class="dropdown-item" href="#validity_plans">Validity Plans</a></li>
+                            <li><a class="dropdown-item" href="#offer_plans">Offers</a></li>
+                            <li><a class="dropdown-item" href="#annual_plans">Annual Plans</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="UserProfile.html">My Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#planComparisonModal">Compare Plans</a></li>
+                    <li class="nav-item"><a class="nav-link" href="HomePage.html#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="d-none d-md-block me-3">
+                <select id="planFilter" class="form-select filter-dropdown animate__animated animate__fadeIn" onchange="applyFilter()">
+                    <option value="all">All Plans</option>
+                    <option value="popular">Popular Plans</option>
+                    <option value="data">Data Plans</option>
+                    <option value="unlimited">Unlimited Plans</option>
+                    <option value="validity">Validity Plans</option>
+                    <option value="offers">Offers</option>
+                    <option value="annual">Annual Plans</option>
+                </select>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="dropdown">
+                    <a href="#" class="text-light me-3 text-decoration-none dropdown-toggle animate__animated animate__fadeIn" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                        <span class="d-none d-md-inline ms-1" id="userName">My Account</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="HomePage.html">Return to Home</a></li>
+                        <li><a class="dropdown-item" href="UserProfile.html">My Profile</a></li>
+                        <li><a class="dropdown-item" href="#" id="myPlansBtn">My Plans</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <div class="container-fluid py-5 text-center text-white animate__animated animate__fadeIn" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/Assets/banner-bg.jpg'); background-size: cover; background-position: center;">
+        <div class="container py-4">
+            <h1 class="display-4 fw-bold mb-3">Find Your Perfect Plan</h1>
+            <p class="lead mb-4">Discover plans that fit your lifestyle with unlimited calls, high-speed data, and exclusive streaming benefits.</p>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="plan-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="planSearchInput" class="form-control" placeholder="Search for plans, data, validity..." onkeyup="searchPlans()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plan Tabs -->
+    <div class="container mt-4">
+        <div class="plan-tabs">
+            <div class="plan-tab active" data-filter="all">All Plans</div>
+            <div class="plan-tab" data-filter="popular">Popular</div>
+            <div class="plan-tab" data-filter="data">Data Plans</div>
+            <div class="plan-tab" data-filter="unlimited">Unlimited</div>
+            <div class="plan-tab" data-filter="validity">Validity</div>
+            <div class="plan-tab" data-filter="offers">Offers</div>
+            <div class="plan-tab" data-filter="annual">Annual</div>
+        </div>
+    </div>
+
+    <!-- Recommended Plans Section -->
+    <div class="container mt-4" id="recommended-plans">
+        <h3 class="text-center mb-4">Recommended For You</h3>
+        <div class="row" id="recommended-plans-container"></div>
+    </div>
+
+    <!-- Plans Sections -->
+    <div class="container mt-5">
+        <h2 class="section-heading" id="popular_plans">Popular Plans</h2>
+        <div class="row" id="popular-plans-container"></div>
+
+        <h2 class="section-heading mt-5" id="data_plans">Data Plans</h2>
+        <div class="row" id="data-plans-container"></div>
+
+        <h2 class="section-heading mt-5" id="offer_plans">Offers</h2>
+        <div class="row" id="offers-container"></div>
+
+        <h2 class="section-heading mt-5" id="unlimited_plans">Unlimited Plans</h2>
+        <div class="row" id="unlimited-plans-container"></div>
+
+        <h2 class="section-heading mt-5" id="validity_plans">Validity Plans</h2>
+        <div class="row" id="validity-plans-container"></div>
+
+        <h2 class="section-heading mt-5" id="annual_plans">Annual Plans</h2>
+        <div class="row" id="annual-plans-container"></div>
+    </div>
+
+    <!-- Plan Comparison Section -->
+    <div class="container mt-5">
+        <div class="plan-comparison">
+            <h2 class="text-center mb-4">Find Your Perfect Plan</h2>
+            <p class="text-center mb-4">Not sure which plan is right for you? Answer a few questions and we'll suggest the best options.</p>
+            <form id="planFinderForm">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label class="form-label">How much data do you use daily?</label>
+                            <select class="form-select" id="dataUsage">
+                                <option value="light">Light (up to 1GB)</option>
+                                <option value="moderate" selected>Moderate (1-2GB)</option>
+                                <option value="heavy">Heavy (2-3GB)</option>
+                                <option value="unlimited">Very Heavy (3GB+)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Preferred validity period:</label>
+                            <select class="form-select" id="validityPeriod">
+                                <option value="28">28 days</option>
+                                <option value="54" selected>54 days</option>
+                                <option value="84">84 days</option>
+                                <option value="365">365 days (Annual)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Streaming services required:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="netflix" id="netflixCheck" checked>
+                                <label class="form-check-label" for="netflixCheck">Netflix</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="prime" id="primeCheck" checked>
+                                <label class="form-check-label" for="primeCheck">Amazon Prime</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="hotstar" id="hotstarCheck">
+                                <label class="form-check-label" for="hotstarCheck">Hotstar</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Budget range:</label>
+                            <select class="form-select" id="budgetRange">
+                                <option value="low">Economy (Below ₹400)</option>
+                                <option value="medium" selected>Standard (₹400-₹700)</option>
+                                <option value="high">Premium (Above ₹700)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-gradient w-100" onclick="findMatchingPlans()">Find My Plan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Plan Comparison Modal -->
+    <div class="modal fade" id="planComparisonModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Compare Plans</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <select class="form-select" id="plan1Select">
+                                <option value="">Select first plan</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-select" id="plan2Select">
+                                <option value="">Select second plan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Plan 1</th>
+                                    <th>Plan 2</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparisonTableBody">
+                                <tr>
+                                    <td>Price</td>
+                                    <td id="comp-price-1">-</td>
+                                    <td id="comp-price-2">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Validity</td>
+                                    <td id="comp-validity-1">-</td>
+                                    <td id="comp-validity-2">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Data</td>
+                                    <td id="comp-data-1">-</td>
+                                    <td id="comp-data-2">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Streaming Benefits</td>
+                                    <td id="comp-streaming-1">-</td>
+                                    <td id="comp-streaming-2">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plan Details Modal -->
+    <div class="modal fade" id="planDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="planModalTitle">Plan Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <h3 class="plan-price mb-0" id="modalPlanPrice">₹599</h3>
+                        <p class="plan-validity" id="modalPlanValidity">Validity: 28 days</p>
+                    </div>
+                    <h6 class="fw-bold">Plan Benefits:</h6>
+                    <ul class="plan-details-list" id="modalPlanBenefits"></ul>
+                    <h6 class="fw-bold mt-3">Streaming Benefits:</h6>
+                    <div class="text-center mb-3" id="modalStreamingBenefits"></div>
+                    <h6 class="fw-bold">Terms & Conditions:</h6>
+                    <p class="small">This plan is subject to standard terms and conditions. For more details, please refer to our Terms of Service. Streaming benefits are valid for the duration of the plan.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="#" class="btn btn-gradient" id="modalRechargeBtn">Recharge Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast for Recommendations -->
+    <div class="toast-container">
+        <div class="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true" id="recommendationToast">
+            <div class="toast-header">
+                <strong class="me-auto"><i class="fas fa-lightbulb text-warning me-2"></i> Smart Recommendation</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Based on your preferences, we recommend the ₹799 plan for the best value.
+            </div>
+        </div>
+    </div>
+
+    <!-- User's Current Plan Modal -->
+    <div class="modal fade" id="currentPlanModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">My Current Plan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="card-title mb-0" id="currentPlanName">599/- Plan</h5>
+                                <span class="badge bg-success" id="currentPlanStatus">Active</span>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <p class="mb-1 text-muted">Validity</p>
+                                    <p class="fw-bold" id="currentPlanExpiry">Expires: 18/02/2025</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-1 text-muted">Mobile Number</p>
+                                    <p class="fw-bold" id="currentPlanMobile">8974837291</p>
+                                </div>
+                            </div>
+                            <div class="progress mb-3" style="height: 10px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="small text-muted">18 days remaining</p>
+                            <hr>
+                            <h6 class="fw-bold">Data Balance</h6>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span id="currentPlanDataUsed">1.2 GB used today</span>
+                                <span id="currentPlanDataLeft">25.8 GB left</span>
+                            </div>
+                            <div class="progress mb-3" style="height: 10px;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <hr>
+                            <h6 class="fw-bold">Benefits</h6>
+                            <ul class="plan-features">
+                                <li>Unlimited Voice Calls</li>
+                                <li>100 SMS/day</li>
+                                <li>Netflix Basic Subscription</li>
+                                <li>Amazon Prime Video</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-gradient" data-bs-toggle="modal" data-bs-target="#planComparisonModal">Find Better Plans</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-white pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3">Mobi-Comm</h5>
+                    <p class="small">Connecting you to what matters most. Experience the next generation of mobile connectivity with our cutting-edge plans and exceptional service.</p>
+                    <div class="mt-3">
+                        <a href="#" class="text-light me-3 footer-social"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light me-3 footer-social"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light me-3 footer-social"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light footer-social"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6 class="mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="HomePage.html" class="text-light text-decoration-none footer-link">Home</a></li>
+                        <li class="mb-2"><a href="plans.html" class="text-light text-decoration-none footer-link">Plans</a></li>
+                        <li class="mb-2"><a href="UserProfile.html" class="text-light text-decoration-none footer-link">My Account</a></li>
+                        <li class="mb-2"><a href="#" class="text-light text-decoration-none footer-link">Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="mb-3">Popular Categories</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#data_plans" class="text-light text-decoration-none footer-link">Data Plans</a></li>
+                        <li class="mb-2"><a href="#unlimited_plans" class="text-light text-decoration-none footer-link">Unlimited Plans</a></li>
+                        <li class="mb-2"><a href="#annual_plans" class="text-light text-decoration-none footer-link">Annual Plans</a></li>
+                        <li class="mb-2"><a href="#offer_plans" class="text-light text-decoration-none footer-link">Special Offers</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="mb-3">Contact Us</h6>
+                    <p class="small mb-1"><i class="fas fa-envelope me-2"></i> support@mobicomm.com</p>
+                    <p class="small mb-1"><i class="fas fa-phone-alt me-2"></i> 1800-123-4567</p>
+                    <p class="small mb-3"><i class="fas fa-map-marker-alt me-2"></i> 123 Tech Park, Silicon Valley</p>
+                    <a href="#" class="btn btn-outline-light btn-sm">Contact Support</a>
+                </div>
+            </div>
+            <hr class="my-4 bg-light opacity-25">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="small mb-0">© 2025 Mobi-Comm. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-light text-decoration-none small footer-link me-3">Privacy Policy</a>
+                    <a href="#" class="text-light text-decoration-none small footer-link me-3">Terms of Service</a>
+                    <a href="#" class="text-light text-decoration-none small footer-link">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let plansData = [];
+
+        // Fetch data from the JSON file
+        async function fetchPlansData() {
+            try {
+                const response = await fetch('applicationData.json'); // Adjust path as needed
+                const jsonData = await response.json();
+
+                // Process the 'plans' section into a unified array
+                plansData = [];
+                let idCounter = 1;
+
+                Object.keys(jsonData.plans).forEach(category => {
+                    jsonData.plans[category].forEach(plan => {
+                        const price = parseInt(plan.name.replace(/[^0-9]/g, ''));
+                        const validityMatch = plan.description.match(/Validity: (\d+) Days/);
+                        const validity = validityMatch ? parseInt(validityMatch[1]) : 0;
+                        const dataMatch = plan.description.match(/(\d+(\.\d+)?\s*(GB|Unlimited)\s*(Data)?\/?day)/i);
+                        const data = dataMatch ? dataMatch[0] : 'Unlimited';
+                        const streaming = [];
+                        if (plan.description.includes('Netflix')) streaming.push('netflix');
+                        if (plan.description.includes('Amazon Prime')) streaming.push('prime');
+                        if (plan.description.includes('Hotstar')) streaming.push('hotstar');
+
+                        plansData.push({
+                            id: idCounter++,
+                            name: plan.name,
+                            price: price,
+                            validity: validity,
+                            data: data,
+                            dataValue: data.includes('Unlimited') ? Infinity : (parseFloat(data) || 0) * validity,
+                            calls: plan.description.includes('Unlimited Calls') ? 'Unlimited' : 'Pay as you go',
+                            sms: '100 SMS/day', // Assumed default
+                            streaming: streaming,
+                            category: category,
+                            badge: category === 'popular' ? 'popular' : (price >= 1000 ? 'premium' : null),
+                            features: plan.description.split('<br>').filter(f => !f.includes('Validity') && !f.includes('img'))
+                        });
+                    });
+                });
+                console.log('Plans Data Loaded:', plansData); // Debugging
+            } catch (error) {
+                console.error('Error loading plans data:', error);
+                alert('Failed to load plans data. Please try again later.');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async function() {
+            await fetchPlansData();
+
+            loadPlansIntoContainers();
+            populateComparisonDropdowns();
+            
+            document.querySelectorAll('.plan-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    const filter = this.getAttribute('data-filter');
+                    document.getElementById('planFilter').value = filter;
+                    applyFilter(filter);
+                });
+            });
+            
+            loadRecommendedPlans();
+            
+            setTimeout(() => {
+                const toast = new bootstrap.Toast(document.getElementById('recommendationToast'));
+                toast.show();
+            }, 3000);
+            
+            document.getElementById('plan1Select').addEventListener('change', comparePlans);
+            document.getElementById('plan2Select').addEventListener('change', comparePlans);
+            
+            document.getElementById('myPlansBtn').addEventListener('click', function() {
+                const currentPlanModal = new bootstrap.Modal(document.getElementById('currentPlanModal'));
+                currentPlanModal.show();
+            });
+        });
+
+        function loadPlansIntoContainers() {
+            const containers = {
+                popular: document.getElementById('popular-plans-container'),
+                data: document.getElementById('data-plans-container'),
+                unlimited: document.getElementById('unlimited-plans-container'),
+                validity: document.getElementById('validity-plans-container'),
+                offers: document.getElementById('offers-container'),
+                annual: document.getElementById('annual-plans-container')
+            };
+            
+            Object.values(containers).forEach(container => container.innerHTML = '');
+            
+            plansData.forEach(plan => {
+                const planCard = createPlanCard(plan);
+                if (containers[plan.category]) {
+                    containers[plan.category].appendChild(planCard.cloneNode(true));
+                }
+            });
+            
+            document.querySelectorAll('.view-details-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const planId = this.getAttribute('data-plan-id');
+                    showPlanDetails(planId);
+                });
+            });
+        }
+
+        function createPlanCard(plan) {
+            const div = document.createElement('div');
+            div.className = 'col-md-4 plan-card';
+            div.setAttribute('data-category', plan.category);
+            div.setAttribute('data-price', plan.price);
+            div.setAttribute('data-validity', plan.validity);
+            div.setAttribute('data-search-terms', `${plan.name} ${plan.price} ${plan.data} ${plan.validity} ${plan.category}`);
+            
+            let badgeHTML = '';
+            if (plan.badge) {
+                const badgeText = plan.badge === 'popular' ? 'Popular' : 'Premium';
+                const badgeClass = plan.badge === 'popular' ? 'badge-popular' : 'badge-premium';
+                badgeHTML = `<span class="${badgeClass}">${badgeText}</span>`;
+            }
+            
+            let streamingIcons = '';
+            if (plan.streaming.includes('netflix')) streamingIcons += '<span class="platform-icon me-2" title="Netflix"><i class="fab fa-netflix text-danger"></i></span>';
+            if (plan.streaming.includes('prime')) streamingIcons += '<span class="platform-icon me-2" title="Amazon Prime"><i class="fab fa-amazon text-warning"></i></span>';
+            if (plan.streaming.includes('hotstar')) streamingIcons += '<span class="platform-icon" title="Hotstar"><i class="fas fa-play-circle text-info"></i></span>';
+            
+            div.innerHTML = `
+                <div class="card h-100 ${plan.badge === 'best-value' ? 'featured-plan' : ''}">
+                    ${badgeHTML}
+                    <div class="card-body">
+                        <h5 class="card-title">${plan.name}</h5>
+                        <h3 class="plan-price">₹${plan.price}</h3>
+                        <p class="plan-validity">Validity: ${plan.validity} day${plan.validity !== 1 ? 's' : ''}</p>
+                        <ul class="plan-features">
+                            <li><i class="feature-icon fas fa-wifi"></i> ${plan.data}</li>
+                            <li><i class="feature-icon fas fa-phone-alt"></i> ${plan.calls}</li>
+                            <li><i class="feature-icon fas fa-comment-alt"></i> ${plan.sms}</li>
+                        </ul>
+                        ${streamingIcons ? `<div class="streaming-icons mb-3">${streamingIcons}</div>` : ''}
+                        <a href="#" class="btn btn-outline-primary btn-sm w-100 mb-2 view-details-btn" data-plan-id="${plan.id}">View Details</a>
+                        <a href="#" class="btn btn-gradient btn-sm w-100">Recharge Now</a>
+                    </div>
+                </div>
+            `;
+            return div;
+        }
+
+        function applyFilter(filter = null) {
+            if (!filter) filter = document.getElementById('planFilter').value;
+            const sections = ['popular_plans', 'data_plans', 'unlimited_plans', 'validity_plans', 'offer_plans', 'annual_plans'];
+            
+            if (filter === 'all') {
+                sections.forEach(section => document.getElementById(section).closest('.container > div').classList.remove('hide-section'));
+            } else {
+                sections.forEach(section => {
+                    if (section === `${filter}_plans`) {
+                        document.getElementById(section).closest('.container > div').classList.remove('hide-section');
+                    } else {
+                        document.getElementById(section).closest('.container > div').classList.add('hide-section');
+                    }
+                });
+            }
+        }
+
+        function searchPlans() {
+            const searchText = document.getElementById('planSearchInput').value.toLowerCase();
+            document.querySelectorAll('.plan-card').forEach(card => {
+                const searchTerms = card.getAttribute('data-search-terms').toLowerCase();
+                card.style.display = (searchText === '' || searchTerms.includes(searchText)) ? 'block' : 'none';
+            });
+            if (searchText !== '') {
+                document.querySelectorAll('.section-heading').forEach(heading => heading.closest('.container > div').classList.remove('hide-section'));
+            } else {
+                applyFilter();
+            }
+        }
+
+        function loadRecommendedPlans() {
+            const recommendedContainer = document.getElementById('recommended-plans-container');
+            recommendedContainer.innerHTML = '';
+            const recommendedPlans = plansData.filter(p => p.badge === 'popular' || p.price > 700).slice(0, 3);
+            
+            recommendedPlans.forEach(plan => {
+                const planCard = createPlanCard(plan);
+                recommendedContainer.appendChild(planCard);
+            });
+            
+            document.querySelectorAll('#recommended-plans-container .view-details-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const planId = this.getAttribute('data-plan-id');
+                    showPlanDetails(planId);
+                });
+            });
+        }
+
+        function showPlanDetails(planId) {
+            const plan = plansData.find(p => p.id == planId);
+            if (plan) {
+                document.getElementById('planModalTitle').textContent = `${plan.name} Plan Details`;
+                document.getElementById('modalPlanPrice').textContent = `₹${plan.price}`;
+                document.getElementById('modalPlanValidity').textContent = `Validity: ${plan.validity} day${plan.validity !== 1 ? 's' : ''}`;
+                
+                const benefitsList = document.getElementById('modalPlanBenefits');
+                benefitsList.innerHTML = `
+                    <li><strong>Data:</strong> ${plan.data}</li>
+                    <li><strong>Calls:</strong> ${plan.calls}</li>
+                    <li><strong>SMS:</strong> ${plan.sms}</li>
+                `;
+                plan.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.textContent = feature;
+                    benefitsList.appendChild(li);
+                });
+                
+                const streamingBenefits = document.getElementById('modalStreamingBenefits');
+                streamingBenefits.innerHTML = plan.streaming.length === 0 ? '<p>No streaming benefits included</p>' : '';
+                if (plan.streaming.includes('netflix')) streamingBenefits.innerHTML += '<span class="platform-icon me-3" title="Netflix"><i class="fab fa-netflix text-danger fa-2x"></i></span>';
+                if (plan.streaming.includes('prime')) streamingBenefits.innerHTML += '<span class="platform-icon me-3" title="Amazon Prime"><i class="fab fa-amazon text-warning fa-2x"></i></span>';
+                if (plan.streaming.includes('hotstar')) streamingBenefits.innerHTML += '<span class="platform-icon" title="Hotstar"><i class="fas fa-play-circle text-info fa-2x"></i></span>';
+                
+                document.getElementById('modalRechargeBtn').setAttribute('href', `#recharge-${planId}`);
+                
+                const planDetailsModal = new bootstrap.Modal(document.getElementById('planDetailsModal'));
+                planDetailsModal.show();
+            }
+        }
+
+        function populateComparisonDropdowns() {
+            const plan1Select = document.getElementById('plan1Select');
+            const plan2Select = document.getElementById('plan2Select');
+            plan1Select.innerHTML = '<option value="">Select first plan</option>';
+            plan2Select.innerHTML = '<option value="">Select second plan</option>';
+            
+            plansData.forEach(plan => {
+                const option = document.createElement('option');
+                option.value = plan.id;
+                option.textContent = `${plan.name} - ₹${plan.price} (${plan.validity} days)`;
+                plan1Select.appendChild(option.cloneNode(true));
+                plan2Select.appendChild(option.cloneNode(true));
+            });
+        }
+
+        function comparePlans() {
+            const plan1Id = document.getElementById('plan1Select').value;
+            const plan2Id = document.getElementById('plan2Select').value;
+            if (plan1Id && plan2Id) {
+                const plan1 = plansData.find(p => p.id == plan1Id);
+                const plan2 = plansData.find(p => p.id == plan2Id);
+                
+                document.getElementById('comp-price-1').textContent = `₹${plan1.price}`;
+                document.getElementById('comp-price-2').textContent = `₹${plan2.price}`;
+                document.getElementById('comp-validity-1').textContent = `${plan1.validity} days`;
+                document.getElementById('comp-validity-2').textContent = `${plan2.validity} days`;
+                document.getElementById('comp-data-1').textContent = plan1.data;
+                document.getElementById('comp-data-2').textContent = plan2.data;
+                
+                const streaming1 = plan1.streaming.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ') || 'None';
+                const streaming2 = plan2.streaming.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ') || 'None';
+                document.getElementById('comp-streaming-1').textContent = streaming1;
+                document.getElementById('comp-streaming-2').textContent = streaming2;
+            }
+        }
+
+        function findMatchingPlans() {
+            const dataUsage = document.getElementById('dataUsage').value;
+            const validityPeriod = parseInt(document.getElementById('validityPeriod').value);
+            const netflixRequired = document.getElementById('netflixCheck').checked;
+            const primeRequired = document.getElementById('primeCheck').checked;
+            const hotstarRequired = document.getElementById('hotstarCheck').checked;
+            const budgetRange = document.getElementById('budgetRange').value;
+            
+            let filteredPlans = plansData.filter(plan => {
+                if (Math.abs(plan.validity - validityPeriod) > 15) return false;
+                if (netflixRequired && !plan.streaming.includes('netflix')) return false;
+                if (primeRequired && !plan.streaming.includes('prime')) return false;
+                if (hotstarRequired && !plan.streaming.includes('hotstar')) return false;
+                
+                if (budgetRange === 'low' && plan.price > 400) return false;
+                if (budgetRange === 'medium' && (plan.price < 400 || plan.price > 700)) return false;
+                if (budgetRange === 'high' && plan.price < 700) return false;
+                
+                let dailyData = plan.data.includes('Unlimited') ? Infinity : parseFloat(plan.data) || 0;
+                if (dataUsage === 'light' && dailyData <= 1) return true;
+                if (dataUsage === 'moderate' && dailyData >= 1 && dailyData <= 2) return true;
+                if (dataUsage === 'heavy' && dailyData >= 2 && dailyData <= 3) return true;
+                if (dataUsage === 'unlimited' && dailyData > 3) return true;
+                
+                return true;
+            });
+            
+            filteredPlans.sort((a, b) => (a.price / a.validity) - (b.price / b.validity));
+            filteredPlans = filteredPlans.slice(0, 3);
+            
+            const recommendedContainer = document.getElementById('recommended-plans-container');
+            recommendedContainer.innerHTML = filteredPlans.length === 0 ? '<p class="text-center">No matching plans found.</p>' : '';
+            
+            filteredPlans.forEach(plan => {
+                const planCard = createPlanCard(plan);
+                recommendedContainer.appendChild(planCard);
+            });
+            
+            document.querySelectorAll('#recommended-plans-container .view-details-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const planId = this.getAttribute('data-plan-id');
+                    showPlanDetails(planId);
+                });
+            });
+            
+            if (filteredPlans.length > 0) document.getElementById('recommended-plans').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            alert('Logout functionality would be implemented here.');
+        });
+    </script>
+</body>
+</html>
