@@ -429,22 +429,6 @@
             });
         });
 
-        async function fetchPlansFromServer() {
-    try {
-        let plans = localStorage.getItem('updatedPlans');
-        if (plans) {
-            plans = JSON.parse(plans);
-        } else {
-            const response = await fetch('http://localhost:3010/plans');
-            if (!response.ok) throw new Error('Failed to fetch plans');
-            plans = await response.json();
-        }
-        displayPlansByCategory(plans);
-    } catch (error) {
-        console.error('Error fetching plans:', error);
-    }
-}
-
         // Scroll to top button
         const scrollToTopBtn = document.getElementById('scrollToTop');
         window.addEventListener('scroll', () => {

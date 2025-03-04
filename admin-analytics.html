@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard | Mobi-Comm</title>
+    <link rel="icon" type="image/jpg" href="Assets/M_logo.jpg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+        body { 
+            font-family: 'Lexend', sans-serif; 
+            background-color: #f5f5f8;
+        }
+        .sidebar {
+            background-image: linear-gradient(180deg, #1a237e 0%, #283593 100%);
+            min-height: 100vh;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 250px;
+            z-index: 1000;
+        }
+        .sidebar a {
+            padding: 12px 15px;
+            display: block;
+            transition: all 0.3s;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+        .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        .sidebar a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid #fff;
+        }
+        .card, .chart-container {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover, .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        .btn-gradient {
+            background: linear-gradient(45deg, #3949ab, #1e88e5);
+            color: white;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 6px 15px;
+            font-size: 14px;
+        }
+        .btn-gradient:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 102, 255, 0.3);
+            color: white;
+        }
+        .stat-card {
+            border-radius: 10px;
+            border-left: 5px solid;
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .tab-content {
+            padding: 20px 0;
+        }
+        .nav-pills .nav-link {
+            border-radius: 30px;
+            padding: 8px 20px;
+            margin-right: 10px;
+            color: #3949ab;
+            background-color: rgba(57, 73, 171, 0.1);
+            transition: all 0.3s ease;
+        }
+        .nav-pills .nav-link.active {
+            background: linear-gradient(45deg, #3949ab, #1e88e5);
+            color: white;
+            box-shadow: 0 4px 10px rgba(57, 73, 171, 0.3);
+        }
+        .nav-pills .nav-link:hover:not(.active) {
+            background-color: rgba(57, 73, 171, 0.2);
+        }
+        .filter-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .date-range-picker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #424242;
+        }
+        .kpi-badge {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .kpi-badge.positive {
+            color: #4caf50;
+        }
+        .kpi-badge.negative {
+            color: #f44336;
+        }
+        .table-header {
+            background-color: #f5f5f8;
+            font-weight: 600;
+        }
+        .heat-map-cell {
+            width: 30px;
+            height: 30px;
+            margin: 2px;
+            border-radius: 3px;
+        }
+        .legend {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            justify-content: flex-end;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+            font-size: 12px;
+        }
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar text-white p-4" id="sidebar">
+            <div class="d-flex align-items-center mb-4">
+                <a class="navbar-brand" href="HomePage.html">
+                    <img src="/api/placeholder/60/60" alt="Mobi-Comm Logo" width="60" height="60" class="d-inline-block align-text-center">
+                    <span class="text-light fw-bold">Mobi-Comm</span>
+                </a>
+            </div>
+            <nav>
+                <ul class="list-unstyled">
+                    <li><a href="AdminDashboard.html" class="text-white text-decoration-none"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                    <li><a href="#" class="text-white text-decoration-none"><i class="fas fa-user me-2"></i> Profile</a></li>
+                    <li><a href="AdminPlansManagement.html" class="text-white text-decoration-none"><i class="fas fa-clipboard-list me-2"></i> Manage Plans</a></li>
+                    <li><a href="AdminAnalytics.html" class="text-white text-decoration-none active"><i class="fas fa-chart-line me-2"></i> View Analytics</a></li>
+                    <li><a href="#" class="text-white text-decoration-none" onclick="showAllUsers()"><i class="fas fa-users me-2"></i> All Users</a></li>
+                    <li><a href="#" class="text-white text-decoration-none" id="logoutButton"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                </ul>
+            </nav>
+            <div class="mt-auto pt-5">
+                <div class="d-flex align-items-center">
+                    <div class="user-avatar me-2">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0">Admin</h6>
+                        <small class="text-light opacity-75">Super Admin</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h4 fw-bold">Analytics Dashboard</h2>
+                <div>
+                    <span class="text-muted me-2">Last updated: Feb 26, 2025</span>
+                    <button class="btn btn-sm btn-outline-secondary" id="refreshButton"><i class="fas fa-sync-alt"></i></button>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-card mb-4">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label small fw-bold">Date Range</label>
+                        <div class="date-range-picker">
+                            <select class="form-select form-select-sm" id="dateRangeSelect">
+                                <option value="7">Last 7 days</option>
+                                <option value="30" selected>Last 30 days</option>
+                                <option value="90">Last 90 days</option>
+                                <option value="180">Last 6 months</option>
+                                <option value="365">Last 12 months</option>
+                                <option value="custom">Custom Range</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small fw-bold">Plan Type</label>
+                        <select class="form-select form-select-sm" id="planTypeFilter">
+                            <option value="all" selected>All Plans</option>
+                            <option value="299">299/- Plan</option>
+                            <option value="399">399/- Plan</option>
+                            <option value="599">599/- Plan</option>
+                            <option value="799">799/- Plan</option>
+                            <option value="999">999/- Plan</option>
+                            <option value="1299">1299/- Plan</option>
+                            <option value="1399">1399/- Plan</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small fw-bold">Region</label>
+                        <select class="form-select form-select-sm" id="regionFilter">
+                            <option value="all" selected>All Regions</option>
+                            <option value="north">North India</option>
+                            <option value="south">South India</option>
+                            <option value="east">East India</option>
+                            <option value="west">West India</option>
+                            <option value="central">Central India</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small fw-bold">User Status</label>
+                        <select class="form-select form-select-sm" id="userStatusFilter">
+                            <option value="all" selected>All Users</option>
+                            <option value="active">Active Users</option>
+                            <option value="inactive">Inactive Users</option>
+                            <option value="expiring">Expiring Soon</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-gradient w-100" id="applyFiltersBtn">
+                            <i class="fas fa-filter me-1"></i> Apply Filters
+                        </button>
+                    </div>
+                </div>
+                <div id="customDateRange" style="display: none;" class="mt-3">
+                    <div class="row g-2">
+                        <div class="col-md-5">
+                            <label class="form-label small fw-bold">Start Date</label>
+                            <input type="date" class="form-control form-control-sm" id="startDate" value="2025-01-26">
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label small fw-bold">End Date</label>
+                            <input type="date" class="form-control form-control-sm" id="endDate" value="2025-02-26">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-xl-3 col-md-6 mb-3">
+                    <div class="card stat-card h-100" style="border-left-color: #4caf50;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2 class="h5 fw-bold" id="totalRevenue">₹15,45,280</h2>
+                                    <p class="text-muted mb-0">Total Revenue</p>
+                                </div>
+                                <div class="text-success bg-success bg-opacity-10 p-3 rounded">
+                                    <i class="fas fa-rupee-sign"></i>
+                                </div>
+                            </div>
+                            <div class="kpi-badge positive">
+                                <i class="fas fa-arrow-up me-1"></i> <span>+12.3% from previous period</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-3">
+                    <div class="card stat-card h-100" style="border-left-color: #2196f3;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2 class="h5 fw-bold" id="newSubscribers">376</h2>
+                                    <p class="text-muted mb-0">New Subscribers</p>
+                                </div>
+                                <div class="text-primary bg-primary bg-opacity-10 p-3 rounded">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                            </div>
+                            <div class="kpi-badge positive">
+                                <i class="fas fa-arrow-up me-1"></i> <span>+8.7% from previous period</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-3">
+                    <div class="card stat-card h-100" style="border-left-color: #f44336;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2 class="h5 fw-bold" id="churnRate">5.2%</h2>
+                                    <p class="text-muted mb-0">Churn Rate</p>
+                                </div>
+                                <div class="text-danger bg-danger bg-opacity-10 p-3 rounded">
+                                    <i class="fas fa-user-minus"></i>
+                                </div>
+                            </div>
+                            <div class="kpi-badge negative">
+                                <i class="fas fa-arrow-up me-1"></i> <span>+1.2% from previous period</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-3">
+                    <div class="card stat-card h-100" style="border-left-color: #ff9800;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2 class="h5 fw-bold" id="avgRevenue">₹542</h2>
+                                    <p class="text-muted mb-0">Avg. Revenue Per User</p>
+                                </div>
+                                <div class="text-warning bg-warning bg-opacity-10 p-3 rounded">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                            </div>
+                            <div class="kpi-badge positive">
+                                <i class="fas fa-arrow-up me-1"></i> <span>+3.8% from previous period</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tabs -->
+            <ul class="nav nav-pills mb-3" id="analyticsTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="revenue-tab" data-bs-toggle="pill" data-bs-target="#revenue-tab-pane" type="button" role="tab">Revenue</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="subscribers-tab" data-bs-toggle="pill" data-bs-target="#subscribers-tab-pane" type="button" role="tab">Subscribers</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="plans-tab" data-bs-toggle="pill" data-bs-target="#plans-tab-pane" type="button" role="tab">Plan Performance</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="retention-tab" data-bs-toggle="pill" data-bs-target="#retention-tab-pane" type="button" role="tab">Retention</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="analyticsTabContent">
+                <!-- Revenue Tab -->
+                <div class="tab-pane fade show active" id="revenue-tab-pane" role="tabpanel" aria-labelledby="revenue-tab" tabindex="0">
+                    <div class="row">
+                        <div class="col-xl-8 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold">Revenue Trend</h5>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-secondary me-1">Daily</button>
+                                        <button class="btn btn-sm btn-gradient">Monthly</button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="revenueChart" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="mb-0 fw-bold">Revenue by Plan</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="revenuePieChart" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="mb-0 fw-bold">Payment Method Distribution</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="paymentMethodChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold">Regional Revenue</h5>
+                                    <select class="form-select form-select-sm" style="width: auto;">
+                                        <option>By State</option>
+                                        <option selected>By Region</option>
+                                    </select>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="regionalRevenueChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subscribers Tab -->
+                <div class="tab-pane fade" id="subscribers-tab-pane" role="tabpanel" aria-labelledby="subscribers-tab" tabindex="0">
+                    <div class="row">
+                        <div class="col-xl-8 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="mb-0 fw-bold">Subscriber Growth</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="subscriberGrowthChart" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="mb-0 fw-bold">Acquisition Channels</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="acquisitionChart" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="mb-0 fw-bold">Age Distribution</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="ageDistributionChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="mb-0 fw-bold">Subscriber Status</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="subscriberStatusChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plan Performance Tab -->
+                <div class="tab-pane fade" id="plans-tab-pane" role="tabpanel" aria-labelledby="plans-tab" tabindex="0">
+                    <div class="row">
+                        <div class="col-xl-7 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="mb-0 fw-bold">Plan Popularity Trend</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="planPopularityChart" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="mb-0 fw-bold">Plan Distribution</h5>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead class="table-header">
+                                            <tr>
+                                                <th>Plan</th>
+                                                <th>Subscribers</th>
+                                                <th>Revenue</th>
+                                                <th>Growth</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>299/- Plan</strong></td>
+                                                <td>548</td>
+                                                <td>₹1,63,852</td>
+                                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 6.2%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>399/- Plan</strong></td>
+                                                <td>723</td>
+                                                <td>₹2,88,477</td>
+                                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 8.7%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>599/- Plan</strong></td>
+                                                <td>421</td>
+                                                <td>₹2,52,179</td>
+                                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 4.1%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>799/- Plan</strong></td>
+                                                <td>285</td>
+                                                <td>₹2,27,715</td>
+                                                <td><span class="text-danger"><i class="fas fa-arrow-down"></i> 2.3%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>999/- Plan</strong></td>
+                                                <td>389</td>
+                                                <td>₹3,88,611</td>
+                                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 9.5%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>1299/- Plan</strong></td>
+                                                <td>143</td>
+                                                <td>₹1,85,757</td>
+                                                <td><span class="text-success"><i class="fas fa-arrow-up"></i> 3.8%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>1399/- Plan</strong></td>
+                                                <td>98</td>
+                                                <td>₹1,37,102</td>
+                                                <td><span class="text-danger"><i class="fas fa-arrow-down"></i> 1.7%</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="mb-0 fw-bold">Plan Upgrades & Downgrades</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="planMigrationChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white py-3">
+                                    <h5 class="mb-0 fw-bold">Plan Recharge Frequency</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="rechargeFrequencyChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Retention Tab -->
+                <div class="tab-pane fade" id="retention-tab-pane" role="tabpanel" aria-labelledby="retention-tab" tabindex="0">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold">Customer Retention Cohort Analysis</h5>
+                                    <select class="form-select form-select-sm" style="width: auto;">
+                                        <option selected>Monthly Cohorts</option>
+                                        <option>Quarterly Cohorts</option>
+                                    </select>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead class="table-header">
+                                                <tr>
+                                                    <th>Cohort</th>
+                                                    <th>Size</th>
+                                                    <th>Month 1</th>
+                                                    <th>Month 2</th>
+                                                    <th>Month 3</th>
+                                                    <th>Month 4</th>
+                                                    <th>Month 5</th>
+                                                    <th>Month 6</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><strong>Sep 2024</strong></td>
+                                                    <td>284</td>
+                                                    <td class="text-center">
+                                                        <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.9);">
+                                                            <span class="text-white">100%</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.8);">
+                                                            <span class="text-white">87%</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.7);">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.7);">
+                                                                <span class="text-white">78%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.6);">
+                                                                <span class="text-white">64%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.5);">
+                                                                <span class="text-white">53%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.4);">
+                                                                <span>45%</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Oct 2024</strong></td>
+                                                        <td>342</td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.9);">
+                                                                <span class="text-white">100%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.8);">
+                                                                <span class="text-white">89%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.7);">
+                                                                <span class="text-white">76%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.6);">
+                                                                <span class="text-white">68%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.5);">
+                                                                <span class="text-white">57%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.4);">
+                                                                <span>48%</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Nov 2024</strong></td>
+                                                        <td>318</td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.9);">
+                                                                <span class="text-white">100%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.85);">
+                                                                <span class="text-white">92%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.75);">
+                                                                <span class="text-white">83%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.65);">
+                                                                <span class="text-white">70%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.55);">
+                                                                <span class="text-white">60%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Dec 2024</strong></td>
+                                                        <td>356</td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.9);">
+                                                                <span class="text-white">100%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.82);">
+                                                                <span class="text-white">91%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.74);">
+                                                                <span class="text-white">82%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Jan 2025</strong></td>
+                                                        <td>387</td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.9);">
+                                                                <span class="text-white">100%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.84);">
+                                                                <span class="text-white">93%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Feb 2025</strong></td>
+                                                        <td>294</td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.9);">
+                                                                <span class="text-white">100%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="heat-map-cell mx-auto" style="background-color: rgba(33, 150, 243, 0.0);">
+                                                                <span>-</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="legend">
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background-color: rgba(33, 150, 243, 0.9);"></div>
+                                                <span>90-100%</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background-color: rgba(33, 150, 243, 0.8);"></div>
+                                                <span>80-89%</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background-color: rgba(33, 150, 243, 0.7);"></div>
+                                                <span>70-79%</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background-color: rgba(33, 150, 243, 0.6);"></div>
+                                                <span>60-69%</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background-color: rgba(33, 150, 243, 0.5);"></div>
+                                                <span>50-59%</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background-color: rgba(33, 150, 243, 0.4);"></div>
+                                                <span>< 50%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header bg-white py-3">
+                                        <h5 class="mb-0 fw-bold">Churn Analysis</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="churnAnalysisChart" height="250"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 fw-bold">Churn Reasons</h5>
+                                        <select class="form-select form-select-sm" style="width: auto;">
+                                            <option selected>Last 30 days</option>
+                                            <option>Last 90 days</option>
+                                        </select>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="churnReasonsChart" height="250"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- JavaScript Dependencies -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Show/hide custom date range based on select value
+            document.getElementById('dateRangeSelect').addEventListener('change', function() {
+                const customDateRange = document.getElementById('customDateRange');
+                if (this.value === 'custom') {
+                    customDateRange.style.display = 'block';
+                } else {
+                    customDateRange.style.display = 'none';
+                }
+            });
+    
+            // Refresh button animation
+            document.getElementById('refreshButton').addEventListener('click', function() {
+                this.classList.add('fa-spin');
+                setTimeout(() => {
+                    this.classList.remove('fa-spin');
+                    // Show a toast or some feedback
+                    alert('Data refreshed successfully!');
+                }, 1500);
+            });
+    
+            // Initialize charts
+            document.addEventListener('DOMContentLoaded', function() {
+                // Revenue Chart
+                const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+                const revenueChart = new Chart(revenueCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        datasets: [{
+                            label: '2025',
+                            data: [1245000, 1545280, null, null, null, null, null, null, null, null, null, null],
+                            borderColor: '#1e88e5',
+                            backgroundColor: 'rgba(30, 136, 229, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }, {
+                            label: '2024',
+                            data: [950000, 1020000, 1150000, 1210000, 1320000, 1400000, 1450000, 1530000, 1620000, 1750000, 1890000, 2100000],
+                            borderColor: '#3949ab',
+                            backgroundColor: 'rgba(57, 73, 171, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            borderDash: [5, 5]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '₹' + value / 1000 + 'k';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+    
+                // Revenue by Plan (Pie Chart)
+                const revenuePieCtx = document.getElementById('revenuePieChart').getContext('2d');
+                const revenuePieChart = new Chart(revenuePieCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['299/- Plan', '399/- Plan', '599/- Plan', '799/- Plan', '999/- Plan', '1299/- Plan', '1399/- Plan'],
+                        datasets: [{
+                            data: [163852, 288477, 252179, 227715, 388611, 185757, 137102],
+                            backgroundColor: [
+                                '#42a5f5', '#1e88e5', '#1976d2', '#1565c0', '#0d47a1', '#7986cb', '#3949ab'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                            }
+                        }
+                    }
+                });
+    
+                // Other charts would be initialized here
+                // This is a simplified version for brevity
+            });
+    
+            // Logout functionality
+            document.getElementById('logoutButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    window.location.href = 'login.html';
+                }
+            });
+        </script>
+    </body>
+    </html>

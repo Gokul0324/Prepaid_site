@@ -44,7 +44,7 @@
         }
         .page-header {
             padding: 40px 0;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(53,92,125,0.8)), url('/Assets/bg-1\ \(3\).jpeg');
+            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(53,92,125,0.8));
             background-size: cover;
             background-position: center;
             color: white;
@@ -186,11 +186,11 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item"><a class="nav-link active" href="HomePage.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/plans.html">Plans</a></li>
-                        <li class="nav-item"><a class="nav-link" href="UserProfile.html">My Account</a></li>
+                        <li class="nav-item"><a class="nav-link active text-light" href="HomePage.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="/plans.html">Plans</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="UserProfile.html">My Account</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Support</a>
+                            <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Support</a>
                             <ul class="dropdown-menu dropdown-menu-light">
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-envelope me-2"></i>Mobicom@tele.ac.in</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-telephone me-2"></i>1-800-555-1212</a></li>
@@ -381,13 +381,13 @@
                 setTimeout(() => alert.remove(), 150);
             }, 5000);
         }
-    
+
         // Get URL parameters
         function getQueryParam(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name) || null;
         }
-    
+
         // Form validation
         (function() {
             'use strict';
@@ -402,14 +402,20 @@
                 }, false);
             });
         })();
-    
+
         // Load plan data from JSON Server
-        fetch('http://localhost:3010/plans')
+        fetch('http://localhost:3010/plans') // Adjusted to match your JSON Server port
             .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
+                console.log('Fetch response status:', response.status);
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(`HTTP error! Status: ${response.status}, Response: ${text}`);
+                    });
+                }
                 return response.json();
             })
             .then(plans => {
+                console.log('Fetched plans:', plans);
                 const planParam = getQueryParam('plan');
                 const selectedPlanCard = document.getElementById('selectedPlanCard');
                 if (planParam) {
@@ -418,7 +424,7 @@
                         selectedPlanCard.innerHTML = `
                             <div class="card h-100">
                                 <div class="overflow-hidden">
-                                    <img src="${selectedPlan.image}" alt="${selectedPlan.name}" class="card-img-top img-fluid">
+                                    <img src="${selectedPlan.image || '/Assets/default.jpg'}" alt="${selectedPlan.name || 'Plan'}" class="card-img-top img-fluid">
                                 </div>
                                 <div class="card-body text-center">
                                     <h4 class="card-title fw-bold">${selectedPlan.name}</h4>
@@ -428,6 +434,7 @@
                         `;
                     } else {
                         selectedPlanCard.innerHTML = '<div class="alert alert-warning">Plan not found. <a href="plans.html" class="alert-link">Browse all plans</a></div>';
+                        console.warn('Plan not found for param:', planParam);
                     }
                 } else {
                     selectedPlanCard.innerHTML = '<div class="alert alert-info">No plan selected. <a href="plans.html" class="alert-link">Browse all plans</a></div>';
@@ -435,9 +442,9 @@
             })
             .catch(error => {
                 console.error('Error fetching plans:', error);
-                document.getElementById('selectedPlanCard').innerHTML = '<div class="alert alert-danger">Error loading plan details. Please try again later.</div>';
+                document.getElementById('selectedPlanCard').innerHTML = `<div class="alert alert-danger">Error loading plan details: ${error.message}. Please try again later.</div>`;
             });
-    
+
         // Handle form submission
         document.getElementById('rechargeForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -445,7 +452,7 @@
             const email = document.getElementById('email').value.trim();
             const mobilePattern = /^[6-9]\d{9}$/;
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+
             if (!mobilePattern.test(mobileNumber)) {
                 showAlert('Invalid mobile number format. It should start with 6-9 and have 10 digits.', 'danger');
                 return;
@@ -454,7 +461,7 @@
                 showAlert('Invalid email format.', 'danger');
                 return;
             }
-    
+
             const planParam = getQueryParam('plan');
             if (planParam) {
                 const submitBtn = this.querySelector('button[type="submit"]');

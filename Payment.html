@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+    <link rel="stylesheet" href="/css/main.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
         :root {
-            --primary: #3a5691;
+            --primary: #003097;
             --primary-dark: #2a3f6a;
             --secondary: #5d93d1;
             --light: #f8f9fa;
@@ -21,10 +22,18 @@
             --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
         }
         
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f0f2f5;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%233a5691' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("/Assets/bg-1\ \(6\).jpeg");
+            display: flex;
+            flex-direction: column;
         }
         
         /* Navbar styling */
@@ -96,11 +105,11 @@
         
         /* Main content styling */
         .main-container {
-            padding: 3rem 1rem;
-            min-height: calc(100vh - 76px - 240px);
+            flex: 1;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            padding: 3rem 1rem;
         }
         
         .payment-card {
@@ -347,12 +356,12 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item"><a class="nav-link" href="HomePage.html"><i class="fas fa-home me-2"></i>Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/plans.html"><i class="fas fa-list-alt me-2"></i>All Plans</a></li>
-                        <li class="nav-item"><a class="nav-link" href="UserProfile.html"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="HomePage.html"><i class="fas fa-home me-2"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="/plans.html"><i class="fas fa-list-alt me-2"></i>All Plans</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="UserProfile.html"><i class="fas fa-user me-2"></i>My Profile</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-headset me-2"></i>Contact Us
+                            <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-headset me-2 text-light"></i>Contact Us
                             </a>
                             <ul class="dropdown-menu dropdown-menu-light">
                                 <li><a class="dropdown-item" href="mailto:Mobicom@tele.ac.in"><i class="fas fa-envelope me-2"></i>Mobicom@tele.ac.in</a></li>
@@ -368,7 +377,7 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="main-container">
+    <div class="main-container align-items-center">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10 col-lg-8">
@@ -528,235 +537,257 @@
         </div>
     </div>
 
-   <!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="pe-lg-5">
-                    <a class="d-flex align-items-center mb-4" href="HomePage.html">
-                        <img src="Assets/M (1) - Copy.png" alt="Logo" width="50" height="50" class="d-inline-block">
-                        <span class="ms-2 fs-4 fw-bold text-white">Mobi-Comm</span>
-                    </a>
-                    <p class="text-white-50 mb-4">India's fastest growing mobile network providing superior connectivity with a customer-first approach.</p>
-                    <div class="social-links mb-4">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="pe-lg-5">
+                        <a class="d-flex align-items-center mb-4" href="HomePage.html">
+                            <img src="Assets/M (1) - Copy.png" alt="Logo" width="50" height="50" class="d-inline-block">
+                            <span class="ms-2 fs-4 fw-bold text-white">Mobi-Comm</span>
+                        </a>
+                        <p class="text-white-50 mb-4">India's fastest growing mobile network providing superior connectivity with a customer-first approach.</p>
+                        <div class="social-links mb-4">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 ">
+                    <h5>Company</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#" class=" text-decoration-none text-light">About Us</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Careers</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Our Network</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Sustainability</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Investor Relations</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6">
+                    <h5>Services</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#"  class=" text-decoration-none text-light">Prepaid Plans</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">International Roaming</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">5G Services</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Business Solutions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6">
+                    <h5>Support</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#"  class=" text-decoration-none text-light">Contact Us</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Help Center</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Store Locator</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Service Status</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Complaint Tracking</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6">
+                    <h5>Legal</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#"  class=" text-decoration-none text-light">Privacy Policy</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Terms of Service</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Fair Usage Policy</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Regulatory</a></li>
+                        <li><a href="#"  class=" text-decoration-none text-light">Tariff Details</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="mt-5 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="text-white-50 mb-0">© 2025 Mobi-Comm India Ltd. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="d-flex justify-content-center justify-content-md-end gap-3">
+                        <img src="Assets/visa.png" alt="Visa" height="24">
+                        <img src="Assets/master.png" alt="Mastercard" height="24">
+                        <img src="Assets/rupay.png" alt="RuPay" height="24">
+                        <img src="Assets/gpay.png" alt="UPI" height="24">
                     </div>
                 </div>
             </div>
-            
-            <div class="col-lg-2 col-md-6">
-                <h5>Company</h5>
-                <ul class="list-unstyled footer-links">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Our Network</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                    <li><a href="#">Investor Relations</a></li>
-                </ul>
-            </div>
-            
-            <div class="col-lg-2 col-md-6">
-                <h5>Services</h5>
-                <ul class="list-unstyled footer-links">
-                    <li><a href="#">Prepaid Plans</a></li>
-                    <li><a href="#">Postpaid Plans</a></li>
-                    <li><a href="#">International Roaming</a></li>
-                    <li><a href="#">5G Services</a></li>
-                    <li><a href="#">Business Solutions</a></li>
-                </ul>
-            </div>
-            
-            <div class="col-lg-2 col-md-6">
-                <h5>Support</h5>
-                <ul class="list-unstyled footer-links">
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Store Locator</a></li>
-                    <li><a href="#">Service Status</a></li>
-                    <li><a href="#">Complaint Tracking</a></li>
-                </ul>
-            </div>
-            
-            <div class="col-lg-2 col-md-6">
-                <h5>Legal</h5>
-                <ul class="list-unstyled footer-links">
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Fair Usage Policy</a></li>
-                    <li><a href="#">Regulatory</a></li>
-                    <li><a href="#">Tariff Details</a></li>
-                </ul>
-            </div>
         </div>
-        
-        <hr class="mt-5 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
-        
-        <div class="row align-items-center">
-            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                <p class="text-white-50 mb-0">© 2025 Mobi-Comm India Ltd. All rights reserved.</p>
-            </div>
-            <div class="col-md-6 text-center text-md-end">
-                <div class="d-flex justify-content-center justify-content-md-end gap-3">
-                    <img src="Assets/visa.png" alt="Visa" height="24">
-                    <img src="Assets/master.png" alt="Mastercard" height="24">
-                    <img src="Assets/rupay.png" alt="RuPay" height="24">
-                    <img src="Assets/gpay.png" alt="UPI" height="24">
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+    </footer>
     
-        <!-- JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            // Get plan details from URL parameters
-            document.addEventListener('DOMContentLoaded', function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const planName = urlParams.get('planName');
-                const planPrice = urlParams.get('planPrice');
-                
-                // Update the selected plan information
-                if (planName && planPrice) {
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Get plan details from URL parameters and fetch from JSON Server
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const planParam = urlParams.get('plan');
+
+            fetch('http://localhost:3010/plans') // Adjust port if different (e.g., 3020)
+                .then(response => {
+                    console.log('Fetch response status:', response.status);
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            throw new Error(`HTTP error! Status: ${response.status}, Response: ${text}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(plans => {
+                    console.log('Fetched plans:', plans);
+                    if (planParam) {
+                        const selectedPlan = plans.find(plan => plan.link === `Recharge.html?plan=${planParam}`);
+                        if (selectedPlan) {
+                            const price = selectedPlan.name.replace('/-', '');
+                            document.getElementById('selectedPlan').textContent = 
+                                `Selected Plan: ${selectedPlan.name} - ₹${price}`;
+                        } else {
+                            document.getElementById('selectedPlan').textContent = 
+                                'Plan not found. Please go back to plan selection.';
+                            console.warn('Plan not found for param:', planParam);
+                        }
+                    } else {
+                        document.getElementById('selectedPlan').textContent = 
+                            'No plan selected. Please go back to plan selection.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching plans:', error);
                     document.getElementById('selectedPlan').textContent = 
-                        `Selected Plan: ${planName} - ₹${planPrice}`;
-                } else {
-                    document.getElementById('selectedPlan').textContent = 
-                        'No plan selected. Please go back to plan selection.';
-                }
-            });
-    
-            // Show payment fields based on selection
-            function showPaymentFields() {
-                const paymentMethod = document.getElementById('paymentMethod').value;
-                
-                // Hide all payment method sections
-                document.getElementById('cardFields').classList.add('d-none');
-                document.getElementById('upiFields').classList.add('d-none');
-                document.getElementById('netbankingFields').classList.add('d-none');
-                
-                // Remove active class from all sections
-                document.querySelectorAll('.payment-method-section').forEach(section => {
-                    section.classList.remove('active');
+                        `Error loading plan: ${error.message}. Please try again.`;
                 });
-                
-                // Show selected payment method section
-                if (paymentMethod) {
-                    document.getElementById(paymentMethod + 'Fields').classList.remove('d-none');
-                    document.getElementById(paymentMethod + 'Fields').classList.add('active');
-                }
-            }
+        });
+
+        // Show payment fields based on selection
+        function showPaymentFields() {
+            const paymentMethod = document.getElementById('paymentMethod').value;
             
-            // Payment processing function
-            function payment() {
-                const paymentMethod = document.getElementById('paymentMethod').value;
-                let isValid = false;
-                
-                // Clear previous alerts
-                document.getElementById('alertContainer').innerHTML = '';
-                
-                // Validate based on payment method
-                if (!paymentMethod) {
-                    showAlert('Please select a payment method', 'danger');
-                    return;
-                }
-                
-                if (paymentMethod === 'card') {
-                    const cardNumber = document.getElementById('cardNumber').value;
-                    const expiryDate = document.getElementById('expiryDate').value;
-                    const cvv = document.getElementById('cvv').value;
-                    const cardName = document.getElementById('cardName').value;
-                    
-                    if (!cardNumber || !expiryDate || !cvv || !cardName) {
-                        showAlert('Please fill all card details', 'danger');
-                    } else if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)) {
-                        showAlert('Please enter a valid 16-digit card number', 'danger');
-                    } else if (cvv.length !== 3 || !/^\d+$/.test(cvv)) {
-                        showAlert('Please enter a valid 3-digit CVV', 'danger');
-                    } else {
-                        isValid = true;
-                    }
-                } else if (paymentMethod === 'upi') {
-                    const upiId = document.getElementById('upiId').value;
-                    
-                    if (!upiId) {
-                        showAlert('Please enter UPI ID', 'danger');
-                    } else if (!upiId.includes('@')) {
-                        showAlert('Please enter a valid UPI ID (e.g., username@upi)', 'danger');
-                    } else {
-                        isValid = true;
-                    }
-                } else if (paymentMethod === 'netbanking') {
-                    const bank = document.getElementById('bankSelect').value;
-                    
-                    if (!bank) {
-                        showAlert('Please select your bank', 'danger');
-                    } else {
-                        isValid = true;
-                    }
-                }
-                
-                // If validation passed, show success modal
-                if (isValid) {
-                    showAlert('Processing your payment...', 'info');
-                    
-                    // Simulate processing delay
-                    setTimeout(() => {
-                        // Animate card
-                        document.querySelector('.payment-card').classList.add('card-animate');
-                        
-                        // Show success modal
-                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                        successModal.show();
-                        
-                        // Create confetti effect
-                        createConfetti();
-                    }, 1500);
-                }
-            }
+            // Hide all payment method sections
+            document.getElementById('cardFields').classList.add('d-none');
+            document.getElementById('upiFields').classList.add('d-none');
+            document.getElementById('netbankingFields').classList.add('d-none');
             
-            // Show alert function
-            function showAlert(message, type) {
-                const alertContainer = document.getElementById('alertContainer');
-                alertContainer.innerHTML = `
-                    <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                        ${message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                `;
-            }
-            
-            // Create confetti effect
-            function createConfetti() {
-                const container = document.querySelector('.modal-body');
-                const colors = ['#5d93d1', '#3a5691', '#28a745', '#ffc107', '#e83e8c'];
-                
-                for (let i = 0; i < 50; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.width = Math.random() * 10 + 5 + 'px';
-                    confetti.style.height = Math.random() * 10 + 5 + 'px';
-                    confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
-                    confetti.style.animationDelay = Math.random() * 5 + 's';
-                    container.appendChild(confetti);
-                }
-            }
-            
-            // Feedback form submission
-            document.getElementById('feedbackForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Thank you for your feedback!');
-                const feedbackModal = bootstrap.Modal.getInstance(document.getElementById('feedbackModal'));
-                feedbackModal.hide();
+            // Remove active class from all sections
+            document.querySelectorAll('.payment-method-section').forEach(section => {
+                section.classList.remove('active');
             });
-        </script>
-    </body>
-    </html>
+            
+            // Show selected payment method section
+            if (paymentMethod) {
+                document.getElementById(paymentMethod + 'Fields').classList.remove('d-none');
+                document.getElementById(paymentMethod + 'Fields').classList.add('active');
+            }
+        }
+
+        // Payment processing function
+        function payment() {
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            let isValid = false;
+            
+            // Clear previous alerts
+            document.getElementById('alertContainer').innerHTML = '';
+            
+            // Validate based on payment method
+            if (!paymentMethod) {
+                showAlert('Please select a payment method', 'danger');
+                return;
+            }
+            
+            if (paymentMethod === 'card') {
+                const cardNumber = document.getElementById('cardNumber').value;
+                const expiryDate = document.getElementById('expiryDate').value;
+                const cvv = document.getElementById('cvv').value;
+                const cardName = document.getElementById('cardName').value;
                 
+                if (!cardNumber || !expiryDate || !cvv || !cardName) {
+                    showAlert('Please fill all card details', 'danger');
+                } else if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)) {
+                    showAlert('Please enter a valid 16-digit card number', 'danger');
+                } else if (cvv.length !== 3 || !/^\d+$/.test(cvv)) {
+                    showAlert('Please enter a valid 3-digit CVV', 'danger');
+                } else {
+                    isValid = true;
+                }
+            } else if (paymentMethod === 'upi') {
+                const upiId = document.getElementById('upiId').value;
+                
+                if (!upiId) {
+                    showAlert('Please enter UPI ID', 'danger');
+                } else if (!upiId.includes('@')) {
+                    showAlert('Please enter a valid UPI ID (e.g., username@upi)', 'danger');
+                } else {
+                    isValid = true;
+                }
+            } else if (paymentMethod === 'netbanking') {
+                const bank = document.getElementById('bankSelect').value;
+                
+                if (!bank) {
+                    showAlert('Please select your bank', 'danger');
+                } else {
+                    isValid = true;
+                }
+            }
+            
+            // If validation passed, show success modal
+            if (isValid) {
+                showAlert('Processing your payment...', 'info');
+                
+                // Simulate processing delay
+                setTimeout(() => {
+                    // Animate card
+                    document.querySelector('.payment-card').classList.add('card-animate');
+                    
+                    // Show success modal
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    successModal.show();
+                    
+                    // Create confetti effect
+                    createConfetti();
+                }, 1500);
+            }
+        }
+        
+        // Show alert function
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+        }
+        
+        // Create confetti effect
+        function createConfetti() {
+            const container = document.querySelector('.modal-body');
+            const colors = ['#5d93d1', '#3a5691', '#28a745', '#ffc107', '#e83e8c'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(confetti);
+            }
+        }
+        
+        // Feedback form submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your feedback!');
+            const feedbackModal = bootstrap.Modal.getInstance(document.getElementById('feedbackModal'));
+            feedbackModal.hide();
+        });
+    </script>
+</body>
+</html>
