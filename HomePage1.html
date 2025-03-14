@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="Assets/M_logo.jpg">
+    <title>Mobi-Comm - Seamless Connectivity</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-color: #3f5274;
+            --secondary-color: #062149;
+            --accent-color: #4cc9f0;
+            --dark-color: #1d1d1d;
+            --light-color: #f8f9fa;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -100% 0; }
+            100% { background-position: 100% 0; }
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background: linear-gradient(90deg, var(--dark-color), var(--secondary-color));
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand img {
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+        
+        .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(67, 97, 238, 0.4);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-outline-light {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-outline-light:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Section Styles */
+        .section-title {
+            position: relative;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .section-title.text-center::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        section:hover .section-title::after {
+            width: 70px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: url('Assets/hero-bg.jpg') no-repeat center center/cover;
+            color: #fff;
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(89.7deg, rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-section h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+        
+        .hero-section .btn {
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        /* Card Styling */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-title {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        /* Plan Cards */
+        .plan-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+        
+        .plan-card .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 1.5rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .plan-card:hover .card-header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+        
+        .plan-card .price {
+            font-size: 2rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        .plan-card:hover .price {
+            transform: scale(1.1);
+        }
+        
+        .plan-card .validity {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .plan-card:hover .validity {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .plan-card .feature-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s ease;
+        }
+        
+        .plan-card .feature-item:hover {
+            background-color: rgba(76, 201, 240, 0.05);
+            padding-left: 5px;
+        }
+        
+        .plan-card .feature-item:last-child {
+            border-bottom: none;
+        }
+        
+        .plan-tag {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--success-color);
+            color: white;
+            padding: 5px 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transform: rotate(45deg) translateX(20px) translateY(-10px);
+            transform-origin: top right;
+            width: 150px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* New to Mobicomm Section */
+        .join-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        
+        .join-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .join-card .icon-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background-color: rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary-color);
+            transition: all 0.5s ease;
+        }
+        
+        .join-card:hover .icon-container {
+            background-color: var(--primary-color);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .join-card .fa-check-circle {
+            transition: all 0.3s ease;
+        }
+        
+        .join-card li:hover .fa-check-circle {
+            transform: scale(1.2);
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            padding: 2rem;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2);
+            color: var(--accent-color);
+        }
+
+        /* Recharge Form Section */
+        .bg-primary.text-white.rounded-circle {
+            transition: all 0.3s ease;
+        }
+        
+        .d-flex:hover .bg-primary.text-white.rounded-circle {
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(0, 89, 255, 0.25);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        /* App Features Section */
+        .position-absolute {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .position-absolute:nth-child(even) {
+            animation-delay: 1s;
+        }
+        
+        .counter-value {
+            transition: all 0.3s ease;
+        }
+
+        /* Accordion Styling */
+        .accordion-button {
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--primary-color);
+            box-shadow: none;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: rgba(76, 201, 240, 0.5);
+        }
+        
+        .accordion-item {
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-item:hover {
+            transform: translateX(5px);
+        }
+
+        /* Footer Styling */
+        .footer {
+            background: linear-gradient(90deg, var(--dark-color), var(--secondary-color));
+            padding: 60px 0 20px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(to bottom right, transparent 49%, white 50%);
+        }
+        
+        .footer h5 {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        .footer h5::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 2px;
+            background-color: var(--accent-color);
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .footer h5:hover::after {
+            width: 50px;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links li:hover {
+            transform: translateX(5px);
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .social-links a {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px) rotate(5deg);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        /* Animate on scroll classes */
+        .animate-fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .animate-fade-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .animate-fade-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .animate-fade-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .animate-fade-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .animate-fade-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .animate-zoom-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .animate-zoom-in.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .animate-flip {
+            opacity: 0;
+            transform: perspective(400px) rotateY(90deg);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .animate-flip.active {
+            opacity: 1;
+            transform: perspective(400px) rotateY(0);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+            .hero-section {
+                padding: 80px 0;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Primary Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="HomePage.html">
+                <img src="Assets/M (1) - Copy.png" alt="Logo" width="60" height="60" class="d-inline-block">
+                <span class="ms-2 fs-4 fw-bold">Mobi-Comm</span>
+            </a>
+            <div class="d-flex align-items-center">
+                <a class="text-light me-3 d-lg-none" href="UserLogin.html">
+                    <i class="fas fa-user-circle fa-lg"></i>
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item mx-2"><a class="nav-link active" href="HomePage.html">Home</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link" href="#plans">Plans</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link" href="#join">Join Us</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link" href="#recharge">Recharge</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link" href="#faq">FAQ</a></li>
+                    <li class="nav-item mx-2 d-none d-lg-block">
+                        <a class="nav-link btn btn-sm btn-outline-light rounded-pill px-3" href="UserLogin.html">
+                            <i class="fas fa-user-circle me-2"></i>Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-content text-center">
+            <h1 class="display-4 fw-bold">Experience Seamless Connectivity</h1>
+            <p class="lead mx-auto">Connect, recharge, and enjoy mobile services with Mobi-Comm's cutting-edge network. Get exclusive offers and instant recharges today!</p>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="#recharge" class="btn btn-primary">Recharge Now</a>
+                <a href="#join" class="btn btn-outline-light">Join Mobi-Comm</a>
+            </div>
+        </div>
+    </section>
+
+     <!-- Recharge Form Section with Animation -->
+     <section class="container-fluid py-5 my-5" id="recharge" style="background: linear-gradient(135deg, #f6f9fe, #eef4fd);">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-6 animate-fade-right">
+                    <div class="pe-lg-5">
+                        <h2 class="section-title">Recharge</h2>
+                        <p class="mb-4">Get instant recharges for your Mobi-Comm connection with our secure payment gateway.</p>
+                        <div class="d-flex flex-column gap-4">
+                            <div class="d-flex align-items-start animate-fade-up" data-delay="100">
+                                <div class="bg-primary text-white rounded-circle p-2 me-3" style="width: 40px; height: 40px; text-align: center;">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div>
+                                    <h5>Quick & Secure</h5>
+                                    <p class="text-muted">Recharge in under 30 seconds with our optimized system.</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start animate-fade-up" data-delay="200">
+                                <div class="bg-primary text-white rounded-circle p-2 me-3" style="width: 40px; height: 40px; text-align: center;">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div>
+                                    <h5>Safe Transactions</h5>
+                                    <p class="text-muted">Fully encrypted payment process protecting your data.</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start animate-fade-up" data-delay="300">
+                                <div class="bg-primary text-white rounded-circle p-2 me-3" style="width: 40px; height: 40px; text-align: center;">
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                                <div>
+                                    <h5>Cashback Rewards</h5>
+                                    <p class="text-muted">Earn up to 5% cashback on every recharge transaction.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 animate-fade-left">
+                    <div class="card border-0 shadow-lg">
+                        <div class="card-body p-4 p-lg-5">
+                            <h4 class="text-center mb-4">Recharge Your Mobile</h4>
+                            <form>
+                                <div class="mb-4">
+                                    <label for="mobile" class="form-label fw-medium">Mobile Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light">+91</span>
+                                        <input type="tel" class="form-control form-control-lg" id="mobile" placeholder="Enter 10 digit number" maxlength="10" required>
+                                    </div>
+                                    <small class="text-muted">We'll send a verification code to this number</small>
+                                </div>
+                                
+                                <button type="button" id="loadBtn" class="btn btn-primary w-100 py-3" onclick="validateMobileNumber()">View Available Plans</button>
+                                
+                                <div class="text-center mt-3">
+                                    <small class="text-muted">By proceeding, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></small>
+                                </div>
+                            </form>
+                            <div id="alertContainer" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- New to Mobicomm Section -->
+    <section class="container my-5 py-5" id="join">
+        <h2 class="section-title text-center animate-fade-up">New to Mobi-Comm?</h2>
+        <p class="text-center mb-5 animate-fade-up" data-delay="100">Join India's fastest growing mobile network with superior connectivity and customer-first service approach</p>
+        
+        <div class="row g-4">
+            <div class="col-md-6 animate-fade-right">
+                <div class="card join-card h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-container mb-3">
+                            <i class="fas fa-sim-card"></i>
+                        </div>
+                        <h3 class="card-title">Get a New SIM</h3>
+                        <p class="card-text mb-4">Start fresh with a Mobi-Comm number. Choose your preferred number and enjoy our welcome benefits.</p>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2 animate-fade-up" data-delay="100"><i class="fas fa-check-circle text-success me-2"></i> Free delivery to your doorstep</li>
+                            <li class="mb-2 animate-fade-up" data-delay="200"><i class="fas fa-check-circle text-success me-2"></i> Digital KYC process - no paperwork</li>
+                            <li class="mb-2 animate-fade-up" data-delay="300"><i class="fas fa-check-circle text-success me-2"></i> Welcome bonus of 10GB data</li>
+                            <li class="mb-2 animate-fade-up" data-delay="400"><i class="fas fa-check-circle text-success me-2"></i> 24 hours activation guaranteed</li>
+                        </ul>
+                        <a href="newSim.html" class="btn btn-primary w-100">Get New SIM</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 animate-fade-left">
+                <div class="card join-card h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-container mb-3">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <h3 class="card-title">Port to Mobi-Comm</h3>
+                        <p class="card-text mb-4">Keep your existing number and switch to our superior network with a simple MNP process.</p>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2 animate-fade-up" data-delay="100"><i class="fas fa-check-circle text-success me-2"></i> Hassle-free porting within 24 hours</li>
+                            <li class="mb-2 animate-fade-up" data-delay="200"><i class="fas fa-check-circle text-success me-2"></i> No service interruption during transfer</li>
+                            <li class="mb-2 animate-fade-up" data-delay="300"><i class="fas fa-check-circle text-success me-2"></i> Port-in bonus of 15GB data</li>
+                            <li class="mb-2 animate-fade-up" data-delay="400"><i class="fas fa-check-circle text-success me-2"></i> Exclusive offers for port-in customers</li>
+                        </ul>
+                        <a href="newSim.html" class="btn btn-primary w-100">Port Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Plans Section -->
+    <section class="container my-5 py-5" id="plans">
+        <h2 class="section-title text-center animate-fade-up">Best Plans for You</h2>
+        <p class="text-center mb-5 animate-fade-up" data-delay="100">Choose from our curated selection of top mobile plans with unmatched benefits</p>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6 animate-flip" data-delay="100">
+                <div class="card plan-card">
+                    <div class="plan-tag">Best Value</div>
+                    <div class="card-header text-center">
+                        <h4 class="mb-0">Essential Plan</h4>
+                        <div class="price mt-2">₹199</div>
+                        <span class="validity d-inline-block mt-2">28 Days</span>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="feature-item"><i class="fas fa-wifi me-2 text-primary"></i> 1.5GB Data/Day</li>
+                            <li class="feature-item"><i class="fas fa-phone-alt me-2 text-primary"></i> Unlimited Calls</li>
+                            <li class="feature-item"><i class="fas fa-comment-alt me-2 text-primary"></i> 100 SMS/Day</li>
+                            <li class="feature-item"><i class="fas fa-tv me-2 text-primary"></i> Mobi-Comm TV Basic</li>
+                            <li class="feature-item"><i class="fas fa-music me-2 text-primary"></i> Music Streaming</li>
+                        </ul>
+                        <a href="#recharge" class="btn btn-primary w-100 mt-3">Select Plan</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 animate-flip" data-delay="300">
+                <div class="card plan-card">
+                    <div class="plan-tag" style="background-color: #e74c3c;">Most Popular</div>
+                    <div class="card-header text-center">
+                        <h4 class="mb-0">Power User Plan</h4>
+                        <div class="price mt-2">₹499</div>
+                        <span class="validity d-inline-block mt-2">56 Days</span>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="feature-item"><i class="fas fa-wifi me-2 text-primary"></i> 2.5GB Data/Day</li>
+                            <li class="feature-item"><i class="fas fa-phone-alt me-2 text-primary"></i> Unlimited Calls</li>
+                            <li class="feature-item"><i class="fas fa-comment-alt me-2 text-primary"></i> 100 SMS/Day</li>
+                            <li class="feature-item"><i class="fas fa-tv me-2 text-primary"></i> Mobi-Comm TV Premium</li>
+                            <li class="feature-item"><i class="fas fa-music me-2 text-primary"></i> Music Streaming+</li>
+                            <li class="feature-item"><i class="fas fa-film me-2 text-primary"></i> Movie Access</li>
+                        </ul>
+                        <a href="#recharge" class="btn btn-primary w-100 mt-3">Select Plan</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mx-auto animate-flip" data-delay="500">
+                <div class="card plan-card">
+                    <div class="plan-tag" style="background-color: #f39c12;">Premium</div>
+                    <div class="card-header text-center">
+                        <h4 class="mb-0">Unlimited Plan</h4>
+                        <div class="price mt-2">₹999</div>
+                        <span class="validity d-inline-block mt-2">84 Days</span>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="feature-item"><i class="fas fa-wifi me-2 text-primary"></i> 3GB Data/Day</li>
+                            <li class="feature-item"><i class="fas fa-phone-alt me-2 text-primary"></i> Unlimited Calls</li>
+                            <li class="feature-item"><i class="fas fa-comment-alt me-2 text-primary"></i> 100 SMS/Day</li>
+                            <li class="feature-item"><i class="fas fa-tv me-2 text-primary"></i> Mobi-Comm TV Ultra</li>
+                            <li class="feature-item"><i class="fas fa-music me-2 text-primary"></i> Music Streaming+</li>
+                            <li class="feature-item"><i class="fas fa-film me-2 text-primary"></i> Premium Movies & Shows</li>
+                            <li class="feature-item"><i class="fas fa-plane me-2 text-primary"></i> 5 Int'l Roaming Days</li>
+                        </ul>
+                        <a href="#recharge" class="btn btn-primary w-100 mt-3">Select Plan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+    <!-- App Features Section -->
+    <section class="container my-5 py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 animate-fade-right">
+                <h2 class="section-title">Why Choose Mobi-Comm?</h2>
+                <p class="mb-4">Experience the difference with India's most customer-centric mobile network</p>
+                
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6 animate-zoom-in" data-delay="100">
+                        <div class="d-flex">
+                            <div class="me-3 text-primary">
+                                <i class="fas fa-signal fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5>Wide Coverage</h5>
+                                <p class="text-muted">98.5% population coverage across India</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 animate-zoom-in" data-delay="200">
+                        <div class="d-flex">
+                            <div class="me-3 text-primary">
+                                <i class="fas fa-bolt fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5>5G Ready</h5>
+                                <p class="text-muted">Cutting-edge 5G technology in major cities</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 animate-zoom-in" data-delay="300">
+                        <div class="d-flex">
+                            <div class="me-3 text-primary">
+                                <i class="fas fa-headset fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5>24/7 Support</h5>
+                                <p class="text-muted">Dedicated support team always available</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 animate-zoom-in" data-delay="400">
+                        <div class="d-flex">
+                            <div class="me-3 text-primary">
+                                <i class="fas fa-wallet fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5>Value for Money</h5>
+                                <p class="text-muted">Best-in-class plans at competitive prices</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 animate-fade-left">
+                <div class="position-relative">
+                    <img src="Assets/Happy-people (3).jpg" alt="Happy Customers" class="img-fluid rounded-4 shadow-lg">
+                    <div class="position-absolute top-0 end-0 translate-middle-y bg-white rounded-4 shadow p-3 m-4 float-effect">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3 bg-primary bg-opacity-10 rounded-circle p-2">
+                                <i class="fas fa-users text-primary fa-2x"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 counter-value" data-count="5">5M+</h6>
+                                <p class="mb-0 small">Happy Customers</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="position-absolute bottom-0 start-0 translate-middle-y bg-white rounded-4 shadow p-3 m-4 float-effect" style="animation-delay: 0.5s;">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3 bg-success bg-opacity-10 rounded-circle p-2">
+                                <i class="fas fa-star text-warning fa-2x"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 counter-value" data-count="4.8">4.8/5</h6>
+                                <p class="mb-0 small">Customer Rating</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- Features Section -->
+      <section class="container my-5 py-5">
+        <h2 class="section-title text-center animate-fade-up">More About Mobi-Comm</h2>
+        <p class="text-center mb-5 animate-fade-up" data-delay="100">Experience the difference with our cutting-edge services and customer-first approach</p>
+        
+        <div class="row g-4">
+            <div class="col-md-4 animate-fade-up" data-delay="200">
+                <div class="feature-card text-center">
+                    <i class="fas fa-tachometer-alt fa-3x mb-3 feature-icon text-primary"></i>
+                    <h4>Lightning Fast 5G</h4>
+                    <p>Experience blazing fast speeds with our nationwide 5G network, perfect for streaming, gaming, and work.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 animate-fade-up" data-delay="300">
+                <div class="feature-card text-center">
+                    <i class="fas fa-map-marked-alt fa-3x mb-3 feature-icon text-primary"></i>
+                    <h4>99.8% Coverage</h4>
+                    <p>Stay connected wherever you go with our extensive network coverage across urban and rural areas.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 animate-fade-up" data-delay="400">
+                <div class="feature-card text-center">
+                    <i class="fas fa-headset fa-3x mb-3 feature-icon text-primary"></i>
+                    <h4>24/7 Support</h4>
+                    <p>Our dedicated customer service team is available round the clock to assist you with any issues.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 animate-fade-up" data-delay="500">
+                <div class="feature-card text-center">
+                    <i class="fas fa-shield-alt fa-3x mb-3 feature-icon text-primary"></i>
+                    <h4>Secure Network</h4>
+                    <p>Advanced encryption and security protocols to keep your data and conversations private.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 animate-fade-up" data-delay="600">
+                <div class="feature-card text-center">
+                    <i class="fas fa-gift fa-3x mb-3 feature-icon text-primary"></i>
+                    <h4>Exclusive Rewards</h4>
+                    <p>Earn points with every recharge and redeem them for exciting rewards and discounts.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 animate-fade-up" data-delay="700">
+                <div class="feature-card text-center">
+                    <i class="fas fa-rocket fa-3x mb-3 feature-icon text-primary"></i>
+                    <h4>Future Ready</h4>
+                    <p>Continuous innovation and infrastructure upgrades to deliver next-gen services ahead of time.</p>
+                </div>
+            </div>
+     </div>
+</section>
+
+<!-- FAQ Section (continued) -->
+<section class="container my-5 py-5" id="faq">
+    <h2 class="section-title text-center animate-fade-up">Frequently Asked Questions</h2>
+    <p class="text-center mb-5 animate-fade-up" data-delay="100">Find answers to common questions about our services and plans</p>
+    
+    <div class="row g-4">
+        <div class="col-lg-6 animate-fade-right">
+            <div class="accordion" id="faqAccordion1">
+                <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            How can I check my current balance and data usage?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion1">
+                        <div class="accordion-body">
+                            You can check your balance and data usage by dialing *121# from your Mobi-Comm number. Alternatively, download our Mobi-Comm App for real-time tracking of all your usage details including voice, data, and SMS.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How do I activate international roaming?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion1">
+                        <div class="accordion-body">
+                            International roaming can be activated through the Mobi-Comm App or by calling our customer care at 1800-123-4567. We recommend activating it at least 24 hours before your international travel.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            What documents do I need to get a new Mobi-Comm connection?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion1">
+                        <div class="accordion-body">
+                            You'll need a valid ID proof (Aadhar, Passport, Driving License, or Voter ID) and address proof. Our digital KYC process makes verification simple, and you can upload these documents directly through our app or website.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 animate-fade-left">
+            <div class="accordion" id="faqAccordion2">
+                <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            How long does it take to port my number to Mobi-Comm?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                        <div class="accordion-body">
+                            The porting process typically takes 24-48 hours after we receive your port request and all required documents. Our team will guide you through the entire process to ensure a smooth transition.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                            What is the validity period of my unused data?
+                        </button>
+                    </h2>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                        <div class="accordion-body">
+                            Unused data expires with your current plan validity. However, our Weekend Data Rollover feature allows unused weekday data to be automatically carried forward to the weekend for all plans above ₹249.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item border mb-3 rounded-3 shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                            How do I access Mobi-Comm TV and other entertainment services?
+                        </button>
+                    </h2>
+                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                        <div class="accordion-body">
+                            All entertainment services including Mobi-Comm TV, Music Streaming and Movie Access can be enjoyed through the Mobi-Comm App. Simply download the app, log in with your Mobi-Comm number, and access the Entertainment section.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mt-5 animate-fade-up" data-delay="300">
+        <p>Didn't find what you're looking for?</p>
+        <a href="#" class="btn btn-outline-primary">Contact Support</a>
+    </div>
+</section>
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6 animate-fade-right">
+                <div class="pe-lg-5">
+                    <a class="d-flex align-items-center mb-4" href="HomePage.html">
+                        <img src="Assets/M (1) - Copy.png" alt="Logo" width="50" height="50" class="d-inline-block">
+                        <span class="ms-2 fs-4 fw-bold text-white">Mobi-Comm</span>
+                    </a>
+                    <p class="text-white-50 mb-4">India's fastest growing mobile network providing superior connectivity with a customer-first approach.</p>
+                    <div class="social-links mb-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-6 animate-fade-up" data-delay="100">
+                <h5>Company</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Our Network</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Investor Relations</a></li>
+                </ul>
+            </div>
+            
+            <div class="col-lg-2 col-md-6 animate-fade-up" data-delay="200">
+                <h5>Services</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">Prepaid Plans</a></li>
+                    <li><a href="#">Postpaid Plans</a></li>
+                    <li><a href="#">International Roaming</a></li>
+                    <li><a href="#">5G Services</a></li>
+                    <li><a href="#">Business Solutions</a></li>
+                </ul>
+            </div>
+            
+            <div class="col-lg-2 col-md-6 animate-fade-up" data-delay="300">
+                <h5>Support</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Store Locator</a></li>
+                    <li><a href="#">Service Status</a></li>
+                    <li><a href="#">Complaint Tracking</a></li>
+                </ul>
+            </div>
+            
+            <div class="col-lg-2 col-md-6 animate-fade-up" data-delay="400">
+                <h5>Legal</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Fair Usage Policy</a></li>
+                    <li><a href="#">Regulatory</a></li>
+                    <li><a href="#">Tariff Details</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <hr class="mt-5 mb-4" style="border-color: rgba(255, 255, 255, 0.1);">
+        
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <p class="text-white-50 mb-0">© 2025 Mobi-Comm India Ltd. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <div class="d-flex justify-content-center justify-content-md-end gap-3">
+                    <img src="Assets/visa.png" alt="Visa" height="24">
+                    <img src="Assets/master.png" alt="Mastercard" height="24">
+                    <img src="Assets/rupay.png" alt="RuPay" height="24">
+                    <img src="Assets/gpay.png" alt="UPI" height="24">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<a href="#" class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+</a>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<!-- AOS Animation Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+<!-- Custom Scripts -->
+<script>
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+        mirror: false
+    });
+
+    // Reveal animations on scroll for custom animation classes
+    document.addEventListener('DOMContentLoaded', function() {
+        const animateElements = document.querySelectorAll('.animate-fade-up, .animate-fade-left, .animate-fade-right, .animate-zoom-in, .animate-flip');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const delay = entry.target.getAttribute('data-delay') || 0;
+                    setTimeout(() => {
+                        entry.target.classList.add('active');
+                    }, delay);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        animateElements.forEach(element => {
+            observer.observe(element);
+        });
+        
+        // Counter animation
+        const counterElements = document.querySelectorAll('.counter-value');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseFloat(entry.target.getAttribute('data-count'));
+                    const duration = 2000;
+                    const start = parseFloat(entry.target.innerText) || 0;
+                    const increment = (target - start) / (duration / 16);
+                    let current = start;
+                    
+                    const updateCounter = () => {
+                        current += increment;
+                        if ((increment > 0 && current < target) || (increment < 0 && current > target)) {
+                            if (Number.isInteger(target)) {
+                                entry.target.innerText = Math.ceil(current);
+                            } else {
+                                entry.target.innerText = current.toFixed(1);
+                            }
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            entry.target.innerText = target;
+                        }
+                    };
+                    
+                    requestAnimationFrame(updateCounter);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+        
+        counterElements.forEach(counter => {
+            counterObserver.observe(counter);
+        });
+    });
+    
+    // Mobile number validation
+    function validateMobileNumber() {
+        const mobileInput = document.getElementById('mobile');
+        const alertContainer = document.getElementById('alertContainer');
+        const loadBtn = document.getElementById('loadBtn');
+        
+        if (mobileInput.value.length !== 10 || !/^\d+$/.test(mobileInput.value)) {
+            alertContainer.innerHTML = '<div class="alert alert-danger">Please enter a valid 10-digit mobile number</div>';
+            return false;
+        }
+        
+        // Success - show loading button and then redirect
+        loadBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Loading Plans...';
+        alertContainer.innerHTML = '<div class="alert alert-success">Mobile number verified! Redirecting to plans...</div>';
+        
+        // Simulate loading (would be replaced with actual API call)
+        setTimeout(() => {
+            window.location.href = 'plans.html';
+            loadBtn.innerHTML = 'View Available Plans';
+            alertContainer.innerHTML = '';
+        }, 2000);
+        
+        return true;
+    }
+    
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+        
+        // Back to top button visibility
+        const backToTop = document.getElementById('backToTop');
+        if (window.scrollY > 300) {
+            backToTop.classList.add('active');
+        } else {
+            backToTop.classList.remove('active');
+        }
+    });
+    
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - 80,
+                    behavior: 'smooth'
+             
+                });
+            }
+        });
+    });
+    
+    // Back to top functionality
+    document.getElementById('backToTop').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
+</body>
+</html>

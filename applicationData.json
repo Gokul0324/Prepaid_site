@@ -290,208 +290,153 @@
       }
     ]
   },
-  "applicationSales": [
-    {
-      "application": "Plan 1",
-      "sales": 16300,
-      "change": "https://storage.googleapis.com/a1aa/image/KtQzURkkT5teIcHwM-ydqN7YrtjcKxVHUmzMvPfNQpw.jpg",
-      "avgPrice": 399,
-      "total": 15652,
-      "id": "188f"
-    },
-    {
-      "application": "Plan 2",
-      "sales": 26421,
-      "change": "https://storage.googleapis.com/a1aa/image/KtQzURkkT5teIcHwM-ydqN7YrtjcKxVHUmzMvPfNQpw.jpg",
-      "avgPrice": 599,
-      "total": 18785,
-      "id": "3226"
-    },
-    {
-      "application": "Plan 3",
-      "sales": 8265,
-      "change": "https://storage.googleapis.com/a1aa/image/KtQzURkkT5teIcHwM-ydqN7YrtjcKxVHUmzMvPfNQpw.jpg",
-      "avgPrice": 799,
-      "total": 9652,
-      "id": "c692"
-    },
-    {
-      "application": "Plan 4",
-      "sales": 10652,
-      "change": "https://storage.googleapis.com/a1aa/image/KtQzURkkT5teIcHwM-ydqN7YrtjcKxVHUmzMvPfNQpw.jpg",
-      "avgPrice": 1199,
-      "total": 7856,
-      "id": "6763"
-    }
-  ],
   "plans": [
     {
       "id": "1",
       "category": "popular",
       "name": "799/-",
       "description": "Validity: 54 Days<br>2GB Data/day + Unlimited Calls with Netflix, Amazon Prime, Hotstar<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'> <img src='/Assets/hotstarTRN.png' alt='Hotstar' width='30' height='30'>",
-      "image": "/Assets/popular_red.jpg",
-      "link": "Recharge.html?plan=₹799 - 54 Days - 2 GB/Day"
+      "image": "popular.jpg"
     },
     {
       "id": "2",
       "category": "popular",
       "name": "699/-",
       "description": "Validity: 84 Days<br>2GB Data/day + Unlimited Calls with Netflix, Amazon Prime<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
-      "image": "/Assets/popular_red.jpg",
-      "link": "Recharge.html?plan=₹699 - 84 Days - 2GB/Day"
+      "image": "popular.jpg"
     },
     {
       "id": "3",
       "category": "popular",
       "name": "399/-",
       "description": "Validity: 28 Days<br>2GB Data/day + Unlimited Calls with Amazon Prime<br><img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
-      "image": "/Assets/popular_red.jpg",
-      "link": "Recharge.html?plan=₹399 - 28 Days - 2 GB/Day"
+      "image": "popular.jpg"
     },
     {
       "id": "4",
       "category": "popular",
       "name": "499/-",
       "description": "Validity: 84 Days<br>2GB Data/day + Unlimited Calls with Netflix, Amazon Prime<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
-      "image": "/Assets/popular_red.jpg",
-      "link": "Recharge.html?plan=₹499 - 84 Days - 2GB/Day"
+      "image": "popular.jpg"
     },
     {
       "id": "5",
       "category": "popular",
       "name": "599/-",
       "description": "Validity: 54 Days<br>1.5GB Data/day + Unlimited Calls with Amazon Prime<br><img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
-      "image": "/Assets/popular_red.jpg",
-      "link": "Recharge.html?plan=₹599 - 54 Days - 1.5 GB/Day"
+      "image": "popular.jpg"
     },
     {
       "id": "6",
       "category": "popular",
       "name": "699/-",
       "description": "Validity: 54 Days<br>2GB Data/day + Unlimited Calls with Netflix, Amazon Prime<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
-      "image": "/Assets/popular_red.jpg",
-      "link": "Recharge.html?plan=₹699 - 54 Days - 2GB/Day"
+      "image": "popular.jpg"
     },
     {
       "id": "7",
       "category": "popular",
       "name": "899/-",
       "description": "Validity: 84 Days<br>2GB Data/day + Unlimited Calls with Netflix, Amazon Prime<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
-      "image": "/Assets/popular_red.jpg",
-      "link": "Recharge.html?plan=₹899 - 84 Days - 2GB/Day"
+      "image": "popular.jpg"
     },
     {
       "id": "8",
       "category": "data",
       "name": "479/-",
       "description": "Validity: 28 Days<br>3 GB Data/day + Unlimited Calls with Netflix<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'>",
-      "image": "/Assets/data.jpg",
-      "link": "Recharge.html?plan=₹479 - 28 Days - 3 GB/Day"
+      "image": "data.jpg"
     },
     {
       "id": "9",
       "category": "data",
       "name": "599/-",
       "description": "Validity: 54 Days<br>2.5 GB Data/day + Unlimited Calls with Netflix, Amazon Prime<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
-      "image": "/Assets/data.jpg",
-      "link": "Recharge.html?plan=₹599 - 54 Days - 2.5GB/Day"
+      "image": "data.jpg"
     },
     {
       "id": "10",
       "category": "data",
       "name": "659/-",
       "description": "Validity: 54 Days<br>3 GB Data/day + Unlimited Calls with Netflix<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'>",
-      "image": "/Assets/data.jpg",
-      "link": "Recharge.html?plan=₹659 - 54 Days - 3 GB/Day"
+      "image": "data.jpg"
     },
     {
       "id": "11",
       "category": "data",
       "name": "779/-",
       "description": "Validity: 82 Days<br>1.5 GB Data/day + Unlimited Calls with Netflix, Amazon Prime<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
-      "image": "/Assets/data.jpg",
-      "link": "Recharge.html?plan=₹779 - 82 Days - 1.5GB/Day"
+      "image": "data.jpg"
     },
     {
       "id": "12",
       "category": "offers",
       "name": "379/-",
       "description": "Validity: 28 Days<br>2 GB Data/day + Unlimited Calls with Netflix<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'>",
-      "image": "/Assets/Offer_purple.jpg",
-      "link": "Recharge.html?plan=₹379 - 28 Days - 2GB/Day"
+      "image": "Offer.jpg"
     },
     {
       "id": "13",
       "category": "offers",
       "name": "499/-",
       "description": "Validity: 54 Days<br>1.5GB Data/day + Unlimited Calls with Netflix, Amazon Prime<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'>",
-      "image": "/Assets/Offer_purple.jpg",
-      "link": "Recharge.html?plan=₹499 - 54 Days - 1.5GB/Day"
+      "image": "Offer.jpg"
     },
     {
       "id": "14",
       "category": "unlimited",
       "name": "559/-",
       "description": "Validity: 28 Days<br>Unlimited Data + Unlimited Calls with Netflix, Amazon Prime, Hotstar<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'> <img src='/Assets/hotstarTRN.png' alt='Hotstar' width='30' height='30'>",
-      "image": "/Assets/unlimited.jpg",
-      "link": "Recharge.html?plan=₹559 - 28 Days - Unlimited Data + Unlimited Calls"
+      "image": "unlimited.jpg"
     },
     {
       "id": "15",
       "category": "unlimited",
       "name": "789/-",
       "description": "Validity: 54 Days<br>Unlimited Data + Unlimited Calls with Netflix, Amazon Prime, Hotstar<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'> <img src='/Assets/hotstarTRN.png' alt='Hotstar' width='30' height='30'>",
-      "image": "/Assets/unlimited.jpg",
-      "link": "Recharge.html?plan=₹789 - 54 Days - Unlimited Data + Unlimited Calls"
+      "image": "unlimited.jpg"
     },
     {
       "id": "16",
       "category": "validity",
       "name": "299/-",
       "description": "Validity: 28 Days<br>1.5GB Data/day + Unlimited Calls",
-      "image": "/Assets/28_days.jpg",
-      "link": "Recharge.html?plan=₹299 - 28 Days - 1.5GB/Day"
+      "image": "28days.jpg"
     },
     {
       "id": "17",
       "category": "validity",
       "name": "399/-",
       "description": "Validity: 28 Days<br>2 GB Data/day + Unlimited Calls",
-      "image": "/Assets/28_days.jpg",
-      "link": "Recharge.html?plan=₹399 - 28 Days - 2 GB/Day"
+      "image": "28days.jpg"
     },
     {
       "id": "18",
       "category": "validity",
       "name": "599/-",
       "description": "Validity: 54 Days<br>1.5GB Data/day + Unlimited Calls with Netflix, Amazon Prime, Hotstar<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'> <img src='/Assets/hotstarTRN.png' alt='Hotstar' width='30' height='30'>",
-      "image": "/Assets/54_days.jpg",
-      "link": "Recharge.html?plan=₹599 - 54 Days - 1.5GB/Day"
+      "image": "54days.jpg"
     },
     {
       "id": "19",
       "category": "validity",
       "name": "699/-",
-      "description": "Validity: 54 Days<br>2 GB Data/day + Unlimited Calls with Netflix, Amazon Prime, Hotstar<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'> <img src='/Assets/hotstarTRN.png' alt='Hotstar' width='30' height='30'>",
-      "image": "/Assets/54_days.jpg",
-      "link": "Recharge.html?plan=₹699 - 54 Days - 2 GB/Day"
+      "description": "Validity: 54 Days<br>2 GB Data/day + Unlimited Calls with Netflix, Amazon Prime, Hotstar<br><img src='netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'> <img src='/Assets/hotstarTRN.png' alt='Hotstar' width='30' height='30'>",
+      "image": "54days.jpg"
     },
     {
       "id": "20",
       "category": "annual",
       "name": "3999/-",
       "description": "Validity: 365 Days<br>2.5GB Data/day + Unlimited Calls with Netflix, Amazon Prime, Hotstar<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'> <img src='/Assets/hotstarTRN.png' alt='Hotstar' width='30' height='30'>",
-      "image": "/Assets/Annual_black.jpg",
-      "link": "Recharge.html?plan=₹3999 - 365 Days - 2.5 GB/Day"
+      "image": "Annual.jpg"
     },
     {
       "id": "21",
       "category": "annual",
       "name": "4499/-",
       "description": "Validity: 365 Days<br>2.5GB Data/day + Unlimited Calls with Netflix, Amazon Prime, Hotstar<br><img src='/Assets/netflix.png' alt='Netflix' width='30' height='30'> <img src='/Assets/prime.png' alt='Amazon Prime' width='30' height='30'> <img src='/Assets/hotstarTRN.png' alt='Hotstar' width='30' height='30'>",
-      "image": "/Assets/Annual_black.jpg",
-      "link": "Recharge.html?plan=₹4499 - 365 Days - 2.5GB/Day"
+      "image": "Annual.jpg"
     }
   ]
 }

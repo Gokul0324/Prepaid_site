@@ -20,7 +20,7 @@
         body {
             font-family: 'Lexend', sans-serif;
             background-color: #f8f9fa;
-            background-image: url('/Assets/bg-1\ \(6\).jpeg');
+            background-image: url('Assets/bg-1\ \(6\).jpeg');
             background-attachment: fixed;
             background-size: cover;
         }
@@ -117,6 +117,7 @@
         
         .btn-recharge:hover {
             transform: translateY(-2px);
+            color: white;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         
@@ -214,7 +215,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="HomePage.html">
-                <img src="/Assets/M (1) - Copy.png" alt="Mobi-Comm Logo" width="60" height="60" class="d-inline-block me-2">
+                <img src="Assets/M (1) - Copy.png" alt="Mobi-Comm Logo" width="60" height="60" class="d-inline-block me-2">
                 <span class="fs-4 fw-bold">Mobi-Comm</span>
             </a>
             
@@ -238,7 +239,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                             <li><a class="dropdown-item" href="UserProfile.html"><i class="bi bi-person me-2"></i>Profile</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-graph-up me-2"></i>Usage</a></li>
+                            <li><a class="dropdown-item" href="UserProfile.html"><i class="bi bi-graph-up me-2"></i>Usage</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                         </ul>
@@ -314,7 +315,7 @@
         
         <div id="offer_plans" class="plan-section" data-category="offers">
             <h2 class="section-title">Special Offers</h2>
-            <div class="row" id="offers-container"></div>
+            <div class="row" id="offers-plans-container"></div>
         </div>
         
         <div id="unlimited_plans" class="plan-section" data-category="unlimited">
@@ -344,7 +345,7 @@
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <div class="d-flex align-items-center mb-2">
-                        <img src="/Assets/M (1).png" alt="Company Logo" width="60" height="35" class="me-2">
+                        <img src="Assets/M (1).png" alt="Company Logo" width="60" height="35" class="me-2">
                         <h5 class="m-0">Mobi-Comm</h5>
                     </div>
                     <p class="small">Providing seamless connectivity and innovative solutions since 2025.</p>
@@ -364,9 +365,9 @@
                     <p class="small"><strong>Email:</strong> <a href="mailto:Mobicom@tele.ac.in" class="text-white text-decoration-none">Mobicom@tele.ac.in</a></p>
                     <p class="small"><strong>Customer Care:</strong> 1-800-555-1212</p>
                     <div class="d-flex">
-                        <a href="#" class="me-3"><img src="/Assets/Twitter_Logo.png" alt="Twitter" width="30" height="30" class="footer-social"></a>
-                        <a href="#" class="me-3"><img src="/Assets/Instagram_Logo.png" alt="Instagram" width="40" height="40" class="footer-social"></a>
-                        <a href="#"><img src="/Assets/Facebook_Logo.png" alt="Facebook" width="30" height="30" class="footer-social"></a>
+                        <a href="#" class="me-3"><img src="Assets/Twitter_Logo.png" alt="Twitter" width="30" height="30" class="footer-social"></a>
+                        <a href="#" class="me-3"><img src="Assets/Instagram_Logo.png" alt="Instagram" width="40" height="40" class="footer-social"></a>
+                        <a href="#"><img src="Assets/Facebook_Logo.png" alt="Facebook" width="30" height="30" class="footer-social"></a>
                     </div>
                 </div>
             </div>
@@ -400,152 +401,262 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script>
         // Check login status
-        if (!localStorage.getItem('loggedInUser')) {
-            window.location.href = "UserLogin.html";
-        } else {
-            const user = JSON.parse(localStorage.getItem('loggedInUser'));
-            document.getElementById('username').textContent = user.name || 'My Account';
-        }
-
-        // Logout functionality
-        document.getElementById('logoutBtn').addEventListener('click', function () {
-            localStorage.removeItem('loggedInUser');
-            window.location.href = "HomePage.html";
-        });
-
-        // Filter button functionality
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                const filter = this.getAttribute('data-filter');
-                document.querySelectorAll('.plan-section').forEach(section => {
-                    if (filter === 'all' || section.getAttribute('data-category') === filter) {
-                        section.style.display = 'block';
-                    } else {
-                        section.style.display = 'none';
-                    }
+        document.addEventListener("DOMContentLoaded", function () {
+            if (!localStorage.getItem('loggedInUser')) {
+                window.location.href = "UserLogin.html";
+            } else {
+                const user = JSON.parse(localStorage.getItem('loggedInUser'));
+                const usernameElement = document.getElementById('username');
+                if (usernameElement) {
+                    usernameElement.textContent = user.name || 'My Account';
+                }
+            }
+            
+            // Logout functionality
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function () {
+                    localStorage.removeItem('loggedInUser');
+                    window.location.href = "HomePage.html";
+                });
+            }
+            
+            // Filter button functionality
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const filter = this.getAttribute('data-filter');
+                    document.querySelectorAll('.plan-section').forEach(section => {
+                        if (filter === 'all' || section.getAttribute('data-category') === filter) {
+                            section.style.display = 'block';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
                 });
             });
-        });
-
-        async function fetchPlansFromServer() {
-    try {
-        let plans = localStorage.getItem('updatedPlans');
-        if (plans) {
-            plans = JSON.parse(plans);
-        } else {
-            const response = await fetch('http://localhost:3010/plans');
-            if (!response.ok) throw new Error('Failed to fetch plans');
-            plans = await response.json();
-        }
-        displayPlansByCategory(plans);
-    } catch (error) {
-        console.error('Error fetching plans:', error);
-    }
-}
-
-        // Scroll to top button
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.classList.add('visible');
-            } else {
-                scrollToTopBtn.classList.remove('visible');
+            
+            // Add functionality to the additional filters
+            const priceFilter = document.getElementById('priceFilter');
+            const validityFilter = document.getElementById('validityFilter');
+            const ottFilter = document.getElementById('otaFilter');
+            
+            // Add event listeners for the filter dropdowns
+            if (priceFilter) {
+                priceFilter.addEventListener('change', applyFilters);
             }
-        });
-        scrollToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            if (validityFilter) {
+                validityFilter.addEventListener('change', applyFilters);
+            }
+            
+            if (ottFilter) {
+                ottFilter.addEventListener('change', applyFilters);
+            }
+            
+            // Scroll to top button
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        scrollToTopBtn.classList.add('visible');
+                    } else {
+                        scrollToTopBtn.classList.remove('visible');
+                    }
+                });
+                
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+            
+            // Setup feedback form submission
+            const feedbackForm = document.getElementById('feedbackForm');
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Thank you for your feedback!');
+                    document.getElementById('feedbackModal').classList.remove('show');
+                    document.querySelector('.modal-backdrop').remove();
+                    feedbackForm.reset();
+                });
+            }
+            
+            // Fetch plans from server
+            fetchPlansFromServer();
         });
 
-        // Fetch and display plans from JSON Server
-        let allPlans = {};
-        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-        const userPlan = loggedInUser ? loggedInUser.plan : null;
-
-        fetch('http://localhost:3010/plans')
-            .then(response => {
-                console.log('Fetch response status:', response.status);
+        // Fetch plans from Spring Boot Backend
+        async function fetchPlansFromServer() {
+            try {
+                const response = await fetch('http://localhost:8075/plans');
                 if (!response.ok) {
-                    return response.text().then(text => {
-                        throw new Error(`HTTP error! Status: ${response.status}, Response: ${text}`);
-                    });
+                    throw new Error(`Failed to fetch plans: ${response.status} ${response.statusText}`);
                 }
-                return response.json();
-            })
-            .then(plans => {
-                console.log('Fetched plans:', plans);
-                allPlans = groupPlansByCategory(plans);
+                
+                const plans = await response.json();
+                // Store plans in a global variable for filtering
+                window.allPlans = plans;
+                displayPlans(plans);
+            } catch (error) {
+                console.error('Error fetching plans:', error);
+                displayErrorMessage('Failed to load plans. Please try again later.');
+            }
+        }
 
-                function groupPlansByCategory(plans) {
-                    return plans.reduce((acc, plan) => {
-                        if (!plan || typeof plan !== 'object') return acc;
-                        const category = plan.category || 'uncategorized';
-                        if (!acc[category]) acc[category] = [];
-                        acc[category].push(plan);
-                        return acc;
-                    }, {});
+        // Apply all active filters to the plans
+        function applyFilters() {
+            if (!window.allPlans) return;
+            
+            let filteredPlans = [...window.allPlans];
+            
+            // Price filter
+            const priceFilter = document.getElementById('priceFilter').value;
+            if (priceFilter === 'low-high') {
+                filteredPlans.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+            } else if (priceFilter === 'high-low') {
+                filteredPlans.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+            }
+            
+            // Validity filter
+            const validityFilter = document.getElementById('validityFilter').value;
+            if (validityFilter) {
+                filteredPlans = filteredPlans.filter(plan => {
+                    if (!plan.validity) return false;
+                    return plan.validity.includes(validityFilter + ' days') || 
+                           plan.validity.toLowerCase().includes(validityFilter + ' day');
+                });
+            }
+            
+            // OTT filter
+            const ottFilter = document.getElementById('otaFilter').value;
+            if (ottFilter && ottFilter !== 'all') {
+                filteredPlans = filteredPlans.filter(plan => {
+                    if (!plan.ott) return false;
+                    if (typeof plan.ott === 'string') {
+                        return plan.ott.toLowerCase().includes(ottFilter.toLowerCase());
+                    } else if (Array.isArray(plan.ott)) {
+                        return plan.ott.some(ott => ott.toLowerCase().includes(ottFilter.toLowerCase()));
+                    }
+                    return false;
+                });
+            } else if (ottFilter === 'all') {
+                filteredPlans = filteredPlans.filter(plan => plan.ott);
+            }
+            
+            // Display filtered plans
+            displayPlans(filteredPlans);
+            
+            // If no plans match the filters, show a message
+            if (filteredPlans.length === 0) {
+                displayErrorMessage('No plans match your filter criteria. Try adjusting your filters.');
+            } else {
+                // Remove any existing error message
+                const existingError = document.querySelector('.alert.alert-danger');
+                if (existingError) {
+                    existingError.remove();
                 }
+            }
+        }
 
-                function createPlanCards(containerId, plans) {
-                    console.log(`Creating cards for ${containerId} with ${plans.length} plans`);
-                    const container = document.getElementById(containerId);
+        // Display error message
+        function displayErrorMessage(message) {
+            // Remove any existing error messages first
+            const existingError = document.querySelector('.alert.alert-danger');
+            if (existingError) {
+                existingError.remove();
+            }
+            
+            const mainContainer = document.querySelector('.container.mt-4') || document.querySelector('main');
+            if (mainContainer) {
+                const errorAlert = document.createElement('div');
+                errorAlert.className = 'alert alert-danger';
+                errorAlert.textContent = message;
+                mainContainer.prepend(errorAlert);
+            }
+        }
+
+        // Display all plans by category
+        function displayPlans(plans) {
+            const categories = ['popular', 'data', 'offers', 'unlimited', 'validity', 'annual'];
+            
+            categories.forEach(category => {
+                const containerId = `${category}-plans-container`;
+                const container = document.getElementById(containerId);
+                if (container) {
                     container.innerHTML = '';
-                    plans.forEach(plan => {
-                        const isCurrentPlan = userPlan && userPlan.replace(' Plan', '') === plan.name;
-                        const price = plan.name.replace('/-', '');
-                        const descParts = (plan.description || '').split('<br>');
-                        const validity = descParts[0] || '';
-                        const details = descParts[1] || '';
-                        const hasNetflix = plan.description && plan.description.includes('Netflix');
-                        const hasPrime = plan.description && plan.description.includes('Prime');
-                        const hasHotstar = plan.description && plan.description.includes('Hotstar');
-                        const isNewPlan = ['379/-', '559/-', '4499/-'].includes(plan.name);
-
-                        const card = document.createElement('div');
-                        card.className = 'col-md-6 col-lg-3 col-sm-6 mb-3';
-                        card.innerHTML = `
-                            <div class="card plan-card h-100 position-relative ${isNewPlan ? 'new-plan' : ''}">
-                                ${isCurrentPlan ? '<span class="current-plan-badge">Current Plan</span>' : ''}
-                                ${isNewPlan ? '<span class="ota-badge bg-danger">NEW</span>' : ''}
-                                <div class="card-img-container">
-                                    <img src="${plan.image || '/Assets/default.jpg'}" alt="${plan.name || 'Plan'}" class="card-img-top img-fluid">
-                                </div>
-                                <div class="card-body d-flex flex-column">
-                                    <div class="mb-2">
-                                        <h3 class="plan-price mb-0">₹${price}</h3>
-                                        <small class="text-muted">${validity}</small>
-                                    </div>
-                                    <p class="card-text small">${details}</p>
-                                    <div class="d-flex mb-2">
-                                        ${hasNetflix ? '<img src="/Assets/netflix.png" alt="Netflix" width="30" height="30" class="me-2">' : ''}
-                                        ${hasPrime ? '<img src="/Assets/prime.png" alt="Amazon Prime" width="30" height="30" class="me-2">' : ''}
-                                        ${hasHotstar ? '<img src="/Assets/hotstarTRN.png" alt="Hotstar" width="30" height="30">' : ''}
-                                    </div>
-                                    <a href="${plan.link || '#'}" class="btn btn-recharge mt-auto py-2">Recharge Now</a>
-                                </div>
-                            </div>
-                        `;
-                        container.appendChild(card);
-                    });
+                    const filteredPlans = plans.filter(plan => 
+                        plan.category && plan.category.toLowerCase() === category
+                    );
+                    
+                    if (filteredPlans.length > 0) {
+                        createPlanCards(container, filteredPlans);
+                    } else {
+                        container.innerHTML = `<div class="col-12"><p class="text-center">No ${category} plans available at the moment.</p></div>`;
+                    }
                 }
+            });
+        }
 
-                createPlanCards('popular-plans-container', allPlans.popular || []);
-                createPlanCards('data-plans-container', allPlans.data || []);
-                createPlanCards('offers-container', allPlans.offers || []);
-                createPlanCards('unlimited-plans-container', allPlans.unlimited || []);
-                createPlanCards('validity-plans-container', allPlans.validity || []);
-                createPlanCards('annual-plans-container', allPlans.annual || []);
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-                document.querySelector('.container').innerHTML += `
-                    <div class="alert alert-danger mt-4" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        Error loading plans: ${error.message}. Please check the server and try again.
+        // Create plan cards
+        function createPlanCards(container, plans) {
+            plans.forEach(plan => {
+                const card = document.createElement('div');
+                card.className = 'col-md-6 col-lg-3 col-sm-6 mb-3';
+                
+                // Ensure all properties exist or provide defaults
+                const price = plan.price || '0';
+                const validity = plan.validity || 'N/A';
+                const data = plan.data || 'N/A';
+                const talkTime = plan.talkTime || 'N/A';
+                const planName = plan.planName || 'Unnamed Plan';
+                const imageUrl = plan.imageUrl || 'default.jpg';
+                
+                // Check if this is a new plan and add class if needed
+                const isNewPlan = plan.isNew === true;
+                const newPlanClass = isNewPlan ? 'new-plan' : '';
+                
+                // Create OTT badges if available
+                let ottBadges = '';
+                if (plan.ott) {
+                    // Handle OTT as either string or array
+                    if (typeof plan.ott === 'string') {
+                        ottBadges = `<span class="badge bg-info me-1">${plan.ott}</span>`;
+                    } else if (Array.isArray(plan.ott)) {
+                        ottBadges = plan.ott.map(ott => 
+                            `<span class="badge bg-info me-1">${ott}</span>`
+                        ).join('');
+                    }
+                }
+                
+                card.innerHTML = `
+                    <div class="card plan-card h-100 position-relative ${newPlanClass}">
+                        ${isNewPlan ? '<span class="badge bg-danger position-absolute top-0 end-0 m-2">New</span>' : ''}
+                        <div class="card-img-container">
+                            <img src="Assets/${imageUrl}" 
+                                 alt="${planName}" 
+                                 class="card-img-top img-fluid"
+                                 onerror="this.src='Assets/default.jpg'">
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-2">
+                                <h3 class="plan-price mb-0">₹${price}</h3>
+                                <small class="text-muted">Validity : ${validity}</small>
+                            </div>
+                            <p class="card-text small">${data} | ${talkTime} Talktime</p>
+                            <div class="d-flex mb-2">
+                                ${ottBadges}
+                            </div>
+                            <a href="Recharge.html?plan=${encodeURIComponent(planName)}&price=${encodeURIComponent(price)}" 
+                               class="btn btn-recharge mt-auto py-2">Recharge Now</a>
+                        </div>
                     </div>
                 `;
+                
+                container.appendChild(card);
             });
+        }
     </script>
 </body>
 </html>
