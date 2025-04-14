@@ -278,6 +278,21 @@
             transform: translateY(-3px);
         }
 
+        .custom-alert {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px;
+        border-radius: 5px;
+        color: white;
+        font-size: 16px;
+        z-index: 1000;
+        opacity: 0.9;
+        transition: opacity 0.5s;
+    }
+    .custom-alert.error { background: #ff4d4d; }
+    .custom-alert.success { background: #28a745; }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .hero-section h1 {
@@ -386,7 +401,7 @@
                                     <label for="mobile" class="form-label fw-medium">Mobile Number</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light">+91</span>
-                                        <input type="tel" class="form-control form-control-lg" id="mobile" placeholder="Enter 10 digit number" maxlength="10" required>
+                                        <input type="tel" class="form-control form-control-lg" id="mobileNumber" placeholder="Enter 10 digit number" maxlength="10" required>
                                     </div>
                                     <small class="text-muted">We'll send a verification code to this number</small>
                                 </div>
@@ -408,7 +423,9 @@
                                     </div>
                                 </div>
                                  -->
-                                <button type="button" id="loadBtn" class="btn btn-primary w-100 py-3" onclick="validateMobileNumber()">View Available Plans</button>
+                                 <button type="button" onclick="checkMobileNumber()" id="proceedButton" class="btn btn-primary w-100 py-3">
+                                    View Available Plans
+                                </button>
                                 
                                 <div class="text-center mt-3">
                                     <small class="text-muted">By proceeding, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></small>
@@ -487,9 +504,7 @@
                         <ul class="list-unstyled">
                             <li class="feature-item"><i class="fas fa-wifi me-2 text-primary"></i> 1.5GB Data/Day</li>
                             <li class="feature-item"><i class="fas fa-phone-alt me-2 text-primary"></i> Unlimited Calls</li>
-                            <li class="feature-item"><i class="fas fa-comment-alt me-2 text-primary"></i> 100 SMS/Day</li>
-                            <li class="feature-item"><i class="fas fa-tv me-2 text-primary"></i> Mobi-Comm TV Basic</li>
-                            <li class="feature-item"><i class="fas fa-music me-2 text-primary"></i> Music Streaming</li>
+                            <li class="feature-item"><i class="fas fa-comment-alt me-2 text-primary"></i> 100 SMS/Day</li>                            <li class="feature-item"><i class="fas fa-music me-2 text-primary"></i> Music Streaming</li>
                         </ul>
                         <a href="#recharge" class="btn btn-primary w-100 mt-3">Select Plan</a>
                     </div>
@@ -508,11 +523,7 @@
                         <ul class="list-unstyled">
                             <li class="feature-item"><i class="fas fa-wifi me-2 text-primary"></i> 2.5GB Data/Day</li>
                             <li class="feature-item"><i class="fas fa-phone-alt me-2 text-primary"></i> Unlimited Calls</li>
-                            <li class="feature-item"><i class="fas fa-comment-alt me-2 text-primary"></i> 100 SMS/Day</li>
-                            <li class="feature-item"><i class="fas fa-tv me-2 text-primary"></i> Mobi-Comm TV Premium</li>
-                            <li class="feature-item"><i class="fas fa-music me-2 text-primary"></i> Music Streaming+</li>
-                            <li class="feature-item"><i class="fas fa-film me-2 text-primary"></i> Movie Access</li>
-                        </ul>
+                            <li class="feature-item"><i class="fas fa-comment-alt me-2 text-primary"></i> 100 SMS/Day</li>                            <li class="feature-item"><i class="fas fa-music me-2 text-primary"></i> Music Streaming+</li>                        </ul>
                         <a href="#recharge" class="btn btn-primary w-100 mt-3">Select Plan</a>
                     </div>
                 </div>
@@ -872,54 +883,76 @@
 </a>
 
 <!-- Bootstrap JS Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-<!-- Custom Scripts -->
-<script>
-    // Reveal animations on scroll
-    document.addEventListener('DOMContentLoaded', function() {
-        const animateSections = document.querySelectorAll('.animate-section');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
-                    entry.target.style.opacity = 1;
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+        crossorigin="anonymous"></script>
+        <script>
+            async function checkMobileNumber() {
+                const mobileNumber = document.getElementById("mobileNumber").value.trim();
+                
+                // ✅ Validate mobile number (10-digit numeric)
+                if (!/^\d{10}$/.test(mobileNumber)) {
+                    showStyledAlert("❌ Invalid mobile number! Enter a 10-digit number.", "error");
+                    return;
                 }
-            });
-        }, {
-            threshold: 0.1
-        });
         
-        animateSections.forEach(section => {
-            observer.observe(section);
-        });
-    });
-    
-    // Mobile number validation
-    function validateMobileNumber() {
-        const mobileInput = document.getElementById('mobile');
-        const alertContainer = document.getElementById('alertContainer');
-        const loadBtn = document.getElementById('loadBtn');
+                try {
+                    // ✅ Updated endpoint (was using query param, now using path variable as per backend)
+                    const response = await fetch(`http://localhost:8075/api/auth/check-mobile/${mobileNumber}`);
         
-        if (mobileInput.value.length !== 10 || !/^\d+$/.test(mobileInput.value)) {
-            alertContainer.innerHTML = '<div class="alert alert-danger">Please enter a valid 10-digit mobile number</div>';
-            return false;
-        }
+                    // ✅ Handle HTTP response
+                    if (response.ok) {
+                        showStyledAlert("✅ Mobile number found! Redirecting...", "success");
         
-        // Success - show loading button and then redirect
-        loadBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Loading Plans...';
-        alertContainer.innerHTML = '<div class="alert alert-success">Mobile number verified! Redirecting to plans...</div>';
+                        // ✅ Save to localStorage so it can be pre-filled in other pages
+                        localStorage.setItem("userMobile", mobileNumber);
         
-        // Simulate loading (would be replaced with actual API call)
-        setTimeout(() => {
-            window.location.href = 'plans.html';
-            loadBtn.innerHTML = 'View Available Plans';
-            alertContainer.innerHTML = '';
-        }, 2000);
+                        setTimeout(() => {
+                            window.location.href = "plans.html"; // Redirect if number exists
+                        }, 1500);
+                    } else if (response.status === 404) {
+                        showStyledAlert("❌ Mobile number not found in our records.", "error");
+                    } else {
+                        throw new Error("Unexpected error from server.");
+                    }
         
-        return true;
-    }
-</script>
+                } catch (error) {
+                    console.error("Error:", error);
+                    showStyledAlert("⚠️ Something went wrong. Please try again later.", "error");
+                }
+            }
+        
+            function showStyledAlert(message, type) {
+                let alertBox = document.createElement("div");
+                alertBox.innerText = message;
+                alertBox.style.position = "fixed";
+                alertBox.style.top = "20px";
+                alertBox.style.left = "50%";
+                alertBox.style.transform = "translateX(-50%)";
+                alertBox.style.background = type === "error" ? "#ff4d4d" : "#4CAF50";
+                alertBox.style.color = "white";
+                alertBox.style.padding = "15px";
+                alertBox.style.borderRadius = "5px";
+                alertBox.style.fontWeight = "bold";
+                alertBox.style.fontSize = "16px";
+                alertBox.style.boxShadow = "0px 4px 6px rgba(0, 0, 0, 0.1)";
+                alertBox.style.zIndex = "9999";
+                alertBox.style.transition = "opacity 0.3s ease-in-out";
+        
+                document.body.appendChild(alertBox);
+        
+                setTimeout(() => {
+                    alertBox.style.opacity = '0';
+                    setTimeout(() => {
+                        if (alertBox && alertBox.parentNode) {
+                            alertBox.parentNode.removeChild(alertBox);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+        </script>
+        
+
+
 </body>
 </html>

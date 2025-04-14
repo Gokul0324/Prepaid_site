@@ -414,9 +414,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        let appData = JSON.parse(localStorage.getItem('appData')) || {};
-        let currentUserPhone = "";
-
+        // ✅ Show styled alert
         function showAlert(message, type) {
             const alertContainer = document.createElement('div');
             alertContainer.className = 'position-fixed top-0 start-50 translate-middle-x mt-3 z-index-1060';
@@ -429,439 +427,95 @@
             document.body.appendChild(alertContainer);
             setTimeout(() => {
                 alertContainer.querySelector('.alert').classList.remove('show');
-                setTimeout(() => alertContainer.remove(), 150);
+                setTimeout(() => alertContainer.remove(), 300);
             }, 5000);
         }
-
-        // Check login status
-        if (localStorage.getItem("isLoggedIn") !== "true") {
-            window.location.href = "AdminLogin.html";
-        }
-
-        // Logout functionality
-        document.getElementById("logoutButton").addEventListener("click", function () {
+    
+        // ✅ Admin logout
+        document.getElementById("logoutButton").addEventListener("click", () => {
             localStorage.removeItem("isLoggedIn");
             window.location.href = "AdminLogin.html";
         });
-
-        // Fetch initial data if not in localStorage or if subscribers are missing
-        if (!appData.subscribers || appData.subscribers.length === 0) {
-            fetch('applicationData.json')
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
-                })
+    
+        // ✅ Fetch all subscribers (for dashboard table)
+        function fetchSubscribers() {
+            fetch("http://localhost:8075/api/recharge/all")
+                .then(res => res.json())
                 .then(data => {
-                    appData = data;
-                    localStorage.setItem('appData', JSON.stringify(appData));
-                    renderDashboard();
+                    renderExpiringTable(data);
                 })
-                .catch(error => {
-                    console.error('Error fetching initial data:', error);
-                    showAlert('Error fetching subscriber data. Please try again.', 'danger');
+                .catch(err => {
+                    console.error("Error fetching subscribers:", err);
+                    showAlert("Error fetching subscribers.", "danger");
                 });
-        } else {
-            renderDashboard();
         }
-
-        function getStatusBadge(expiryDate) {
-            const today = new Date('2025-02-26');
-            const expiry = new Date(expiryDate);
-            
-            // Calculate the difference in days
-            const diffTime = expiry - today;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            if (diffDays < 0) {
-                return '<span class="badge badge-expired">Expired</span>';
-            } else if (diffDays <= 3) {
-                return '<span class="badge badge-expiring">Expiring Soon</span>';
-            } else {
-                return '<span class="badge badge-active">Active</span>';
+    
+        // ✅ Fetch expiring users count
+        function fetchExpiringUsers() {
+            fetch("http://localhost:8075/api/recharge/expiring-users")
+                .then(res => res.json())
+                .then(users => {
+                    document.getElementById("expiring-soon").textContent = users.length;
+                })
+                .catch(err => {
+                    console.error("Error fetching expiring users:", err);
+                    showAlert("Error fetching expiring users.", "danger");
+                });
+        }
+    
+        // ✅ Generate plan status badge
+        function getStatusBadge(validityDateStr) {
+            const today = new Date();
+            const expiry = new Date(validityDateStr);
+    
+            if (isNaN(expiry.getTime())) return '<span class="badge bg-secondary">Unknown</span>';
+    
+            const diffDays = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+            if (diffDays < 0) return '<span class="badge badge-expired">Expired</span>';
+            if (diffDays <= 3) return '<span class="badge badge-expiring">Expiring Soon</span>';
+            return '<span class="badge badge-active">Active</span>';
+        }
+    
+        // ✅ Render table rows dynamically
+        function renderExpiringTable(users) {
+            const tbody = document.getElementById("expiring-subscribers");
+    
+            if (!users || users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-3">No users found.</td></tr>';
+                return;
             }
-        }
-
-        function renderDashboard() {
-            const today = new Date('2025-02-26');
-            
-            // Calculate expiry dates for filtering
-            const threeDaysLater = new Date(today);
-            threeDaysLater.setDate(today.getDate() + 3); // March 1, 2025
-
-            // Filter subscribers expiring within 3 days or already expired
-            const expiringOrExpired = (appData.subscribers || []).filter(sub => {
-                const expiryDate = new Date(sub.expiry);
-                // Include if expiry is before or equal to three days from now
-                return expiryDate <= threeDaysLater;
-            });
-
-            // Render expiring subscribers table
-            document.getElementById('expiring-subscribers').innerHTML = expiringOrExpired.length > 0 ? expiringOrExpired.map(sub => {
-                const firstLetter = sub.name.charAt(0).toUpperCase();
-                const status = getStatusBadge(sub.expiry);
-                
+    
+            tbody.innerHTML = users.map(user => {
+                const name = user.name || 'N/A';
+                const mobile = user.mobileNumber || user.mobile || 'N/A';
+                const plan = user.planName || user.plan || 'N/A';
+                const validity = user.validityEnd || user.expiry || '';
+                const firstLetter = name.charAt(0).toUpperCase();
+                const badge = getStatusBadge(validity);
+    
                 return `
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="user-avatar me-2">${firstLetter}</div>
-                            <div>${sub.name}</div>
-                        </div>
-                    </td>
-                    <td>${sub.mobile}</td>
-                    <td>${sub.plan}</td>
-                    <td>${sub.expiry}</td>
-                    <td>${status}</td>
-                    <td>
-                        <button class="btn btn-sm btn-gradient me-1" onclick="viewHistory('${sub.mobile}', '${sub.name}')">
-                            <i class="fas fa-history me-1"></i> History
-                        </button>
-                        <button class="btn btn-sm btn-notify" onclick="notifyUser('${sub.mobile}')">
-                            <i class="fas fa-bell me-1"></i> Notify
-                        </button>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="user-avatar me-2">${firstLetter}</div>
+                                <div>${name}</div>
+                            </div>
+                        </td>
+                        <td>${mobile}</td>
+                        <td>${plan}</td>
+                        <td>${validity ? new Date(validity).toLocaleDateString() : 'N/A'}</td>
+                        <td>${badge}</td>
+                    </tr>
                 `;
-            }).join('') : '<tr><td colspan="6" class="text-center py-3">No subscribers expiring soon.</td></tr>';
-            
-            // Update expiring soon count
-            document.getElementById('expiring-soon').textContent = expiringOrExpired.length;
-
-            // All users table
-            document.getElementById('all-users-list').innerHTML = (appData.subscribers || []).length > 0 ? appData.subscribers.map(sub => {
-                const firstLetter = sub.name.charAt(0).toUpperCase();
-                const status = getStatusBadge(sub.expiry);
-                
-                return `
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="user-avatar me-2">${firstLetter}</div>
-                            <div>${sub.name}</div>
-                        </div>
-                    </td>
-                    <td>${sub.mobile}</td>
-                    <td>${sub.plan}</td>
-                    <td>${sub.expiry}</td>
-                    <td>${status}</td>
-                    <td>
-                        <button class="btn btn-sm btn-gradient me-1" onclick="viewHistory('${sub.mobile}', '${sub.name}')">
-                            <i class="fas fa-history me-1"></i> History
-                        </button>
-                        <button class="btn btn-sm btn-notify" onclick="notifyUser('${sub.mobile}')">
-                            <i class="fas fa-bell me-1"></i> Notify
-                        </button>
-                    </td>
-                </tr>
-                `;
-            }).join('') : '<tr><td colspan="6" class="text-center py-3">No subscribers found.</td></tr>';
-
-            // Update statistics
-            document.getElementById('total-subscribers').textContent = (appData.subscribers || []).length.toLocaleString();
-            document.getElementById('active-subscribers').textContent = (appData.subscribers || []).filter(sub => new Date(sub.expiry) >= today).length.toLocaleString();
-            document.getElementById('revenue').textContent = '₹' + (appData.applicationSales || []).reduce((sum, sale) => sum + sale.total, 0).toLocaleString();
-
-            // Subscriber Growth Chart
-            new Chart(document.getElementById('subscriberGrowthChart'), {
-                type: 'line',
-                data: {
-                    labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
-                    datasets: [{
-                        label: 'Total Subscribers',
-                        data: [900, 1300, 1800, 2200, 2800, (appData.subscribers || []).length],
-                        borderColor: '#3949ab',
-                        backgroundColor: 'rgba(57, 73, 171, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        pointBackgroundColor: '#3949ab',
-                        pointBorderColor: '#fff',
-                        pointRadius: 5,
-                        pointHoverRadius: 7
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                drawBorder: false
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Revenue by Plan Chart
-            new Chart(document.getElementById('revenueByPlanChart'), {
-                type: 'bar',
-                data: {
-                    labels: (appData.applicationSales || []).map(sale => sale.application),
-                    datasets: [{
-                        label: 'Revenue (₹)',
-                        data: (appData.applicationSales || []).map(sale => sale.total),
-                        backgroundColor: [
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(255, 159, 64, 0.6)',
-                            'rgba(54, 162, 235, 0.6)'
-                        ],
-                        borderColor: [
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(54, 162, 235, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                drawBorder: false
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
+            }).join('');
         }
-
-        // View user recharge history in modal
-        window.viewHistory = function(mobile, name) {
-            currentUserPhone = mobile;
-            const history = appData.rechargeHistory[mobile] || [];
-            
-            // Update modal title and user info
-            document.getElementById('modalUserName').textContent = name;
-            document.getElementById('modalUserPhone').textContent = mobile;
-            document.getElementById('modalUserAvatar').textContent = name.charAt(0).toUpperCase();
-            
-            // Populate recharge history
-            document.getElementById('modal-recharge-history').innerHTML = history.length > 0 ? history.map(record => `
-                <tr>
-                    <td>${record.plan}</td>
-                    <td>${record.date}</td>
-                    <td><span class="badge bg-light text-dark">${record.payment}</span></td>
-                </tr>
-            `).join('') : '<tr><td colspan="3" class="text-center py-3">No recharge history available.</td></tr>';
-            
-            // Show the modal
-            // Show the modal
-    const modal = new bootstrap.Modal(document.getElementById('rechargeHistoryModal'));
-    modal.show();
-};
-
-// Show all users
-window.showAllUsers = function() {
-    const allUsersContainer = document.getElementById('all-users');
-    if (allUsersContainer.style.display === 'none') {
-        allUsersContainer.style.display = 'block';
-    } else {
-        allUsersContainer.style.display = 'none';
-    }
-};
-
-// Notify single user
-window.notifyUser = function(mobile) {
-    // In a real application, this would send an API request to notify the user
-    // For demonstration, we'll just show an alert
-    showAlert(`Notification sent to ${mobile} successfully!`, 'success');
-};
-
-// Notify all expiring users
-window.notifyAll = function() {
-    // Get all users with expiring subscriptions
-    const today = new Date('2025-02-26');
-    const threeDaysLater = new Date(today);
-    threeDaysLater.setDate(today.getDate() + 3);
     
-    const expiringUsers = (appData.subscribers || []).filter(sub => {
-        const expiryDate = new Date(sub.expiry);
-        return expiryDate <= threeDaysLater;
-    });
-    
-    if (expiringUsers.length === 0) {
-        showAlert('No users with expiring plans to notify.', 'warning');
-        return;
-    }
-    
-    // In a real application, this would send API requests to notify all users
-    // For demonstration, we'll just show an alert
-    showAlert(`Notifications sent to all ${expiringUsers.length} users with expiring plans!`, 'success');
-};
-
-// Send notification from modal
-window.sendNotification = function() {
-    if (currentUserPhone) {
-        // In a real application, this would send an API request to notify the user
-        // For demonstration, we'll just show an alert
-        showAlert(`Notification sent to ${currentUserPhone} successfully!`, 'success');
-        
-        // Close the modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('rechargeHistoryModal'));
-        modal.hide();
-    }
-};
-
-// Apply filters to the expiring subscribers table
-window.applyFilters = function() {
-    const planFilter = document.getElementById('planFilter').value;
-    const expiryFilter = document.getElementById('expiryFilter').value;
-    const sortFilter = document.getElementById('sortFilter').value;
-    const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
-    
-    const today = new Date('2025-02-26');
-    
-    // Filter subscribers
-    let filteredSubscribers = [...(appData.subscribers || [])];
-    
-    // Apply plan filter
-    if (planFilter) {
-        filteredSubscribers = filteredSubscribers.filter(sub => sub.plan === planFilter);
-    }
-    
-    // Apply expiry filter
-    if (expiryFilter) {
-        filteredSubscribers = filteredSubscribers.filter(sub => {
-            const expiryDate = new Date(sub.expiry);
-            if (expiryFilter === 'expired') {
-                return expiryDate < today;
-            } else if (expiryFilter === 'expiring') {
-                const threeDaysLater = new Date(today);
-                threeDaysLater.setDate(today.getDate() + 3);
-                return expiryDate >= today && expiryDate <= threeDaysLater;
-            } else if (expiryFilter === 'active') {
-                return expiryDate > today;
-            }
-            return true;
+        // ✅ On page load
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchSubscribers();
+            fetchExpiringUsers();
         });
-    }
+    </script>
     
-    // Apply search filter
-    if (searchFilter) {
-        filteredSubscribers = filteredSubscribers.filter(sub => {
-            return sub.name.toLowerCase().includes(searchFilter) || 
-                   sub.mobile.includes(searchFilter) ||
-                   sub.plan.toLowerCase().includes(searchFilter);
-        });
-    }
-    
-    // Apply sorting
-    filteredSubscribers.sort((a, b) => {
-        if (sortFilter === 'name') {
-            return a.name.localeCompare(b.name);
-        } else if (sortFilter === 'expiry') {
-            return new Date(a.expiry) - new Date(b.expiry);
-        } else if (sortFilter === 'plan') {
-            return a.plan.localeCompare(b.plan);
-        }
-        return 0;
-    });
-    
-    // Render the filtered and sorted subscribers
-    document.getElementById('expiring-subscribers').innerHTML = filteredSubscribers.length > 0 ? filteredSubscribers.map(sub => {
-        const firstLetter = sub.name.charAt(0).toUpperCase();
-        const status = getStatusBadge(sub.expiry);
-        
-        return `
-        <tr>
-            <td>
-                <div class="d-flex align-items-center">
-                    <div class="user-avatar me-2">${firstLetter}</div>
-                    <div>${sub.name}</div>
-                </div>
-            </td>
-            <td>${sub.mobile}</td>
-            <td>${sub.plan}</td>
-            <td>${sub.expiry}</td>
-            <td>${status}</td>
-            <td>
-                <button class="btn btn-sm btn-gradient me-1" onclick="viewHistory('${sub.mobile}', '${sub.name}')">
-                    <i class="fas fa-history me-1"></i> History
-                </button>
-                <button class="btn btn-sm btn-notify" onclick="notifyUser('${sub.mobile}')">
-                    <i class="fas fa-bell me-1"></i> Notify
-                </button>
-            </td>
-        </tr>
-        `;
-    }).join('') : '<tr><td colspan="6" class="text-center py-3">No subscribers match your filters.</td></tr>';
-    
-    showAlert(`Filters applied. ${filteredSubscribers.length} subscribers found.`, 'info');
-};
-
-// Initialize event listeners for the filter form
-document.getElementById('planFilter').addEventListener('change', applyFilters);
-document.getElementById('expiryFilter').addEventListener('change', applyFilters);
-document.getElementById('sortFilter').addEventListener('change', applyFilters);
-document.getElementById('searchFilter').addEventListener('input', function() {
-    if (this.value === '' || this.value.length >= 3) {
-        applyFilters();
-    }
-});
-
-// Responsive sidebar toggle for mobile
-const toggleSidebar = () => {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('show-sidebar');
-};
-
-// Add event listener for window resize to handle responsive behavior
-window.addEventListener('resize', function() {
-    if (window.innerWidth < 768) {
-        document.body.classList.add('sidebar-collapsed');
-    } else {
-        document.body.classList.remove('sidebar-collapsed');
-    }
-});
-
-// Run once on page load for initial state
-if (window.innerWidth < 768) {
-    document.body.classList.add('sidebar-collapsed');
-}
-
-// Mock data for testing if needed
-if (!appData.rechargeHistory) {
-    appData.rechargeHistory = {
-        '9876543210': [
-            { plan: '399/- Plan', date: '2025-01-26', payment: 'UPI' },
-            { plan: '399/- Plan', date: '2024-12-26', payment: 'Credit Card' },
-            { plan: '399/- Plan', date: '2024-11-26', payment: 'UPI' }
-        ],
-        '9876543211': [
-            { plan: '599/- Plan', date: '2025-01-15', payment: 'Net Banking' },
-            { plan: '599/- Plan', date: '2024-12-15', payment: 'UPI' }
-        ]
-    };
-    localStorage.setItem('appData', JSON.stringify(appData));
-}
-</script>
 </body>
 </html>

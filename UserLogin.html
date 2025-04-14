@@ -418,9 +418,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        let generatedOTP = null;
         let validUser = null;
-
+        let email = "";
+        let mobile = "";
+    
         function showAlert(message, type) {
             const alertContainer = document.getElementById('alertContainer');
             const alert = document.createElement('div');
@@ -436,60 +437,95 @@
                 setTimeout(() => alert.remove(), 150);
             }, 5000);
         }
-
+    
         function showForgotEmailAlert() {
             showAlert('Contact support at Mobicom@tele.ac.in to recover your email.', 'info');
         }
-
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
+    
+        // ✅ Login form submission
+        document.getElementById('loginForm').addEventListener('submit', async function (event) {
             event.preventDefault();
-
-            const mobile = document.getElementById('mobile').value.trim();
-            const email = document.getElementById('email').value.trim();
+    
+            mobile = document.getElementById('mobile').value.trim();
+            email = document.getElementById('email').value.trim();
+    
             const mobilePattern = /^[6-9]\d{9}$/;
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+    
             if (!mobilePattern.test(mobile)) {
-                showAlert('Invalid mobile number format. It should start with 6-9 and have 10 digits.', 'danger');
+                showAlert('Invalid mobile number format.', 'danger');
                 return;
             }
             if (!emailPattern.test(email)) {
                 showAlert('Invalid email format.', 'danger');
                 return;
             }
-
-            fetch('credentials.json')
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
-                })
-                .then(data => {
-                    const users = data.users || [];
-                    validUser = users.find(user => user.mobile === mobile && user.email === email);
-
-                    if (validUser) {
-                        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-                        showAlert(`OTP sent to ${email}: ${generatedOTP} (Simulated for demo)`, 'success');
-                        document.getElementById('otp-container').style.display = 'block';
-                    } else {
-                        showAlert('Invalid credentials. Please check your mobile number and email.', 'warning');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading user data:', error);
-                    showAlert('Error loading user data. Please try again later.', 'danger');
+    
+            // ✅ Step 1: Verify mobile & email exists
+            try {
+                const verifyResponse = await fetch(`http://localhost:8075/api/auth/verify-user?mobile=${mobile}&email=${email}`, {
+                    method: 'POST'
                 });
+    
+                if (!verifyResponse.ok) {
+                    showAlert('Invalid credentials. Mobile and Email do not match.', 'danger');
+                    return;
+                }
+    
+                // ✅ Step 2: Send OTP
+                const sendOtpResponse = await fetch(`http://localhost:8075/api/auth/send-otp?email=${email}`, {
+                    method: 'POST'
+                });
+    
+                if (sendOtpResponse.ok) {
+                    showAlert(`OTP sent to your email: ${email}`, 'success');
+                    document.getElementById('otp-container').style.display = 'block';
+                } else {
+                    showAlert('Failed to send OTP. Please try again.', 'danger');
+                }
+    
+            } catch (error) {
+                console.error('Login error:', error);
+                showAlert('Error occurred during login. Please try again later.', 'danger');
+            }
         });
-
-        function verifyOTP() {
-            const enteredOTP = document.getElementById('otp').value.trim();
-            if (enteredOTP === generatedOTP) {
-                localStorage.setItem('loggedInUser', JSON.stringify(validUser));
-                window.location.href = "plans.html";
-            } else {
-                showAlert('Invalid OTP. Please try again.', 'danger');
+    
+        // ✅ OTP verification
+        async function verifyOTP() {
+            const otp = document.getElementById('otp').value.trim();
+    
+            if (!otp || otp.length !== 6) {
+                showAlert('Please enter the 6-digit OTP.', 'warning');
+                return;
+            }
+    
+            try {
+                const verifyOtpResponse = await fetch(`http://localhost:8075/api/auth/verify-otp?email=${email}&otp=${otp}`, {
+                    method: 'POST'
+                });
+    
+                if (verifyOtpResponse.ok) {
+                    const token = await verifyOtpResponse.text();
+    
+                    // ✅ Store token and user data (optional enhancement)
+                    localStorage.setItem("authToken", token);
+                    localStorage.setItem("loggedInUser", JSON.stringify({ mobile, email }));
+    
+                    showAlert("✅ OTP verified! Logging in...", "success");
+    
+                    setTimeout(() => {
+                        window.location.href = "plans.html";
+                    }, 1500);
+                } else {
+                    showAlert("❌ Invalid OTP. Please try again.", "danger");
+                }
+    
+            } catch (error) {
+                console.error("OTP verification error:", error);
+                showAlert("⚠️ Error verifying OTP. Please try again.", "danger");
             }
         }
     </script>
+    
 </body>
 </html>
